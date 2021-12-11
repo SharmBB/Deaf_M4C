@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:deaf_app/Subject/subSubject.dart';
 import 'package:deaf_app/Subject/subject.dart';
 import 'package:deaf_app/api/api.dart';
@@ -11,17 +10,7 @@ import 'package:flutter_svg/svg.dart';
 class GradePage extends StatefulWidget {
   final int idForGetSubjects;
   const GradePage({key, required this.idForGetSubjects}) : super(key: key);
-  // GradePage(foundSubject);
 
-  // GradePage(foundSubject);
-
-  //GradePage(foundSubject);
-
-  //GradePage(foundSubject);
-
-  // late final List _foundSubject;
-
-  // GradePage(this._foundSubject);
   @override
   _GradePageState createState() => _GradePageState();
 }
@@ -29,54 +18,29 @@ class GradePage extends StatefulWidget {
 class _GradePageState extends State<GradePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  final List<Color> colors = <Color>[
-    Colors.deepPurpleAccent,
-    Colors.deepOrangeAccent,
-    Colors.lightBlueAccent,
-    Colors.lightGreenAccent,
-    Colors.blue,
-    Colors.pinkAccent
-  ];
-  final List<Map> details = [
-    {'img': 'assets/png/1-2.png', "name": '1-2'},
-    {'img': 'assets/png/3-4.png', "name": '3-4'},
-    {'img': 'assets/png/5.png', "name": '5'},
-    {'img': 'assets/png/6-8.png', "name": '6-8'},
-    {'img': 'assets/png/9-11.png', "name": '9-11'},
-  ];
-// List _foundSubject = [];
-
-  //   void _calculation() {
-  //   var no = _cart[0]["selling_price"];
-  //   setState(() {
-  //     {
-  //       _volume = int.parse(_total_cost.text);
-  //       _total = int.parse(_total_cost.text) * no;
-  //     }
-  //   });
-  //   print(_volume);
-  //   print(_total);
-  // }
   late int idForGetSubjects;
 
-  //initialize list for add subjects from API
+  //initialize list for add grades from API
   List<dynamic> _foundgrade = [];
   List _GradesFromDB = [];
 
   @override
   void initState() {
+    //initialize subject id for grades
     idForGetSubjects = widget.idForGetSubjects;
     print(idForGetSubjects);
-    _getUserById();
-    print("cvdsvdsv");
+    _getGradebyID();
+
     super.initState();
   }
 
-  int? usernameId;
+  // loader
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
+    //fetch image from api
     var image = "https://deafapi.moodfor.codes/images/";
     return Scaffold(
         key: _scaffoldKey,
@@ -135,94 +99,80 @@ class _GradePageState extends State<GradePage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (OverscrollIndicatorNotification overscroll) {
-              overscroll.disallowGlow();
-              return false;
-            },
-            child: SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Stack(children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20, left: 20, right: 20.0),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  fillColor: kPrimaryGreyColor,
-                                  prefixIcon: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, right: 20.0),
-                                      child: Icon(
-                                        Icons.search,
-                                        color: Colors.grey,
-                                      )),
-                                  suffixIcon: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 20.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Container(
-                                              height: 30,
-                                              width: 40,
-                                              child: VerticalDivider(
-                                                color: Colors.grey,
-                                                thickness: 1,
-                                              )),
-                                          Icon(
-                                            Icons.keyboard_arrow_down,
-                                            color: Colors.black,
-                                          )
-                                        ],
-                                      )),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(15.0),
-                                    ),
-                                    borderSide: BorderSide(
-                                      color: Colors.white,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(15.0),
-                                    ),
-                                    borderSide: BorderSide(
-                                      color: kPrimaryGreyColor,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  contentPadding: EdgeInsets.all(25.0),
-                                  filled: true,
-                                  hintText: 'தேடு',
-                                ),
-                              ),
-                            ),
-                          ],
+        body: Stack(children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 10, right: 20, left: 20),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      fillColor: kPrimaryGreyColor,
+                      prefixIcon: Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20.0),
+                          child: Icon(
+                            Icons.search,
+                            color: Colors.grey,
+                          )),
+                      suffixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 20.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                  height: 30,
+                                  width: 40,
+                                  child: VerticalDivider(
+                                    color: Colors.grey,
+                                    thickness: 1,
+                                  )),
+                              Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Colors.black,
+                              )
+                            ],
+                          )),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15.0),
+                        ),
+                        borderSide: BorderSide(
+                          color: Colors.white,
+                          width: 2,
                         ),
                       ),
-                    ]),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.only(
-                          left: 20,
-                          right: 20.0,
-                          top: 20,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15.0),
                         ),
-                        child: SizedBox(
-                          height: details.length * 130,
+                        borderSide: BorderSide(
+                          color: kPrimaryGreyColor,
+                          width: 2,
+                        ),
+                      ),
+                      contentPadding: EdgeInsets.all(25.0),
+                      filled: true,
+                      hintText: 'தேடு',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          !_isLoading
+              ? _GradesFromDB[0].length == 0
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Text("No Grades available"),
+                    )
+                  : Expanded(
+                      child: Padding(
+                          padding:
+                              const EdgeInsets.only(top: 120.0, bottom: 80),
+                          //list
                           child: ListView.builder(
                               itemCount: _foundgrade.length,
                               itemBuilder: (context, index) {
@@ -232,18 +182,15 @@ class _GradePageState extends State<GradePage> {
                                     children: [
                                       GestureDetector(
                                           onTap: () {
-                                            if (details[index]['name'] ==
-                                                "1-2") {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        SubSubjectPage(
-                                                            title: '')),
-                                              );
-                                            } else {
-                                              return;
-                                            }
+                                            print(_foundgrade[index]);
+
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SubSubjectPage(
+                                                          title: '')),
+                                            );
                                           },
                                           child: Card(
                                               shape: RoundedRectangleBorder(
@@ -280,57 +227,36 @@ class _GradePageState extends State<GradePage> {
                                                   ],
                                                 ),
                                               ))),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
                                     ]);
-                              }),
-                        )),
-                  ]),
-            )));
+                              })))
+              : Padding(
+                  padding: const EdgeInsets.only(top: 120.0, left: 180),
+                  child: CupertinoActivityIndicator(),
+                ),
+        ]));
   }
 
-  // void _getUserById() async {
-  //   print("data from sample screen");
-  //   usernameId = widget.idForGetSubjects;
-  //   print(usernameId);
-  //   var data = {
-  //     "subject_id": usernameId,
-  //   };
-  //   var res = await CallApi().getSubjectById(data, 'getGradeBySubjectId');
-  //   var body = json.decode(res.body);
-  //   print(body);
-  //   // Add subjects to _SubjectsFromDB List
-  //   _SubjectsFromDB.add(body);
-  //   _foundSubject = _SubjectsFromDB[0];
-  //   print(_foundSubject);
-
-  //   setState(() {});
-  // }
-
-  void _getUserById() async {
-    setState(() {});
-    usernameId = widget.idForGetSubjects;
-    var data = {
-      "subject_id": usernameId,
-    };
+//get subjects details from api
+  void _getGradebyID() async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       _GradesFromDB.clear();
       var bodyRoutes;
       var res = await CallApi()
           .getSubjectById("getGradeBySubjectId/${widget.idForGetSubjects}");
       bodyRoutes = json.decode(res.body);
-      print("bodyRoutes");
-      // print(bodyRoutes);
 
-      // Add subjects to _SubjectsFromDB List
+      // Add grades from body to _GradesFromDB List
       _GradesFromDB.add(bodyRoutes);
       _foundgrade = _GradesFromDB[0];
       print(_foundgrade);
-      print("----------------------");
     } catch (e) {
       print(e);
     }
-    setState(() {});
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
