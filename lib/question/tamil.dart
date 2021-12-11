@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/constants.dart';
 import 'package:deaf_app/questionLock/Lock.dart';
-
+import 'package:deaf_app/terms/termsCatergory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,11 +29,10 @@ class _TamilPageState extends State<TamilPage> {
     id = widget.id;
     print(id);
     _getTermbyID();
-
     super.initState();
   }
 
-//initialize list for add grades from API
+//initialize list for add terms from API
   List<dynamic> _foundTerms = [];
   List _TermsFromDB = [];
 
@@ -199,10 +198,7 @@ class _TamilPageState extends State<TamilPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      LockPage(
-                                                        nilai: 0,
-                                                        next_nilai: 0,
-                                                      )),
+                                                      Terms_Catergory()),
                                             );
                                           },
                                           child: Card(
