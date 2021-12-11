@@ -60,8 +60,8 @@ class _GradePageState extends State<GradePage> {
   late int idForGetSubjects;
 
   //initialize list for add subjects from API
-  List<dynamic> _foundSubject = [];
-  List _SubjectsFromDB = [];
+  List<dynamic> _foundgrade = [];
+  List _GradesFromDB = [];
 
   @override
   void initState() {
@@ -285,45 +285,47 @@ class _GradePageState extends State<GradePage> {
             )));
   }
 
-  void _getUserById() async {
-    print("data from sample screen");
-    usernameId = widget.idForGetSubjects;
-    print(usernameId);
-    var data = {
-      "subject_id": usernameId,
-    };
-    var res = await CallApi().getSubjectById(data, 'getGradeBySubjectId');
-    var body = json.decode(res.body);
-    print(body);
-    // Add subjects to _SubjectsFromDB List
-    _SubjectsFromDB.add(body);
-    _foundSubject = _SubjectsFromDB[0];
-    print(_foundSubject);
-
-    setState(() {});
-  }
-
   // void _getUserById() async {
-  //   setState(() {});
+  //   print("data from sample screen");
   //   usernameId = widget.idForGetSubjects;
+  //   print(usernameId);
   //   var data = {
   //     "subject_id": usernameId,
   //   };
-  //   try {
-  //     _SubjectsFromDB.clear();
-  //     var bodyRoutes;
-  //     var res = await CallApi().getSubjectById(data, 'getGradeBySubjectId');
-  //     bodyRoutes = json.decode(res.body);
+  //   var res = await CallApi().getSubjectById(data, 'getGradeBySubjectId');
+  //   var body = json.decode(res.body);
+  //   print(body);
+  //   // Add subjects to _SubjectsFromDB List
+  //   _SubjectsFromDB.add(body);
+  //   _foundSubject = _SubjectsFromDB[0];
+  //   print(_foundSubject);
 
-  //     // Add subjects to _SubjectsFromDB List
-  //     _SubjectsFromDB.add(bodyRoutes);
-  //     _foundSubject = _SubjectsFromDB[0];
-  //     print(_foundSubject);
-  //     print("----------------------");
-  //     print(bodyRoutes);
-  //   } catch (e) {
-  //     print(e);
-  //   }
   //   setState(() {});
   // }
+
+  void _getUserById() async {
+    setState(() {});
+    usernameId = widget.idForGetSubjects;
+    var data = {
+      "subject_id": usernameId,
+    };
+    try {
+      _GradesFromDB.clear();
+      var bodyRoutes;
+      var res = await CallApi()
+          .getSubjectById("getGradeBySubjectId/${widget.idForGetSubjects}");
+      bodyRoutes = json.decode(res.body);
+      print("bodyRoutes");
+      // print(bodyRoutes);
+
+      // Add subjects to _SubjectsFromDB List
+      _GradesFromDB.add(bodyRoutes);
+      _foundgrade = _GradesFromDB[0];
+      print(_foundgrade);
+      print("----------------------");
+    } catch (e) {
+      print(e);
+    }
+    setState(() {});
+  }
 }

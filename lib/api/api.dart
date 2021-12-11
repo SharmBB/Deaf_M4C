@@ -14,11 +14,10 @@ class CallApi {
     );
   }
 
-  getSubjectById(data, apiUrl) async {
+  getSubjectById(apiUrl) async {
     var fullUrl = Uri.parse(_urlwithoutAuth + apiUrl);
-    return await http.post(
+    return await http.get(
       fullUrl,
-      body: jsonEncode(data),
       headers: _setHeaders(),
     );
   }
