@@ -9,9 +9,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SubSubjectPage extends StatefulWidget {
-  SubSubjectPage({Key? key, required this.title}) : super(key: key);
+  SubSubjectPage({Key? key, required this.title, required this.idForGetTerms})
+      : super(key: key);
 
   final String title;
+  final int idForGetTerms;
+  // const GradePage({key, required this.idForGetSubjects}) : super(key: key);
 
   @override
   _SubSubjectPageState createState() => _SubSubjectPageState();
@@ -32,6 +35,16 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
     {'img': 'assets/png/1.png', "name": 'கலைச்சொற்கள்'},
     {'img': 'assets/png/2.png', "name": 'கற்றல் செயட்பாடுகள்'},
   ];
+  late int idForGetTerms;
+
+  @override
+  void initState() {
+    //initialize subject id for grades
+    idForGetTerms = widget.idForGetTerms;
+    print(idForGetTerms);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -251,9 +264,11 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                                 Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          TamilPage(
-                                                                              title: '')),
+                                                                      builder: (context) => TamilPage(
+                                                                          title:
+                                                                              '',
+                                                                          id: widget
+                                                                              .idForGetTerms)),
                                                                 );
                                                               } else if (details[
                                                                           index]

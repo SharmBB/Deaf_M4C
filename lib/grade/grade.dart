@@ -185,12 +185,15 @@ class _GradePageState extends State<GradePage> {
                                             print(_foundgrade[index]);
 
                                             Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SubSubjectPage(
-                                                          title: '')),
-                                            );
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        SubSubjectPage(
+                                                          idForGetTerms:
+                                                              _foundgrade[index]
+                                                                  ['id'],
+                                                          title: "",
+                                                        )));
                                           },
                                           child: Card(
                                               shape: RoundedRectangleBorder(

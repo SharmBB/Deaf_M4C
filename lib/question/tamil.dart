@@ -1,4 +1,5 @@
-import 'package:deaf_app/Subject/subSubject.dart';
+import 'dart:convert';
+import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/constants.dart';
 import 'package:deaf_app/questionLock/Lock.dart';
 
@@ -7,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TamilPage extends StatefulWidget {
-  TamilPage({Key? key, required this.title}) : super(key: key);
+  TamilPage({Key? key, required this.title, required this.id})
+      : super(key: key);
 
   final String title;
+  final int id;
 
   @override
   _TamilPageState createState() => _TamilPageState();
@@ -18,23 +21,29 @@ class TamilPage extends StatefulWidget {
 class _TamilPageState extends State<TamilPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  final List<Color> colors = <Color>[
-    Colors.deepPurpleAccent,
-    Colors.deepOrangeAccent,
-    Colors.lightBlueAccent,
-    Colors.lightGreenAccent,
-    Colors.blue,
-    Colors.pinkAccent
-  ];
-  final List<Map> details = [
-    {'img': 'assets/png/p1.png', "name": '1'},
-    {'img': 'assets/png/p2.png', "name": '2'},
-    {'img': 'assets/png/p3.png', "name": '3'},
-    {'img': 'assets/png/p4.png', "name": '4'},
-  ];
+  late int id;
+
+  @override
+  void initState() {
+    //initialize grades id for terms
+    id = widget.id;
+    print(id);
+    _getTermbyID();
+
+    super.initState();
+  }
+
+//initialize list for add grades from API
+  List<dynamic> _foundTerms = [];
+  List _TermsFromDB = [];
+
+  // loader
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
+    //fetch image from api
+    var image = "https://deafapi.moodfor.codes/images/";
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
         key: _scaffoldKey,
@@ -48,10 +57,8 @@ class _TamilPageState extends State<TamilPage> {
                 IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.black),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pop(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => SubSubjectPage(title: '')),
                     );
                   },
                 ),
@@ -93,96 +100,94 @@ class _TamilPageState extends State<TamilPage> {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (OverscrollIndicatorNotification overscroll) {
-              overscroll.disallowGlow();
-              return false;
-            },
-            child: SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        body: SingleChildScrollView(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Stack(children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 20, left: 20, right: 20.0),
+                child: Column(
                   children: [
-                    Stack(children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 20, left: 20, right: 20.0),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  fillColor: kPrimaryGreyColor,
-                                  prefixIcon: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, right: 20.0),
-                                      child: Icon(
-                                        Icons.search,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: kPrimaryGreyColor,
+                          prefixIcon: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20.0),
+                              child: Icon(
+                                Icons.search,
+                                color: Colors.grey,
+                              )),
+                          suffixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 20.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Container(
+                                      height: 30,
+                                      width: 40,
+                                      child: VerticalDivider(
                                         color: Colors.grey,
+                                        thickness: 1,
                                       )),
-                                  suffixIcon: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 20.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          Container(
-                                              height: 30,
-                                              width: 40,
-                                              child: VerticalDivider(
-                                                color: Colors.grey,
-                                                thickness: 1,
-                                              )),
-                                          Icon(
-                                            Icons.keyboard_arrow_down,
-                                            color: Colors.black,
-                                          )
-                                        ],
-                                      )),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(15.0),
-                                    ),
-                                    borderSide: BorderSide(
-                                      color: Colors.white,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(15.0),
-                                    ),
-                                    borderSide: BorderSide(
-                                      color: kPrimaryGreyColor,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  contentPadding: EdgeInsets.all(25.0),
-                                  filled: true,
-                                  hintText: 'தேடு',
-                                ),
-                              ),
+                                  Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.black,
+                                  )
+                                ],
+                              )),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15.0),
                             ),
-                          ],
+                            borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15.0),
+                            ),
+                            borderSide: BorderSide(
+                              color: kPrimaryGreyColor,
+                              width: 2,
+                            ),
+                          ),
+                          contentPadding: EdgeInsets.all(25.0),
+                          filled: true,
+                          hintText: 'தேடு',
                         ),
                       ),
-                    ]),
-                    SizedBox(
-                      height: 20,
                     ),
-                    Padding(
-                        padding: const EdgeInsets.only(
-                          left: 20,
-                          right: 20.0,
-                          top: 20,
-                        ),
-                        child: Container(
-                          child: ListView.builder(
+                  ],
+                ),
+              ),
+            ]),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20.0,
+                  top: 20,
+                ),
+                child: Container(
+                  child: !_isLoading
+                      ? _TermsFromDB[0].length == 0
+                          ? Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Text("No terms available"),
+                            )
+                          : ListView.builder(
                               shrinkWrap: true,
-                              itemCount: details.length,
+                              itemCount: _foundTerms.length,
                               itemBuilder: (context, index) {
                                 return Column(
                                     crossAxisAlignment:
@@ -190,16 +195,15 @@ class _TamilPageState extends State<TamilPage> {
                                     children: [
                                       GestureDetector(
                                           onTap: () {
-                                            if (details[index]['name'] == "1") {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        LockPage(nilai: 0,next_nilai: 0,)),
-                                              );
-                                            } else {
-                                              return;
-                                            }
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LockPage(
+                                                        nilai: 0,
+                                                        next_nilai: 0,
+                                                      )),
+                                            );
                                           },
                                           child: Card(
                                               shape: RoundedRectangleBorder(
@@ -222,9 +226,13 @@ class _TamilPageState extends State<TamilPage> {
                                                                 BoxDecoration(
                                                                     image:
                                                                         DecorationImage(
-                                                              image: AssetImage(
-                                                                details[index]
-                                                                    ['img'],
+                                                              image:
+                                                                  NetworkImage(
+                                                                image +
+                                                                    _foundTerms[
+                                                                            index]
+                                                                        [
+                                                                        'image'],
                                                               ),
                                                               fit: BoxFit
                                                                   .contain,
@@ -236,9 +244,36 @@ class _TamilPageState extends State<TamilPage> {
                                         height: 20,
                                       ),
                                     ]);
-                              }),
-                        )),
-                  ]),
-            )));
+                              })
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 120.0, left: 180),
+                          child: CupertinoActivityIndicator(),
+                        ),
+                )),
+          ]),
+        ));
+  }
+
+  //get subjects details from api
+  void _getTermbyID() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      _TermsFromDB.clear();
+      var bodyRoutes;
+      var res = await CallApi().getTermsById("getTermByGradeId/${widget.id}");
+      bodyRoutes = json.decode(res.body);
+
+      // Add terms from body to _GradesFromDB List
+      _TermsFromDB.add(bodyRoutes);
+      _foundTerms = _TermsFromDB[0];
+      print(_foundTerms);
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

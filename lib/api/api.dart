@@ -22,6 +22,14 @@ class CallApi {
     );
   }
 
+  getTermsById(apiUrl) async {
+    var fullUrl = Uri.parse(_urlwithoutAuth + apiUrl);
+    return await http.get(
+      fullUrl,
+      headers: _setHeaders(),
+    );
+  }
+
   _setHeaders() => {
         'Content-type': 'application/json',
         'Accept': 'application/json',

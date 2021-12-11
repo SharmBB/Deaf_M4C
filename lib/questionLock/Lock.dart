@@ -30,7 +30,6 @@ class _LockPageState extends State<LockPage> {
 
   //   var newElement = widget.nilai.toString();
   //   // var newElement1 = widget.next_nilai;
-    
 
   //   if (formerSavedList.contains(newElement)) {
   //   } else {
@@ -40,49 +39,46 @@ class _LockPageState extends State<LockPage> {
   //   await prefs.setStringList('finishLock', formerSavedList);
 
   //    print(formerSavedList[formerSavedList.length-1]);
- 
+
   // }
- 
-
-
 
   List lock = [
-   {
-    'Nilai': '1',
-    'QuestionType': '1',
-   },
     {
-    'Nilai': '2',
-    'QuestionType': '2',
-   },
+      'Nilai': '1',
+      'QuestionType': '1',
+    },
     {
-    'Nilai': '3',
-    'QuestionType': '3',
-   },
+      'Nilai': '2',
+      'QuestionType': '2',
+    },
     {
-    'Nilai': '4',
-    'QuestionType': '4',
-   },
-   {
-    'Nilai': '5',
-    'QuestionType': '5',
-   },
-   {
-    'Nilai': '6',
-    'QuestionType': '6',
-   },
-   {
-    'Nilai': '7',
-    'QuestionType': '7',
-   },
-   {
-    'Nilai': '8',
-    'QuestionType': '8',
-   },
-     {
-    'Nilai': '9',
-    'QuestionType': '9',
-   },
+      'Nilai': '3',
+      'QuestionType': '3',
+    },
+    {
+      'Nilai': '4',
+      'QuestionType': '4',
+    },
+    {
+      'Nilai': '5',
+      'QuestionType': '5',
+    },
+    {
+      'Nilai': '6',
+      'QuestionType': '6',
+    },
+    {
+      'Nilai': '7',
+      'QuestionType': '7',
+    },
+    {
+      'Nilai': '8',
+      'QuestionType': '8',
+    },
+    {
+      'Nilai': '9',
+      'QuestionType': '9',
+    },
   ];
   @override
   Widget build(BuildContext context) {
@@ -98,10 +94,10 @@ class _LockPageState extends State<LockPage> {
               IconButton(
                 icon: Icon(Icons.arrow_back, color: Colors.black),
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pop(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => SubSubjectPage(title: "")),
+                    // MaterialPageRoute(
+                    //  builder: (context) => SubSubjectPage(title: "")),
                   );
                 },
               ),
@@ -143,182 +139,143 @@ class _LockPageState extends State<LockPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body:  SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                  padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                  child: Text(
-                    "கற்றல் செயட்பாடுகள்",
-                    style: GoogleFonts.muktaMalar(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-              GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 25.0,
-                    crossAxisSpacing: 25.0,
-                  ),
-                  itemCount: lock.length,
-                  itemBuilder: (BuildContext ctx, index) {
-                    return GestureDetector(
-                        onTap: () {
-                          if (lock[index]['Nilai'] == "1") {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Quiz1Page(title: '')),
-                            );
-                          } else if (lock[index]['Nilai'] == "2") {
-                            if (widget.nilai >= 1) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Quiz2Page(title: '')),
-                              );
-                             
-                            //  _incrementCounter();
-                            } else {
-                              int xNilai = int.parse(
-                                                      lock[index]['Nilai'] )-1;
-                              int xNilai2 = int.parse(
-                                                      lock[index]['Nilai'] );
-                              popup(context, xNilai,xNilai2);
-                            }
+      body: SingleChildScrollView(
+          child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                      child: Text(
+                        "கற்றல் செயட்பாடுகள்",
+                        style: GoogleFonts.muktaMalar(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                  GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        mainAxisSpacing: 25.0,
+                        crossAxisSpacing: 25.0,
+                      ),
+                      itemCount: lock.length,
+                      itemBuilder: (BuildContext ctx, index) {
+                        return GestureDetector(
+                            onTap: () {
+                              if (lock[index]['Nilai'] == "1") {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Quiz1Page(title: '')),
+                                );
+                              } else if (lock[index]['Nilai'] == "2") {
+                                if (widget.nilai >= 1) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Quiz2Page(title: '')),
+                                  );
 
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => QuizPage(title: '')),
-                              // );
+                                  //  _incrementCounter();
+                                } else {
+                                  int xNilai =
+                                      int.parse(lock[index]['Nilai']) - 1;
+                                  int xNilai2 = int.parse(lock[index]['Nilai']);
+                                  popup(context, xNilai, xNilai2);
+                                }
 
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => QuizPage(title: '')),
+                                // );
 
-                          } else if (lock[index]['Nilai']  == "3") {
-                             if (widget.nilai >= 2) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Quiz3Page(title: '')),
-                              );
+                              } else if (lock[index]['Nilai'] == "3") {
+                                if (widget.nilai >= 2) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Quiz3Page(title: '')),
+                                  );
 
-                              //  _incrementCounter();
-                            } else {
-                               int xNilai = int.parse(
-                                                      lock[index]['Nilai'] )-1;
-                              int xNilai2 = int.parse(
-                                                      lock[index]['Nilai'] );
-                              popup(context, xNilai,xNilai2);
-                            }
-                            
-                          } else if (lock[index]['Nilai']  == "4") {
-                            if (widget.nilai >= 3) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Quiz4Page(title: '')),
-                              );
+                                  //  _incrementCounter();
+                                } else {
+                                  int xNilai =
+                                      int.parse(lock[index]['Nilai']) - 1;
+                                  int xNilai2 = int.parse(lock[index]['Nilai']);
+                                  popup(context, xNilai, xNilai2);
+                                }
+                              } else if (lock[index]['Nilai'] == "4") {
+                                if (widget.nilai >= 3) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Quiz4Page(title: '')),
+                                  );
 
-                              //  _incrementCounter();
-                            } else {
-                               int xNilai = int.parse(
-                                                      lock[index]['Nilai'] )-1;
-                              int xNilai2 = int.parse(
-                                                      lock[index]['Nilai'] );
-                              popup(context, xNilai,xNilai2);
-                            }
-                          } else if (lock[index]['Nilai']  == "5") {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Quiz4Page(title: '')),
-                            );
-                           
-                          } else {
-                            return;
-                          }
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                     
-                          child: int.parse(lock[index]['Nilai'] ) <=
-                                  widget.nilai
-                              ? Stack(children: <Widget>[
-                                  Opacity(
-                                      opacity: 0.5,
-                                      child: Card(
-                                          color: kPrimaryLight2GreenColor,
-                                          child: Container(
-                                            height: 150,
-                                            width: 150,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                          ))),
-                                  SafeArea(
-                                      child: Align(
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            lock[index]['Nilai'] ,
-                                            style: GoogleFonts.muktaMalar(
-                                              fontSize: 40,
-                                              color: Colors.white,
-                                            ),
-                                          ))),
-                                  SafeArea(
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Align(
-                                              alignment: Alignment.bottomRight,
+                                  //  _incrementCounter();
+                                } else {
+                                  int xNilai =
+                                      int.parse(lock[index]['Nilai']) - 1;
+                                  int xNilai2 = int.parse(lock[index]['Nilai']);
+                                  popup(context, xNilai, xNilai2);
+                                }
+                              } else if (lock[index]['Nilai'] == "5") {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Quiz4Page(title: '')),
+                                );
+                              } else {
+                                return;
+                              }
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: int.parse(lock[index]['Nilai']) <=
+                                      widget.nilai
+                                  ? Stack(children: <Widget>[
+                                      Opacity(
+                                          opacity: 0.5,
+                                          child: Card(
+                                              color: kPrimaryLight2GreenColor,
                                               child: Container(
-                                                  height: 25.0,
-                                                  width: 25.0,
-                                                  decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                    image: AssetImage(
-                                                      'assets/png/Unlocked.png',
-                                                    ),
-                                                    fit: BoxFit.contain,
-                                                  ))))))
-                                ])
-                              : Stack(children: <Widget>[
-                                  SafeArea(
-                                      child: Align(
-                                          alignment: Alignment.center,
-                                          child: int.parse(
-                                                      lock[index]['Nilai'] ) ==
-                                                  widget.nilai
-                                              ? Text(
-                                                  lock[index]['Nilai'] ,
-                                                  style: GoogleFonts.muktaMalar(
-                                                    fontSize: 40,
-                                                    color: Colors.white,
-                                                  ),
-                                                )
-                                              : Text(lock[index]['Nilai'] ,
-                                                  style: GoogleFonts.muktaMalar(
-                                                    fontSize: 40,
-                                                    color: Colors.black,
-                                                  )))),
-                                  SafeArea(
-                                      child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
+                                                height: 150,
+                                                width: 150,
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15.0),
+                                              ))),
+                                      SafeArea(
                                           child: Align(
-                                              alignment: Alignment.bottomRight,
-                                              child: int.parse(lock[index]['Nilai'] ) ==
-                                                          1 ||
-                                                      int.parse(lock[index]['Nilai'] ) ==
-                                                          widget.next_nilai
-                                                  ? Container(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                lock[index]['Nilai'],
+                                                style: GoogleFonts.muktaMalar(
+                                                  fontSize: 40,
+                                                  color: Colors.white,
+                                                ),
+                                              ))),
+                                      SafeArea(
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: Container(
                                                       height: 25.0,
                                                       width: 25.0,
                                                       decoration: BoxDecoration(
@@ -328,26 +285,74 @@ class _LockPageState extends State<LockPage> {
                                                           'assets/png/Unlocked.png',
                                                         ),
                                                         fit: BoxFit.contain,
-                                                      )))
-                                                  : Container(
-                                                      height: 25.0,
-                                                      width: 25.0,
-                                                      decoration: BoxDecoration(
-                                                          image:
-                                                              DecorationImage(
-                                                        image: AssetImage(
-                                                          'assets/png/locked.png',
-                                                        ),
-                                                        fit: BoxFit.contain,
                                                       ))))))
-                                ]),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[300],
-                              borderRadius: BorderRadius.circular(15)),
-                        ));
-                  }),
-            ],
-          ))),
+                                    ])
+                                  : Stack(children: <Widget>[
+                                      SafeArea(
+                                          child: Align(
+                                              alignment: Alignment.center,
+                                              child: int.parse(lock[index]
+                                                          ['Nilai']) ==
+                                                      widget.nilai
+                                                  ? Text(
+                                                      lock[index]['Nilai'],
+                                                      style: GoogleFonts
+                                                          .muktaMalar(
+                                                        fontSize: 40,
+                                                        color: Colors.white,
+                                                      ),
+                                                    )
+                                                  : Text(lock[index]['Nilai'],
+                                                      style: GoogleFonts
+                                                          .muktaMalar(
+                                                        fontSize: 40,
+                                                        color: Colors.black,
+                                                      )))),
+                                      SafeArea(
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: int.parse(lock[index]
+                                                                  ['Nilai']) ==
+                                                              1 ||
+                                                          int.parse(lock[index]
+                                                                  ['Nilai']) ==
+                                                              widget.next_nilai
+                                                      ? Container(
+                                                          height: 25.0,
+                                                          width: 25.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  image:
+                                                                      DecorationImage(
+                                                            image: AssetImage(
+                                                              'assets/png/Unlocked.png',
+                                                            ),
+                                                            fit: BoxFit.contain,
+                                                          )))
+                                                      : Container(
+                                                          height: 25.0,
+                                                          width: 25.0,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  image:
+                                                                      DecorationImage(
+                                                            image: AssetImage(
+                                                              'assets/png/locked.png',
+                                                            ),
+                                                            fit: BoxFit.contain,
+                                                          ))))))
+                                    ]),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(15)),
+                            ));
+                      }),
+                ],
+              ))),
     );
   }
 
