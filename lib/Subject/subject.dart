@@ -241,11 +241,12 @@ class _SubjectPageState extends State<SubjectPage> {
                                     if (_foundSubject[index]['title'] ==
                                         "mmm") {
                                       Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                GradePage(title: "")),
-                                      );
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => GradePage(
+                                                  idForGetSubjects:
+                                                      _foundSubject[index]
+                                                          ['id'])));
                                     } else {
                                       return;
                                     }
@@ -301,7 +302,7 @@ class _SubjectPageState extends State<SubjectPage> {
       var bodyRoutes;
       var res = await CallApi().getAllSubjects('subjects');
       bodyRoutes = json.decode(res.body);
-      
+
       // Add subjects to _SubjectsFromDB List
       _SubjectsFromDB.add(bodyRoutes);
       _foundSubject = _SubjectsFromDB[0];

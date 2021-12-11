@@ -48,11 +48,10 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                 IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.black),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => GradePage(title: '')),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => GradePage()),
+                    // );
                   },
                 ),
                 Padding(
@@ -253,11 +252,12 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                                 Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              TamilPage(title: '')),
+                                                                      builder: (context) =>
+                                                                          TamilPage(
+                                                                              title: '')),
                                                                 );
-                                                              } else if (details[index]
+                                                              } else if (details[
+                                                                          index]
                                                                       [
                                                                       'name'] ==
                                                                   "கற்றல் செயட்பாடுகள்") {
@@ -266,7 +266,10 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                                   MaterialPageRoute(
                                                                       builder:
                                                                           (context) =>
-                                                                              LockPage(nilai: 0,next_nilai: 0,)),
+                                                                              LockPage(
+                                                                                nilai: 0,
+                                                                                next_nilai: 0,
+                                                                              )),
                                                                 );
                                                               } else {
                                                                 return;

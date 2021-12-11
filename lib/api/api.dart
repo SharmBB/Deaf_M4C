@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +10,15 @@ class CallApi {
     var fullUrl = Uri.parse(_urlwithoutAuth + apiUrl);
     return await http.get(
       fullUrl,
+      headers: _setHeaders(),
+    );
+  }
+
+  getSubjectById(data, apiUrl) async {
+    var fullUrl = Uri.parse(_urlwithoutAuth + apiUrl);
+    return await http.post(
+      fullUrl,
+      body: jsonEncode(data),
       headers: _setHeaders(),
     );
   }

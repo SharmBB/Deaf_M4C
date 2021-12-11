@@ -1,15 +1,27 @@
+import 'dart:convert';
+
 import 'package:deaf_app/Subject/subSubject.dart';
 import 'package:deaf_app/Subject/subject.dart';
+import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class GradePage extends StatefulWidget {
-  GradePage({Key? key, required this.title}) : super(key: key);
+  final int idForGetSubjects;
+  const GradePage({key, required this.idForGetSubjects}) : super(key: key);
+  // GradePage(foundSubject);
 
-  final String title;
+  // GradePage(foundSubject);
 
+  //GradePage(foundSubject);
+
+  //GradePage(foundSubject);
+
+  // late final List _foundSubject;
+
+  // GradePage(this._foundSubject);
   @override
   _GradePageState createState() => _GradePageState();
 }
@@ -32,6 +44,35 @@ class _GradePageState extends State<GradePage> {
     {'img': 'assets/png/6-8.png', "name": '6-8'},
     {'img': 'assets/png/9-11.png', "name": '9-11'},
   ];
+// List _foundSubject = [];
+
+  //   void _calculation() {
+  //   var no = _cart[0]["selling_price"];
+  //   setState(() {
+  //     {
+  //       _volume = int.parse(_total_cost.text);
+  //       _total = int.parse(_total_cost.text) * no;
+  //     }
+  //   });
+  //   print(_volume);
+  //   print(_total);
+  // }
+  late int idForGetSubjects;
+
+  //initialize list for add subjects from API
+  List<dynamic> _foundSubject = [];
+  List _SubjectsFromDB = [];
+
+  @override
+  void initState() {
+    idForGetSubjects = widget.idForGetSubjects;
+    print(idForGetSubjects);
+    _getUserById();
+    print("cvdsvdsv");
+    super.initState();
+  }
+
+  int? usernameId;
 
   @override
   Widget build(BuildContext context) {
@@ -243,4 +284,46 @@ class _GradePageState extends State<GradePage> {
                   ]),
             )));
   }
+
+  void _getUserById() async {
+    print("data from sample screen");
+    usernameId = widget.idForGetSubjects;
+    print(usernameId);
+    var data = {
+      "subject_id": usernameId,
+    };
+    var res = await CallApi().getSubjectById(data, 'getGradeBySubjectId');
+    var body = json.decode(res.body);
+    print(body);
+    // Add subjects to _SubjectsFromDB List
+    _SubjectsFromDB.add(body);
+    _foundSubject = _SubjectsFromDB[0];
+    print(_foundSubject);
+
+    setState(() {});
+  }
+
+  // void _getUserById() async {
+  //   setState(() {});
+  //   usernameId = widget.idForGetSubjects;
+  //   var data = {
+  //     "subject_id": usernameId,
+  //   };
+  //   try {
+  //     _SubjectsFromDB.clear();
+  //     var bodyRoutes;
+  //     var res = await CallApi().getSubjectById(data, 'getGradeBySubjectId');
+  //     bodyRoutes = json.decode(res.body);
+
+  //     // Add subjects to _SubjectsFromDB List
+  //     _SubjectsFromDB.add(bodyRoutes);
+  //     _foundSubject = _SubjectsFromDB[0];
+  //     print(_foundSubject);
+  //     print("----------------------");
+  //     print(bodyRoutes);
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   setState(() {});
+  // }
 }
