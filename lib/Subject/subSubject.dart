@@ -48,10 +48,10 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                 IconButton(
                   icon: Icon(Icons.arrow_back, color: Colors.black),
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => GradePage()),
-                    // );
+                    Navigator.pop(
+                      context,
+                      //s  MaterialPageRoute(builder: (context) => GradePage()),
+                    );
                   },
                 ),
                 Padding(

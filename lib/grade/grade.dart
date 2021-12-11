@@ -77,6 +77,7 @@ class _GradePageState extends State<GradePage> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
+    var image = "https://deafapi.moodfor.codes/images/";
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -223,7 +224,7 @@ class _GradePageState extends State<GradePage> {
                         child: SizedBox(
                           height: details.length * 130,
                           child: ListView.builder(
-                              itemCount: details.length,
+                              itemCount: _foundgrade.length,
                               itemBuilder: (context, index) {
                                 return Column(
                                     crossAxisAlignment:
@@ -265,9 +266,13 @@ class _GradePageState extends State<GradePage> {
                                                                 BoxDecoration(
                                                                     image:
                                                                         DecorationImage(
-                                                              image: AssetImage(
-                                                                details[index]
-                                                                    ['img'],
+                                                              image:
+                                                                  NetworkImage(
+                                                                image +
+                                                                    _foundgrade[
+                                                                            index]
+                                                                        [
+                                                                        'image'],
                                                               ),
                                                               fit: BoxFit
                                                                   .contain,
