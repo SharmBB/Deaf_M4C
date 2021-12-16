@@ -30,6 +30,23 @@ class CallApi {
     );
   }
 
+  postData(data, apiUrl) async {
+    var fullUrl = Uri.parse(_urlwithoutAuth + apiUrl);
+    return await http.post(
+      fullUrl,
+      body: jsonEncode(data),
+      headers: _setHeaders(),
+    );
+  }
+
+  getAllUsers(apiUrl) async {
+    var fullUrl = Uri.parse(_urlwithoutAuth + apiUrl);
+    return await http.get(
+      fullUrl,
+      headers: _setHeaders(),
+    );
+  }
+
   _setHeaders() => {
         'Content-type': 'application/json',
         'Accept': 'application/json',

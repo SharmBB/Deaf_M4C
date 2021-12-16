@@ -2,7 +2,6 @@ import 'package:deaf_app/constants.dart';
 import 'package:deaf_app/grade/grade.dart';
 import 'package:deaf_app/question/tamil.dart';
 import 'package:deaf_app/questionLock/Lock.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,7 +13,7 @@ class SubSubjectPage extends StatefulWidget {
 
   final String title;
   final int idForGetTerms;
-  // const GradePage({key, required this.idForGetSubjects}) : super(key: key);
+  
 
   @override
   _SubSubjectPageState createState() => _SubSubjectPageState();
