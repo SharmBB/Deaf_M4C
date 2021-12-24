@@ -169,12 +169,12 @@ class _LockPageState extends State<LockPage> {
                         return GestureDetector(
                             onTap: () {
                               if (lock[index]['Nilai'] == "1") {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Quiz1Page(title: '')),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) =>
+                                //           Quiz1Page(title: '')),
+                                // );
                               } else if (lock[index]['Nilai'] == "2") {
                                 if (widget.nilai >= 1) {
                                   Navigator.push(

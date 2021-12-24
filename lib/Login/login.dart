@@ -255,10 +255,10 @@ class _LoginPageState extends State<LoginPage> {
         // var phoneNumber = body['phone'];
         // localStorage.setString('phone', phoneNumber);
         // print(phoneNumber);
-        print("------------");
-        print(orderAdd);
-        print(body);
-        print(body);
+        // print("------------");
+        // print(orderAdd);
+        // print(body);
+        // print(body);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => Screen1()),
         );
@@ -290,19 +290,19 @@ class _LoginPageState extends State<LoginPage> {
       for (var i = 0; i < _foundUsers.length; i++) {
         SharedPreferences localStorage = await SharedPreferences.getInstance();
         user.add({'no': _foundUsers[i]['id'].toString()});
-        var phoneNumber = user[i]['no'];
-        localStorage.setString('no', phoneNumber).toString();
-        print(phoneNumber);
-        print("------------");
-        print(phoneNumber);
+        // var phoneNumber = user[i]['no'];
+        // localStorage.setString('no', phoneNumber).toString();
+        // print(phoneNumber);
+        // print("------------");
+        // print(phoneNumber);
 
-        print(user);
+        // print(user);
       }
 
-      print(user);
-      print("nckjn");
-      print(_foundUsers);
-      print("nckjn");
+      // print(user);
+      // print("nckjn");
+      // print(_foundUsers);
+      // print("nckjn");
       // print(ph)
     } catch (e) {
       print(e);

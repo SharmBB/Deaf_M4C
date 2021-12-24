@@ -192,6 +192,9 @@ class _GradePageState extends State<GradePage> {
                                                           idForGetTerms:
                                                               _foundgrade[index]
                                                                   ['id'],
+                                                          noOfLevels: _foundgrade[
+                                                                  index]
+                                                              ['no_of_levels'],
                                                           title: "",
                                                         )));
                                           },

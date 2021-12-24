@@ -1,11 +1,16 @@
 import 'package:deaf_app/constants.dart';
+import 'package:deaf_app/questionLock/Lock.dart';
+import 'package:deaf_app/questionLock/QuestionLock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:video_player/video_player.dart';
 
 class Terms_Catergory extends StatefulWidget {
-  Terms_Catergory() : super();
+  Terms_Catergory({Key? key, required this.gradeid}) : super(key: key);
+
+  // final String title;
+  final int gradeid;
 
   final String title = "Video Demo";
 
@@ -14,9 +19,10 @@ class Terms_Catergory extends StatefulWidget {
 }
 
 class VideoDemoState extends State<Terms_Catergory> {
-  
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
+
+  late int gradeid;
 
   @override
   void initState() {
@@ -26,6 +32,8 @@ class VideoDemoState extends State<Terms_Catergory> {
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
     _controller.setVolume(1.0);
+    gradeid = widget.gradeid;
+    print(gradeid);
     super.initState();
   }
 
@@ -104,7 +112,7 @@ class VideoDemoState extends State<Terms_Catergory> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Stack(children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 5, left: 40, right: 20.0),
+              padding: const EdgeInsets.only(top: 5, left: 30, right: 10.0),
               child: Row(children: [
                 Text(
                   "பூட்டு",

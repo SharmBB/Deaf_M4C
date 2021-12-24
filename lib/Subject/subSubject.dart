@@ -2,18 +2,23 @@ import 'package:deaf_app/constants.dart';
 import 'package:deaf_app/grade/grade.dart';
 import 'package:deaf_app/question/tamil.dart';
 import 'package:deaf_app/questionLock/Lock.dart';
+import 'package:deaf_app/questionLock/QuestionLock.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SubSubjectPage extends StatefulWidget {
-  SubSubjectPage({Key? key, required this.title, required this.idForGetTerms})
+  SubSubjectPage(
+      {Key? key,
+      required this.title,
+      required this.idForGetTerms,
+      required this.noOfLevels})
       : super(key: key);
 
   final String title;
   final int idForGetTerms;
-  
+  final int noOfLevels;
 
   @override
   _SubSubjectPageState createState() => _SubSubjectPageState();
@@ -35,12 +40,16 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
     {'img': 'assets/png/2.png', "name": 'கற்றல் செயட்பாடுகள்'},
   ];
   late int idForGetTerms;
+  late int noOfLevels;
 
   @override
   void initState() {
     //initialize subject id for grades
     idForGetTerms = widget.idForGetTerms;
     print(idForGetTerms);
+
+    noOfLevels = widget.noOfLevels;
+    print(noOfLevels);
 
     super.initState();
   }
@@ -277,12 +286,15 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                                 Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              LockPage(
-                                                                                nilai: 0,
-                                                                                next_nilai: 0,
-                                                                              )),
+                                                                      builder: (context) => QuestionLockPage(
+                                                                          nilai:
+                                                                              0,
+                                                                          next_nilai:
+                                                                              0,
+                                                                          gradeid: widget
+                                                                              .idForGetTerms,
+                                                                          level:
+                                                                              widget.noOfLevels)),
                                                                 );
                                                               } else {
                                                                 return;

@@ -1,8 +1,10 @@
-
-
 import 'package:deaf_app/Login/login.dart';
+import 'package:deaf_app/Screen/Screen1.dart';
+import 'package:deaf_app/quizType/quizType1.dart';
+import 'package:deaf_app/quizType/quizType2.dart';
+import 'package:deaf_app/quizType/quizType3.dart';
+import 'package:deaf_app/quizType/quizType4.dart';
 import 'package:flutter/material.dart';
-
 
 void main() {
   runApp(MyApp());
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Deaf APP',
       theme: ThemeData(),
-      home: LoginPage(),
+      home: Screen1(),
     );
   }
 }

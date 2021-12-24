@@ -198,7 +198,8 @@ class _TamilPageState extends State<TamilPage> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      Terms_Catergory()),
+                                                      Terms_Catergory(
+                                                          gradeid: widget.id)),
                                             );
                                           },
                                           child: Card(
