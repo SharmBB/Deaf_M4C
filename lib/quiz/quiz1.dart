@@ -170,10 +170,10 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       QuizType2(
-                                                          image:
+                                                          title:
                                                               _foundQuestions[
                                                                       index]
-                                                                  ['image'],
+                                                                  ['title'],
                                                           questionId:
                                                               _foundQuestions[
                                                                       index]

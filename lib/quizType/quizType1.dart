@@ -1,13 +1,7 @@
 import 'dart:convert';
-
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/constants.dart';
-
-import 'package:deaf_app/quizSucces/Stage1.dart';
-import 'package:deaf_app/quizSucces/Stagefail.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,156 +22,7 @@ class _Quiz1PageState extends State<QuizType1> {
   late int questionId;
   late String image;
 
-  List quiz = [
-    {
-      "Question": {
-        "Question_Name": 'பூட்டு',
-        "QuestionNumber": '1',
-        'img1': 'assets/png/k1.png',
-        'Nilai': '2',
-      },
-      "Answers": [
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "1",
-          "Correct": "1",
-          "Answer_QuestionNumber": '1'
-        },
-        {
-          'imgA': 'assets/gif/rectangle.gif',
-          "AnswerNumber": "2",
-          "Correct": "1",
-          "Answer_QuestionNumber": '1'
-        },
-        {
-          'imgA': 'assets/gif/square.gif',
-          "AnswerNumber": "3",
-          "Correct": "1",
-          "Answer_QuestionNumber": '1'
-        },
-        {
-          'imgA': 'assets/gif/triangle.gif',
-          "AnswerNumber": "4",
-          "Correct": "1",
-          "Answer_QuestionNumber": '1'
-        }
-      ]
-    },
-    {
-      "Question": {
-        "Question_Name": 'பூட்டு',
-        "QuestionNumber": '2',
-        'img1': 'assets/png/k2.png',
-        'Nilai': '2',
-      },
-      "Answers": [
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "1",
-          "Correct": "1",
-          "Answer_QuestionNumber": '2'
-        },
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "2",
-          "Correct": "1",
-          "Answer_QuestionNumber": '2'
-        },
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "3",
-          "Correct": "1",
-          "Answer_QuestionNumber": '2'
-        },
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "4",
-          "Correct": "1",
-          "Answer_QuestionNumber": '2'
-        }
-      ]
-    },
-    {
-      "Question": {
-        "Question_Name": 'பூட்டு',
-        "QuestionNumber": '3',
-        'img1': 'assets/png/k3.png',
-        'Nilai': '2',
-      },
-      "Answers": [
-        {
-          'imgA': 'assets/gif/triangle.gif',
-          "AnswerNumber": "1",
-          "Correct": "1",
-          "Answer_QuestionNumber": '3'
-        },
-        {
-          'imgA': 'assets/gif/triangle.gif',
-          "AnswerNumber": "2",
-          "Correct": "1",
-          "Answer_QuestionNumber": '3'
-        },
-        {
-          'imgA': 'assets/gif/triangle.gif',
-          "AnswerNumber": "3",
-          "Correct": "1",
-          "Answer_QuestionNumber": '3'
-        },
-        {
-          'imgA': 'assets/gif/square.gif',
-          "AnswerNumber": "4",
-          "Correct": "1",
-          "Answer_QuestionNumber": '3'
-        }
-      ]
-    },
-    {
-      "Question": {
-        "Question_Name": 'பூட்டு',
-        "QuestionNumber": '4',
-        'img1': 'assets/png/k4.png',
-        'Nilai': '2',
-      },
-      "Answers": [
-        {
-          'imgA': 'assets/gif/square.gif',
-          "AnswerNumber": "1",
-          "Correct": "1",
-          "Answer_QuestionNumber": '4'
-        },
-        {
-          'imgA': 'assets/gif/square.gif',
-          "AnswerNumber": "2",
-          "Correct": "1",
-          "Answer_QuestionNumber": '4'
-        },
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "3",
-          "Correct": "1",
-          "Answer_QuestionNumber": '4'
-        },
-        {
-          'imgA': 'assets/gif/triangle.gif',
-          "AnswerNumber": "4",
-          "Correct": "1",
-          "Answer_QuestionNumber": '4'
-        }
-      ]
-    },
-  ];
-
-  double _persentage = 0;
-  int _total = 0;
   List<String> StringQues = [];
-
-  String? _answerQNo;
-
-  String? _answer;
-  String? _correctanswer;
-  String? _question = "1";
-  bool _hasBeenPressed = false;
-  String? _hasBeenPressedValue;
 
   //initialize list  for add questions from API
   List<dynamic> _foundAnswers = [];
@@ -332,51 +177,7 @@ class _Quiz1PageState extends State<QuizType1> {
                                   constraints: BoxConstraints.tightFor(
                                       width: 130, height: 40),
                                   child: ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _hasBeenPressed = false;
-                                        if (_question ==
-                                            quiz.length.toString()) {
-                                          if (_persentage >= 50) {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => Stage1(
-                                                      persentage: _persentage,
-                                                      max: _total,
-                                                      correct: quiz.length)),
-                                            );
-                                          } else {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Stagefail(
-                                                          next_nilai: 1,
-                                                          nilai: 0,
-                                                          persentage:
-                                                              _persentage,
-                                                          max: quiz.length,
-                                                          correct: _total)),
-                                            );
-                                          }
-
-                                          print(_question);
-                                        } else {
-                                          _question =
-                                              (int.parse(_question.toString()) +
-                                                      1)
-                                                  .toString();
-                                        }
-                                        print(
-                                            'Question ' + _question.toString());
-
-                                        if (_answer == _correctanswer) {
-                                          _total = _total;
-                                          print('final ' + _total.toString());
-                                        }
-                                      });
-                                    },
+                                    onPressed: () {},
                                     child: Text(
                                       'அடுத்து',
                                       style: GoogleFonts.muktaMalar(
@@ -428,8 +229,9 @@ class _Quiz1PageState extends State<QuizType1> {
                                           ),
                                           GridView.builder(
                                               shrinkWrap: true,
-                                              physics:
-                                                  const NeverScrollableScrollPhysics(),
+
+                                              /// physics:
+                                              //   const NeverScrollableScrollPhysics(),
                                               gridDelegate:
                                                   SliverGridDelegateWithMaxCrossAxisExtent(
                                                       maxCrossAxisExtent: 200,
@@ -440,76 +242,8 @@ class _Quiz1PageState extends State<QuizType1> {
                                               itemBuilder:
                                                   (BuildContext ctx, index_A) {
                                                 return GestureDetector(
-                                                  onTap: () {
-                                                    if (_foundAnswers[index_A]
-                                                            ['is_answer'] ==
-                                                        1) {
-                                                      ans =
-                                                          _foundAnswers[index_A]
-                                                              ['is_answer'];
-                                                    } else {
-                                                      print("wrong");
-                                                    }
-                                                    setState(() {
-                                                      //button green
-                                                      _hasBeenPressedValue =
-                                                          null;
-                                                      _answer == null;
-
-                                                      // button select
-                                                      _hasBeenPressedValue = quiz[
-                                                              int.parse(_question
-                                                                      .toString()) -
-                                                                  1]['Answers'][
-                                                          index_A]['AnswerNumber'];
-
-                                                      //pick select answer no
-                                                      _answer = quiz[int.parse(
-                                                                  _question
-                                                                      .toString()) -
-                                                              1]['Answers'][
-                                                          index_A]['AnswerNumber'];
-
-                                                      // array correct answer no
-                                                      _correctanswer = quiz[
-                                                              int.parse(_question
-                                                                      .toString()) -
-                                                                  1]['Answers']
-                                                          [index_A]['Correct'];
-
-                                                      // answer jason question no
-                                                      _answerQNo = quiz[int.parse(
-                                                                  _question
-                                                                      .toString()) -
-                                                              1]['Answers'][index_A]
-                                                          [
-                                                          'Answer_QuestionNumber'];
-
-                                                      print('Selected_Question ' +
-                                                          _answerQNo
-                                                              .toString() +
-                                                          '  Selected_Answer ' +
-                                                          _answer.toString());
-                                                    });
-                                                  },
+                                                  onTap: () {},
                                                   child: Card(
-                                                    color: _hasBeenPressedValue ==
-                                                                quiz[index_Q1][
-                                                                            'Answers']
-                                                                        [
-                                                                        index_A]
-                                                                    [
-                                                                    'AnswerNumber'] &&
-                                                            (_answerQNo ==
-                                                                _question)
-                                                        ? kPrimaryLightGreyColor
-                                                        : Colors.white,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0),
-                                                    ),
                                                     child: Stack(
                                                         children: <Widget>[
                                                           Padding(
@@ -534,104 +268,11 @@ class _Quiz1PageState extends State<QuizType1> {
                                                                         borderRadius:
                                                                             BorderRadius.circular(15)),
                                                               )),
-                                                          Positioned(
-                                                            top: 10,
-                                                            left: 10,
-                                                            child: ClipOval(
-                                                                child: Container(
-                                                                    height: 40,
-                                                                    width: 40,
-                                                                    color: kPrimaryRedColor,
-                                                                    child: Align(
-                                                                        alignment: Alignment.center,
-                                                                        child: Text(
-                                                                          quiz[index_Q1]['Answers'][index_A]
-                                                                              [
-                                                                              'AnswerNumber'],
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                20.0,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                          ),
-                                                                        )))),
-                                                          ),
                                                         ]),
                                                   ),
                                                 );
                                               }),
-                                          SafeArea(
-                                              child: Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: ConstrainedBox(
-                                              constraints:
-                                                  BoxConstraints.tightFor(
-                                                      width: width * 1,
-                                                      height: 60),
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _hasBeenPressed = true;
-                                                    _hasBeenPressedValue = null;
-
-                                                    if (_answer ==
-                                                            _correctanswer &&
-                                                        _answerQNo ==
-                                                            _question) {
-                                                      if (!StringQues.contains(
-                                                          _question
-                                                              .toString())) {
-                                                        StringQues.add(_question
-                                                            .toString());
-                                                        _total =
-                                                            StringQues.length;
-                                                        print(StringQues
-                                                            .toList());
-                                                        print("total " +
-                                                            _total.toString());
-                                                        print("Persentage " +
-                                                            (_total /
-                                                                    quiz.length)
-                                                                .toString());
-
-                                                        _persentage = (_total /
-                                                                quiz.length) *
-                                                            100.0;
-                                                        print(_persentage
-                                                            .toString());
-                                                      }
-                                                    }
-                                                  });
-                                                },
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text('முடிக்கவும்',
-                                                        style: GoogleFonts
-                                                            .muktaMalar(
-                                                          fontSize: 24,
-                                                          color: Colors.white,
-                                                        )),
-                                                  ],
-                                                ),
-                                                style: ElevatedButton.styleFrom(
-                                                  primary: kPrimaryRedColor,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                    topRight:
-                                                        Radius.circular(15),
-                                                    topLeft:
-                                                        Radius.circular(15),
-                                                  )),
-                                                ),
-                                              ),
-                                            ),
-                                          ))
+                                          buttonEnd(width)
                                         ]));
                               }))
                     ]))));
@@ -639,48 +280,37 @@ class _Quiz1PageState extends State<QuizType1> {
 
   Visibility buttonEnd(double width) {
     return Visibility(
-        visible: _answer == null ? false : true,
+        // visible: _answer == null ? false : true,
         child: SafeArea(
             child: Align(
-          alignment: Alignment.bottomCenter,
-          child: ConstrainedBox(
-            constraints: BoxConstraints.tightFor(width: width * 1, height: 60),
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  if (ans == 1) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Stage1(
-                                  correct: 1,
-                                  max: 3,
-                                  persentage: 2,
-                                )));
-                  }
-                });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('முடிக்கவும்',
-                      style: GoogleFonts.muktaMalar(
-                        fontSize: 24,
-                        color: Colors.white,
-                      )),
-                ],
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: kPrimaryRedColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(15),
-                  topLeft: Radius.circular(15),
-                )),
-              ),
-            ),
+      alignment: Alignment.bottomCenter,
+      child: ConstrainedBox(
+        constraints: BoxConstraints.tightFor(width: width * 1, height: 60),
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {});
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('முடிக்கவும்',
+                  style: GoogleFonts.muktaMalar(
+                    fontSize: 24,
+                    color: Colors.white,
+                  )),
+            ],
           ),
-        )));
+          style: ElevatedButton.styleFrom(
+            primary: kPrimaryRedColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+              topRight: Radius.circular(15),
+              topLeft: Radius.circular(15),
+            )),
+          ),
+        ),
+      ),
+    )));
   }
 
   //get answer from question ID details from api

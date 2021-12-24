@@ -1,4 +1,4 @@
-
+//unwanted
 
 import 'package:deaf_app/constants.dart';
 import 'package:deaf_app/questionLock/Lock.dart';
@@ -507,21 +507,21 @@ class _Quiz4PageState extends State<Quiz4Page> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                             SizedBox(
-                                                height: 50,
+                                            SizedBox(
+                                              height: 50,
+                                            ),
+                                            Text(
+                                              '_ _ _ _ _ _ _ _ _ _ _',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 25.0,
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                              Text(
-                                                '_ _ _ _ _ _ _ _ _ _ _',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 25.0,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 50,
-                                              ),
-                                       Text(
+                                            ),
+                                            SizedBox(
+                                              height: 50,
+                                            ),
+                                            Text(
                                               quiz[index_Q1]['Question']
                                                   ['Question_Name'],
                                               style: GoogleFonts.muktaMalar(
@@ -530,10 +530,9 @@ class _Quiz4PageState extends State<Quiz4Page> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            
-                                        SizedBox(
-                                          height: 50,
-                                        ),
+                                            SizedBox(
+                                              height: 50,
+                                            ),
                                             ListView.builder(
                                                 shrinkWrap: true,
                                                 itemCount: quiz.length,
@@ -543,8 +542,9 @@ class _Quiz4PageState extends State<Quiz4Page> {
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
-                                                                     mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
                                                         Padding(
                                                             padding:

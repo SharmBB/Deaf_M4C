@@ -1,23 +1,16 @@
 import 'dart:convert';
-
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/constants.dart';
-import 'package:deaf_app/questionLock/Lock.dart';
-import 'package:deaf_app/quiz/quiz2.dart';
-import 'package:deaf_app/quiz/quiz4.dart';
-
 import 'package:deaf_app/quizSucces/Stage1.dart';
 import 'package:deaf_app/quizSucces/Stagefail.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuizType2 extends StatefulWidget {
   final int questionId;
-  final String image;
-  QuizType2({key, required this.questionId, required this.image})
+  final String title;
+  QuizType2({key, required this.questionId, required this.title})
       : super(key: key);
 
   @override
@@ -29,176 +22,7 @@ class _Quiz1PageState extends State<QuizType2> {
 
   late int gradeid;
   late int questionId;
-  late String image;
-
-  List quiz = [
-    {
-      "Question": {
-        "Question_Name": 'பூட்டு',
-        "QuestionNumber": '1',
-        'img1': 'assets/png/k1.png',
-        'Nilai': '2',
-      },
-      "Answers": [
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "1",
-          "Correct": "1",
-          "Answer_QuestionNumber": '1'
-        },
-        {
-          'imgA': 'assets/gif/rectangle.gif',
-          "AnswerNumber": "2",
-          "Correct": "1",
-          "Answer_QuestionNumber": '1'
-        },
-        {
-          'imgA': 'assets/gif/square.gif',
-          "AnswerNumber": "3",
-          "Correct": "1",
-          "Answer_QuestionNumber": '1'
-        },
-        {
-          'imgA': 'assets/gif/triangle.gif',
-          "AnswerNumber": "4",
-          "Correct": "1",
-          "Answer_QuestionNumber": '1'
-        }
-      ]
-    },
-    {
-      "Question": {
-        "Question_Name": 'பூட்டு',
-        "QuestionNumber": '2',
-        'img1': 'assets/png/k2.png',
-        'Nilai': '2',
-      },
-      "Answers": [
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "1",
-          "Correct": "1",
-          "Answer_QuestionNumber": '2'
-        },
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "2",
-          "Correct": "1",
-          "Answer_QuestionNumber": '2'
-        },
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "3",
-          "Correct": "1",
-          "Answer_QuestionNumber": '2'
-        },
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "4",
-          "Correct": "1",
-          "Answer_QuestionNumber": '2'
-        }
-      ]
-    },
-    {
-      "Question": {
-        "Question_Name": 'பூட்டு',
-        "QuestionNumber": '3',
-        'img1': 'assets/png/k3.png',
-        'Nilai': '2',
-      },
-      "Answers": [
-        {
-          'imgA': 'assets/gif/triangle.gif',
-          "AnswerNumber": "1",
-          "Correct": "1",
-          "Answer_QuestionNumber": '3'
-        },
-        {
-          'imgA': 'assets/gif/triangle.gif',
-          "AnswerNumber": "2",
-          "Correct": "1",
-          "Answer_QuestionNumber": '3'
-        },
-        {
-          'imgA': 'assets/gif/triangle.gif',
-          "AnswerNumber": "3",
-          "Correct": "1",
-          "Answer_QuestionNumber": '3'
-        },
-        {
-          'imgA': 'assets/gif/square.gif',
-          "AnswerNumber": "4",
-          "Correct": "1",
-          "Answer_QuestionNumber": '3'
-        }
-      ]
-    },
-    {
-      "Question": {
-        "Question_Name": 'பூட்டு',
-        "QuestionNumber": '4',
-        'img1': 'assets/png/k4.png',
-        'Nilai': '2',
-      },
-      "Answers": [
-        {
-          'imgA': 'assets/gif/square.gif',
-          "AnswerNumber": "1",
-          "Correct": "1",
-          "Answer_QuestionNumber": '4'
-        },
-        {
-          'imgA': 'assets/gif/square.gif',
-          "AnswerNumber": "2",
-          "Correct": "1",
-          "Answer_QuestionNumber": '4'
-        },
-        {
-          'imgA': 'assets/gif/circle.gif',
-          "AnswerNumber": "3",
-          "Correct": "1",
-          "Answer_QuestionNumber": '4'
-        },
-        {
-          'imgA': 'assets/gif/triangle.gif',
-          "AnswerNumber": "4",
-          "Correct": "1",
-          "Answer_QuestionNumber": '4'
-        }
-      ]
-    },
-  ];
-  // List AnswerType = [
-  //   {
-  //     "Answers": [
-  //       {
-  //         "imgA": "assets/png/a1.png",
-  //         "AnswerNumber": "1",
-  //         "Correct": "1",
-  //         "Answer_QuestionNumber": '1'
-  //       },
-  //       {
-  //         "imgA": "assets/png/a2.png",
-  //         "AnswerNumber": "2",
-  //         "Correct": "1",
-  //         "Answer_QuestionNumber": '1'
-  //       },
-  //       {
-  //         "imgA": "assets/png/a3.png",
-  //         "AnswerNumber": "3",
-  //         "Correct": "1",
-  //         "Answer_QuestionNumber": '1'
-  //       },
-  //       {
-  //         "imgA": "assets/png/a4.png",
-  //         "AnswerNumber": "4",
-  //         "Correct": "1",
-  //         "Answer_QuestionNumber": '1'
-  //       }
-  //     ]
-  //   }
-  // ];
+  late String title;
 
   double _persentage = 0;
   int _total = 0;
@@ -213,24 +37,26 @@ class _Quiz1PageState extends State<QuizType2> {
   String? _hasBeenPressedValue;
 
   //initialize list  for add questions from API
-  List<dynamic> _foundQuestions = [];
-  List _QuestionsFromDB = [];
+  List<dynamic> _foundAnswers = [];
+  List _AnswersFromDB = [];
 
 // loader
   bool _isLoading = false;
 
   @override
   void initState() {
+    _apiGetAnswers();
     questionId = widget.questionId;
     print(questionId);
-    image = widget.image;
-    print(image);
+    title = widget.title;
+    print(title);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
+    var image = "https://deafapi.moodfor.codes/images/";
 
     return Scaffold(
         key: _scaffoldKey,
@@ -310,9 +136,7 @@ class _Quiz1PageState extends State<QuizType2> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      'நிலை ' +
-                                          quiz[index_Q]['Question']['Nilai'] +
-                                          ' > ',
+                                      'நிலை 2' + ' > ',
                                       style: GoogleFonts.muktaMalar(
                                         fontSize: 20,
                                         color: Colors.black,
@@ -377,51 +201,7 @@ class _Quiz1PageState extends State<QuizType2> {
                                   constraints: BoxConstraints.tightFor(
                                       width: 130, height: 40),
                                   child: ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _hasBeenPressed = false;
-                                        if (_question ==
-                                            quiz.length.toString()) {
-                                          if (_persentage >= 50) {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => Stage1(
-                                                      persentage: _persentage,
-                                                      max: _total,
-                                                      correct: quiz.length)),
-                                            );
-                                          } else {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Stagefail(
-                                                          next_nilai: 1,
-                                                          nilai: 0,
-                                                          persentage:
-                                                              _persentage,
-                                                          max: quiz.length,
-                                                          correct: _total)),
-                                            );
-                                          }
-
-                                          print(_question);
-                                        } else {
-                                          _question =
-                                              (int.parse(_question.toString()) +
-                                                      1)
-                                                  .toString();
-                                        }
-                                        print(
-                                            'Question ' + _question.toString());
-
-                                        if (_answer == _correctanswer) {
-                                          _total = _total;
-                                          print('final ' + _total.toString());
-                                        }
-                                      });
-                                    },
+                                    onPressed: () {},
                                     child: Text(
                                       'அடுத்து',
                                       style: GoogleFonts.muktaMalar(
@@ -457,8 +237,7 @@ class _Quiz1PageState extends State<QuizType2> {
                                                 left: 10,
                                               ),
                                               child: Text(
-                                                quiz[index_Q1]['Question']
-                                                    ['Question_Name'],
+                                                widget.title,
                                                 style: GoogleFonts.muktaMalar(
                                                   fontSize: 24,
                                                   color: Colors.black,
@@ -478,65 +257,12 @@ class _Quiz1PageState extends State<QuizType2> {
                                                       childAspectRatio: 4 / 5,
                                                       crossAxisSpacing: 20,
                                                       mainAxisSpacing: 20),
-                                              itemCount: 4,
+                                              itemCount: _foundAnswers.length,
                                               itemBuilder:
                                                   (BuildContext ctx, index_A) {
                                                 return GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      //button green
-                                                      _hasBeenPressedValue =
-                                                          null;
-                                                      _answer == null;
-
-                                                      // button select
-                                                      _hasBeenPressedValue = quiz[
-                                                              int.parse(_question
-                                                                      .toString()) -
-                                                                  1]['Answers'][
-                                                          index_A]['AnswerNumber'];
-
-                                                      //pick select answer no
-                                                      _answer = quiz[int.parse(
-                                                                  _question
-                                                                      .toString()) -
-                                                              1]['Answers'][
-                                                          index_A]['AnswerNumber'];
-
-                                                      // array correct answer no
-                                                      _correctanswer = quiz[
-                                                              int.parse(_question
-                                                                      .toString()) -
-                                                                  1]['Answers']
-                                                          [index_A]['Correct'];
-
-                                                      // answer jason question no
-                                                      _answerQNo = quiz[int.parse(
-                                                                  _question
-                                                                      .toString()) -
-                                                              1]['Answers'][index_A]
-                                                          [
-                                                          'Answer_QuestionNumber'];
-
-                                                      print('Selected_Question ' +
-                                                          _answerQNo
-                                                              .toString() +
-                                                          '  Selected_Answer ' +
-                                                          _answer.toString());
-                                                    });
-                                                  },
+                                                  onTap: () {},
                                                   child: Card(
-                                                    color: _hasBeenPressedValue ==
-                                                                quiz[index_Q1][
-                                                                            'Answers']
-                                                                        [
-                                                                        index_A]
-                                                                    [
-                                                                    'AnswerNumber'] &&
-                                                            (_answerQNo ==
-                                                                _question)
-                                                        ? kPrimaryLightGreyColor
-                                                        : Colors.white,
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
@@ -560,41 +286,14 @@ class _Quiz1PageState extends State<QuizType2> {
                                                                         image:
                                                                             DecorationImage(
                                                                           image:
-                                                                              AssetImage(
-                                                                            quiz[int.parse(_question.toString()) -
-                                                                                1]['Answers'][index_A]['imgA'],
-                                                                          ),
+                                                                              NetworkImage(image + _foundAnswers[index_A]['image']),
                                                                           fit: BoxFit
                                                                               .cover,
                                                                         ),
                                                                         borderRadius:
                                                                             BorderRadius.circular(15)),
                                                               )),
-                                                          Positioned(
-                                                            top: 10,
-                                                            left: 10,
-                                                            child: ClipOval(
-                                                                child: Container(
-                                                                    height: 40,
-                                                                    width: 40,
-                                                                    color: kPrimaryRedColor,
-                                                                    child: Align(
-                                                                        alignment: Alignment.center,
-                                                                        child: Text(
-                                                                          quiz[index_Q1]['Answers'][index_A]
-                                                                              [
-                                                                              'AnswerNumber'],
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                20.0,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                          ),
-                                                                        )))),
-                                                          ),
+
                                                           // correctAnswer(
                                                           //     index_A,
                                                           //     index_Q1)
@@ -611,40 +310,7 @@ class _Quiz1PageState extends State<QuizType2> {
                                                       width: width * 1,
                                                       height: 60),
                                               child: ElevatedButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    _hasBeenPressed = true;
-                                                    _hasBeenPressedValue = null;
-
-                                                    if (_answer ==
-                                                            _correctanswer &&
-                                                        _answerQNo ==
-                                                            _question) {
-                                                      if (!StringQues.contains(
-                                                          _question
-                                                              .toString())) {
-                                                        StringQues.add(_question
-                                                            .toString());
-                                                        _total =
-                                                            StringQues.length;
-                                                        print(StringQues
-                                                            .toList());
-                                                        print("total " +
-                                                            _total.toString());
-                                                        print("Persentage " +
-                                                            (_total /
-                                                                    quiz.length)
-                                                                .toString());
-
-                                                        _persentage = (_total /
-                                                                quiz.length) *
-                                                            100.0;
-                                                        print(_persentage
-                                                            .toString());
-                                                      }
-                                                    }
-                                                  });
-                                                },
+                                                onPressed: () {},
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.center,
@@ -685,25 +351,7 @@ class _Quiz1PageState extends State<QuizType2> {
           child: ConstrainedBox(
             constraints: BoxConstraints.tightFor(width: width * 1, height: 60),
             child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  _hasBeenPressed = true;
-                  _hasBeenPressedValue = null;
-
-                  if (_answer == _correctanswer && _answerQNo == _question) {
-                    if (!StringQues.contains(_question.toString())) {
-                      StringQues.add(_question.toString());
-                      _total = StringQues.length;
-                      print(StringQues.toList());
-                      print("total " + _total.toString());
-                      print("Persentage " + (_total / quiz.length).toString());
-
-                      _persentage = (_total / quiz.length) * 100.0;
-                      print(_persentage.toString());
-                    }
-                  }
-                });
-              },
+              onPressed: () {},
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -725,5 +373,28 @@ class _Quiz1PageState extends State<QuizType2> {
             ),
           ),
         )));
+  }
+
+  void _apiGetAnswers() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      _AnswersFromDB.clear();
+      var bodyRoutes;
+      var res = await CallApi()
+          .getAnswerByQuestionId('getAnswersByQuestionId/${widget.questionId}');
+      bodyRoutes = json.decode(res.body);
+
+      // Add Answers to _AnswersFromDB List
+      _AnswersFromDB.add(bodyRoutes);
+      _foundAnswers = _AnswersFromDB[0];
+      print(_foundAnswers);
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
