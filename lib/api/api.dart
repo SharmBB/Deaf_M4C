@@ -38,6 +38,14 @@ class CallApi {
     );
   }
 
+  getAnswerByQuestionId(apiUrl) async {
+    var fullUrl = Uri.parse(_urlwithoutAuth + apiUrl);
+    return await http.get(
+      fullUrl,
+      headers: _setHeaders(),
+    );
+  }
+
   postData(data, apiUrl) async {
     var fullUrl = Uri.parse(_urlwithoutAuth + apiUrl);
     return await http.post(

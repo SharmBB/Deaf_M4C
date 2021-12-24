@@ -1,18 +1,22 @@
 import 'dart:convert';
+
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/constants.dart';
-import 'package:deaf_app/questionLock/Lock.dart';
-import 'package:deaf_app/quiz/quiz2.dart';
-import 'package:deaf_app/quiz/quiz4.dart';
+
 import 'package:deaf_app/quizSucces/Stage1.dart';
 import 'package:deaf_app/quizSucces/Stagefail.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuizType1 extends StatefulWidget {
+  final int questionId;
+  final String image;
+  QuizType1({key, required this.questionId, required this.image})
+      : super(key: key);
+
   @override
   _Quiz1PageState createState() => _Quiz1PageState();
 }
@@ -21,6 +25,8 @@ class _Quiz1PageState extends State<QuizType1> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   late int gradeid;
+  late int questionId;
+  late String image;
 
   List quiz = [
     {
@@ -174,19 +180,26 @@ class _Quiz1PageState extends State<QuizType1> {
   String? _hasBeenPressedValue;
 
   //initialize list  for add questions from API
-  List<dynamic> _foundQuestions = [];
-  List _QuestionsFromDB = [];
+  List<dynamic> _foundAnswers = [];
+  List _AnswersFromDB = [];
 
 // loader
   bool _isLoading = false;
+  var ans;
 
   @override
   void initState() {
+    questionId = widget.questionId;
+    print(questionId);
+    image = widget.image;
+    print(image);
+    _apiGetAnswers();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var image = "https://deafapi.moodfor.codes/images/";
     var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -404,8 +417,9 @@ class _Quiz1PageState extends State<QuizType1> {
                                                             BorderRadius
                                                                 .circular(15),
                                                         image: DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/png/Q1.png"),
+                                                          image: NetworkImage(
+                                                              image +
+                                                                  widget.image),
                                                           fit: BoxFit.cover,
                                                         ))),
                                               ])),
@@ -422,11 +436,20 @@ class _Quiz1PageState extends State<QuizType1> {
                                                       childAspectRatio: 5 / 4,
                                                       crossAxisSpacing: 20,
                                                       mainAxisSpacing: 20),
-                                              itemCount: 4,
+                                              itemCount: _foundAnswers.length,
                                               itemBuilder:
                                                   (BuildContext ctx, index_A) {
                                                 return GestureDetector(
                                                   onTap: () {
+                                                    if (_foundAnswers[index_A]
+                                                            ['is_answer'] ==
+                                                        1) {
+                                                      ans =
+                                                          _foundAnswers[index_A]
+                                                              ['is_answer'];
+                                                    } else {
+                                                      print("wrong");
+                                                    }
                                                     setState(() {
                                                       //button green
                                                       _hasBeenPressedValue =
@@ -504,7 +527,7 @@ class _Quiz1PageState extends State<QuizType1> {
                                                                         image:
                                                                             DecorationImage(
                                                                           image:
-                                                                              AssetImage("assets/png/a1.png"),
+                                                                              NetworkImage(image + _foundAnswers[index_A]['image']),
                                                                           fit: BoxFit
                                                                               .cover,
                                                                         ),
@@ -625,20 +648,15 @@ class _Quiz1PageState extends State<QuizType1> {
             child: ElevatedButton(
               onPressed: () {
                 setState(() {
-                  _hasBeenPressed = true;
-                  _hasBeenPressedValue = null;
-
-                  if (_answer == _correctanswer && _answerQNo == _question) {
-                    if (!StringQues.contains(_question.toString())) {
-                      StringQues.add(_question.toString());
-                      _total = StringQues.length;
-                      print(StringQues.toList());
-                      print("total " + _total.toString());
-                      print("Persentage " + (_total / quiz.length).toString());
-
-                      _persentage = (_total / quiz.length) * 100.0;
-                      print(_persentage.toString());
-                    }
+                  if (ans == 1) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Stage1(
+                                  correct: 1,
+                                  max: 3,
+                                  persentage: 2,
+                                )));
                   }
                 });
               },
@@ -663,5 +681,29 @@ class _Quiz1PageState extends State<QuizType1> {
             ),
           ),
         )));
+  }
+
+  //get answer from question ID details from api
+  void _apiGetAnswers() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      _AnswersFromDB.clear();
+      var bodyRoutes;
+      var res = await CallApi()
+          .getAnswerByQuestionId('getAnswersByQuestionId/${widget.questionId}');
+      bodyRoutes = json.decode(res.body);
+
+      // Add Answers to _AnswersFromDB List
+      _AnswersFromDB.add(bodyRoutes);
+      _foundAnswers = _AnswersFromDB[0];
+      print(_foundAnswers);
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

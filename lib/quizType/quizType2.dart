@@ -15,6 +15,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuizType2 extends StatefulWidget {
+  final int questionId;
+  final String image;
+  QuizType2({key, required this.questionId, required this.image})
+      : super(key: key);
+
   @override
   _Quiz1PageState createState() => _Quiz1PageState();
 }
@@ -23,6 +28,8 @@ class _Quiz1PageState extends State<QuizType2> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   late int gradeid;
+  late int questionId;
+  late String image;
 
   List quiz = [
     {
@@ -214,6 +221,10 @@ class _Quiz1PageState extends State<QuizType2> {
 
   @override
   void initState() {
+    questionId = widget.questionId;
+    print(questionId);
+    image = widget.image;
+    print(image);
     super.initState();
   }
 

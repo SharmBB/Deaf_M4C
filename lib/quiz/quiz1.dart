@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/quizType/quizType1.dart';
 import 'package:deaf_app/quizType/quizType2.dart';
@@ -25,7 +24,6 @@ class _Quiz1PageState extends State<Quiz1Page> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   late int gradeid;
-
   String? _question;
 
   //initialize list for add questions from API
@@ -152,7 +150,15 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      QuizType1()),
+                                                      QuizType1(
+                                                          image:
+                                                              _foundQuestions[
+                                                                      index]
+                                                                  ['image'],
+                                                          questionId:
+                                                              _foundQuestions[
+                                                                      index]
+                                                                  ['id'])),
                                             );
                                           });
                                         } else if (_foundQuestions[index]
@@ -160,10 +166,19 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                             2) {
                                           setState(() {
                                             Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        QuizType2()));
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      QuizType2(
+                                                          image:
+                                                              _foundQuestions[
+                                                                      index]
+                                                                  ['image'],
+                                                          questionId:
+                                                              _foundQuestions[
+                                                                      index]
+                                                                  ['id'])),
+                                            );
                                           });
                                         } else if (_foundQuestions[index]
                                                 ["type_id"] ==
