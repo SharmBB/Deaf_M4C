@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:deaf_app/api/api.dart';
+import 'package:deaf_app/components/appbar.dart';
 import 'package:deaf_app/quizType/quizType1.dart';
 import 'package:deaf_app/quizType/quizType2.dart';
 import 'package:deaf_app/quizType/quizType3.dart';
@@ -47,174 +48,147 @@ class _Quiz1PageState extends State<Quiz1Page> {
 
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          leading: Padding(
-              padding: const EdgeInsets.only(
-                top: 20.0,
-                left: 10,
-              ),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () {
-                    Navigator.pop(
-                      context,
-                    );
-                  },
-                ),
-                Padding(
-                    padding: const EdgeInsets.only(
-                      top: 5.0,
-                    ),
-                    child: new Text('திரும்பி செல்',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10.0,
-                        ))),
-              ])),
-          leadingWidth: width * 1,
-          titleSpacing: 0.00,
-          actions: [
+        appBar: BaseAppBar(
+        bacKText: "திரும்பி செல்",
+        username: 'நிக்கி',
+        appBar: AppBar(),
+      ),
+        body: Column(
+          children: [
             Padding(
-                padding: const EdgeInsets.only(
-                  top: 30.0,
-                  right: 10,
-                ),
-                child: new Text('நிக்கி.',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                    ))),
-            Container(
-                margin: const EdgeInsets.only(right: 30.0, top: 10.0),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: new SvgPicture.asset(
-                    'assets/svg/Group 86.svg',
-                    width: 50.0,
-                    height: 50.0,
-                    allowDrawingOutsideViewBox: true,
+              padding: const EdgeInsets.only(
+                  left: 30, right: 20.0, top: 20, bottom: 20),
+              child: Visibility(
+                visible: _question == null ? true : false,
+                child: Text(
+                  'நிலை 1',
+                  style: GoogleFonts.muktaMalar(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
                   ),
-                )),
-          ],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: Stack(children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 30,
-              right: 20.0,
-              top: 20,
-            ),
-            child: Visibility(
-              visible: _question == null ? true : false,
-              child: Text(
-                'நிலை 1',
-                style: GoogleFonts.muktaMalar(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-          ),
-          !_isLoading
-              ? _QuestionsFromDB[0].length == 0
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Text("No Questions available"),
-                    )
-                  : Expanded(
-                      child: Padding(
-                          padding: const EdgeInsets.only(top: 80.0),
-                          //list
+            !_isLoading
+                ? _QuestionsFromDB[0].length == 0
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(child: Text("No Questions available")),
+                      )
+                    : Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            //list
 
-                          child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: _foundQuestions.length,
-                              //   itemBuilder: (context, index_Q) {
-                              itemBuilder: (context, index) {
-                                return new Card(
-                                  elevation: 2,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                  child: ListTile(
-                                    onTap: () {
-                                      setState(() {
-                                        if (_foundQuestions[index]["type_id"] ==
-                                            1) {
-                                          setState(() {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      QuizType1(
-                                                          image:
-                                                              _foundQuestions[
-                                                                      index]
-                                                                  ['image'],
-                                                          questionId:
-                                                              _foundQuestions[
-                                                                      index]
-                                                                  ['id'])),
-                                            );
-                                          });
-                                        } else if (_foundQuestions[index]
-                                                ["type_id"] ==
-                                            2) {
-                                          setState(() {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      QuizType2(
-                                                          title:
-                                                              _foundQuestions[
-                                                                      index]
-                                                                  ['title'],
-                                                          questionId:
-                                                              _foundQuestions[
-                                                                      index]
-                                                                  ['id'])),
-                                            );
-                                          });
-                                        } else if (_foundQuestions[index]
-                                                ["type_id"] ==
-                                            3) {
-                                          setState(() {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        QuizType3()));
-                                          });
-                                        } else if (_foundQuestions[index]
-                                                ["type_id"] ==
-                                            4) {
-                                          setState(() {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        QuizType4()));
-                                          });
-                                        }
-                                      });
-                                    },
-                                    title: Text(
-                                      _foundQuestions[index]['title'],
-                                      textAlign: TextAlign.center,
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: _foundQuestions.length,
+                                //   itemBuilder: (context, index_Q) {
+                                itemBuilder: (context, index) {
+                                  return new Card(
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        color: Colors.black12,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(5.0),
                                     ),
-                                  ),
-                                );
-                              })))
-              : Padding(
-                  padding: const EdgeInsets.only(top: 100.0, left: 180),
-                  child: CupertinoActivityIndicator(),
-                )
-        ]));
+                                    child: ListTile(
+                                      onTap: () {
+                                        print("Question type");
+                                        print(
+                                            _foundQuestions[index]["type_id"]);
+                                        setState(() {
+                                          if (_foundQuestions[index]
+                                                  ["type_id"] ==
+                                              1) {
+                                            setState(() {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        QuizType1(
+                                                            image:
+                                                                _foundQuestions[
+                                                                        index]
+                                                                    ['image'],
+                                                            questionId:
+                                                                _foundQuestions[
+                                                                        index]
+                                                                    ['id'])),
+                                              );
+                                            });
+                                          } else if (_foundQuestions[index]
+                                                  ["type_id"] ==
+                                              2) {
+                                            setState(() {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        QuizType2(
+                                                            title:
+                                                                _foundQuestions[
+                                                                        index]
+                                                                    ['title'],
+                                                            questionId:
+                                                                _foundQuestions[
+                                                                        index]
+                                                                    ['id'])),
+                                              );
+                                            });
+                                          } else if (_foundQuestions[index]
+                                                  ["type_id"] ==
+                                              3) {
+                                            print(_foundQuestions[index]);
+                                            setState(() {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      QuizType3(
+                                                    questionId:
+                                                        _foundQuestions[index]
+                                                            ['id'],
+                                                    title:
+                                                        _foundQuestions[index]
+                                                            ['title'],
+                                                    image:
+                                                        _foundQuestions[index]
+                                                            ['image'],
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                          } else if (_foundQuestions[index]
+                                                  ["type_id"] ==
+                                              4) {
+                                            setState(() {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          QuizType4(questionId: _foundQuestions[index]['id'], 
+                                                          title: _foundQuestions[index]['title'])));
+                                            });
+                                          }
+                                        });
+                                      },
+                                      title: Text(
+                                        _foundQuestions[index]['title'],
+                                        // textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  );
+                                })))
+                : Padding(
+                    padding: const EdgeInsets.only(top: 100.0, left: 180),
+                    child: CupertinoActivityIndicator(),
+                  ),
+          ],
+        ));
   }
 
 //get questions from grade ID details from api

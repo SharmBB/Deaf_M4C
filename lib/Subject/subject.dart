@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/constants.dart';
 import 'package:deaf_app/grade/grade.dart';
@@ -34,7 +35,7 @@ class _SubjectPageState extends State<SubjectPage> {
   }
 
 //initialize list for add subjects from API
-  List<dynamic> _foundSubject = [];
+  // List<dynamic> _foundSubject = [];
   List _SubjectsFromDB = [];
 
 // loader
@@ -209,7 +210,7 @@ class _SubjectPageState extends State<SubjectPage> {
                         ),
                         onPressed: () {},
                         child: Text(
-                          'அனைத்தையும் காட்டு  ',
+                          'அனைத்தையும் காட்டு',
                           style: GoogleFonts.muktaMalar(
                             fontSize: 18,
                           ),
@@ -222,68 +223,65 @@ class _SubjectPageState extends State<SubjectPage> {
                         padding: const EdgeInsets.only(top: 20),
                         child: Text("No Subjects available"),
                       )
-                    : Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 10, top: 30),
-                        child: GridView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 25.0,
-                            crossAxisSpacing: 25.0,
-                          ),
-                          itemCount: _foundSubject.length,
-                          itemBuilder: (BuildContext context, int index) =>
-                              GestureDetector(
-                                  onTap: () {
-                                    if (_foundSubject[index]['title'] ==
-                                        "mmm") {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => GradePage(
-                                                  idForGetSubjects:
-                                                      _foundSubject[index]
-                                                          ['id'])));
-                                    } else {
-                                      return;
-                                    }
-                                  },
-                                  child: Container(
+                    : GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          // childAspectRatio: 9/10,
+                          mainAxisSpacing: 5.0,
+                          // crossAxisSpacing: 25.0
+                        ),
+                        itemCount: _SubjectsFromDB[0].length,
+                        itemBuilder: (BuildContext context, int index) =>
+                            GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => GradePage(
+                                        idForGetSubjects: _SubjectsFromDB[0][index]['id']),
+                                  ));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                        _SubjectsFromDB[0][index]['title'],
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15.0)),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: CachedNetworkImage(
+                                    // height: 150,
+                                    // width: 160,
+                                    imageUrl: image +
+                                        _SubjectsFromDB[0][index]['image'],
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
+                                        borderRadius: BorderRadius.circular(5),
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
                                       ),
-                                      child: Stack(children: <Widget>[
-                                        Positioned(
-                                            child: Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: Container(
-                                              height: 175.0,
-                                              width: 180.0,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                image: NetworkImage(
-                                                  image +
-                                                      _foundSubject[index]
-                                                          ['image'],
-                                                ),
-                                                fit: BoxFit.contain,
-                                              ))),
-                                        )),
-                                        Positioned(
-                                          top: -7,
-                                          child: Text(
-                                            _foundSubject[index]['title'],
-                                            style: GoogleFonts.muktaMalar(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                      ]))),
-                        ))
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
                 : Padding(
                     padding: const EdgeInsets.only(top: 30.0, left: 190),
                     child: CupertinoActivityIndicator(),
@@ -305,8 +303,7 @@ class _SubjectPageState extends State<SubjectPage> {
 
       // Add subjects to _SubjectsFromDB List
       _SubjectsFromDB.add(bodyRoutes);
-      _foundSubject = _SubjectsFromDB[0];
-      print(_foundSubject);
+      print(_SubjectsFromDB[0]);
     } catch (e) {
       print(e);
     }
