@@ -11,11 +11,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Quiz1Page extends StatefulWidget {
-  Quiz1Page({Key? key, required this.title, required this.gradeid})
+  Quiz1Page({Key? key, required this.title, required this.gradeid, required this.level})
       : super(key: key);
 
   final String title;
   final int gradeid;
+  final int level;
 
   @override
   _Quiz1PageState createState() => _Quiz1PageState();
@@ -28,7 +29,6 @@ class _Quiz1PageState extends State<Quiz1Page> {
   String? _question;
 
   //initialize list for add questions from API
-  List<dynamic> _foundQuestions = [];
   List _QuestionsFromDB = [];
 
 // loader
@@ -54,6 +54,7 @@ class _Quiz1PageState extends State<Quiz1Page> {
         appBar: AppBar(),
       ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(
@@ -71,7 +72,7 @@ class _Quiz1PageState extends State<Quiz1Page> {
               ),
             ),
             !_isLoading
-                ? _QuestionsFromDB[0].length == 0
+                ? _QuestionsFromDB.length == 0
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Align(child: Text("No Questions available")),
@@ -83,7 +84,7 @@ class _Quiz1PageState extends State<Quiz1Page> {
 
                             child: ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: _foundQuestions.length,
+                                itemCount: _QuestionsFromDB[0].length,
                                 //   itemBuilder: (context, index_Q) {
                                 itemBuilder: (context, index) {
                                   return new Card(
@@ -99,9 +100,9 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                       onTap: () {
                                         print("Question type");
                                         print(
-                                            _foundQuestions[index]["type_id"]);
+                                            _QuestionsFromDB[0][index]["type_id"]);
                                         setState(() {
-                                          if (_foundQuestions[index]
+                                          if (_QuestionsFromDB[0][index]
                                                   ["type_id"] ==
                                               1) {
                                             setState(() {
@@ -111,16 +112,16 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                                     builder: (context) =>
                                                         QuizType1(
                                                             image:
-                                                                _foundQuestions[
+                                                                _QuestionsFromDB[0][
                                                                         index]
                                                                     ['image'],
                                                             questionId:
-                                                                _foundQuestions[
+                                                                _QuestionsFromDB[0][
                                                                         index]
                                                                     ['id'])),
                                               );
                                             });
-                                          } else if (_foundQuestions[index]
+                                          } else if (_QuestionsFromDB[0][index]
                                                   ["type_id"] ==
                                               2) {
                                             setState(() {
@@ -130,19 +131,19 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                                     builder: (context) =>
                                                         QuizType2(
                                                             title:
-                                                                _foundQuestions[
+                                                                _QuestionsFromDB[0][
                                                                         index]
                                                                     ['title'],
                                                             questionId:
-                                                                _foundQuestions[
+                                                                _QuestionsFromDB[0][
                                                                         index]
                                                                     ['id'])),
                                               );
                                             });
-                                          } else if (_foundQuestions[index]
+                                          } else if (_QuestionsFromDB[0][index]
                                                   ["type_id"] ==
                                               3) {
-                                            print(_foundQuestions[index]);
+                                            print(_QuestionsFromDB[0][index]);
                                             setState(() {
                                               Navigator.push(
                                                 context,
@@ -150,19 +151,19 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                                   builder: (context) =>
                                                       QuizType3(
                                                     questionId:
-                                                        _foundQuestions[index]
+                                                        _QuestionsFromDB[0][index]
                                                             ['id'],
                                                     title:
-                                                        _foundQuestions[index]
+                                                        _QuestionsFromDB[0][index]
                                                             ['title'],
                                                     image:
-                                                        _foundQuestions[index]
+                                                        _QuestionsFromDB[0][index]
                                                             ['image'],
                                                   ),
                                                 ),
                                               );
                                             });
-                                          } else if (_foundQuestions[index]
+                                          } else if (_QuestionsFromDB[0][index]
                                                   ["type_id"] ==
                                               4) {
                                             setState(() {
@@ -170,14 +171,14 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          QuizType4(questionId: _foundQuestions[index]['id'], 
-                                                          title: _foundQuestions[index]['title'])));
+                                                          QuizType4(questionId: _QuestionsFromDB[0][index]['id'], 
+                                                          title: _QuestionsFromDB[0][index]['title'])));
                                             });
                                           }
                                         });
                                       },
                                       title: Text(
-                                        _foundQuestions[index]['title'],
+                                        _QuestionsFromDB[0][index]['title'],
                                         // textAlign: TextAlign.center,
                                       ),
                                     ),
@@ -200,13 +201,14 @@ class _Quiz1PageState extends State<Quiz1Page> {
       _QuestionsFromDB.clear();
       var bodyRoutes;
       var res = await CallApi()
-          .getQuestionsByGradeId('questionsByGradeId/${widget.gradeid}/1');
+          .getQuestionsByGradeId('questionsByGradeId/${widget.gradeid}/${widget.level}');
       bodyRoutes = json.decode(res.body);
 
       // Add Questions to _QuestionsFromDB List
-      _QuestionsFromDB.add(bodyRoutes);
-      _foundQuestions = _QuestionsFromDB[0];
-      print(_foundQuestions);
+      print(bodyRoutes);
+      if(bodyRoutes['errorMessage'] == true){
+        _QuestionsFromDB.add(bodyRoutes['data']);
+      }
     } catch (e) {
       print(e);
     }

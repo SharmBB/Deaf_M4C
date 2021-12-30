@@ -96,21 +96,21 @@ class _LockPageState extends State<QuestionLockPage> {
                 itemCount: widget.level,
                 itemBuilder: (BuildContext ctx, int index) {
                   //  index = 0;
-                  index = index + 1;
                   return GestureDetector(
                     onTap: () {
+                      print(index+1);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => Quiz1Page(
                                   gradeid: widget.gradeid,
-                                  title: "",
+                                  title: "", level: index+1,
                                 )),
                       );
                     },
                     child: Container(
                       alignment: Alignment.center,
-                      child: Text(index.toString()),
+                      child: Text("${index+1}"),
                       decoration: BoxDecoration(
                           color: Colors.grey[300],
                           borderRadius: BorderRadius.circular(15)),

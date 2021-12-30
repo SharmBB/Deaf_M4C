@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/components/Breadcrumps.dart';
+import 'package:deaf_app/components/CorrectOrWrongCheck.dart';
 import 'package:deaf_app/components/SubmitBtn.dart';
 import 'package:deaf_app/components/appbar.dart';
 import 'package:deaf_app/constants.dart';
@@ -140,60 +141,62 @@ class _Quiz1PageState extends State<QuizType3> {
                                           : Colors.white,
                                       width: 2),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 10),
-                                  child: Row(
-                                    children: [
-                                      ClipOval(
-                                        child: Container(
-                                          height: 30,
-                                          width: 30,
-                                          color: kPrimaryRedColor,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              "${index_Q1 + 1}",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.bold,
+                                child: Stack(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 10),
+                                      child: Row(
+                                        children: [
+                                          ClipOval(
+                                            child: Container(
+                                              height: 30,
+                                              width: 30,
+                                              color: kPrimaryRedColor,
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  "${index_Q1 + 1}",
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20.0,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 12.0),
-                                        child: Text(
-                                          answersFromDB[0][index_Q1]['title'],
-                                          style: GoogleFonts.muktaMalar(
-                                            fontSize: 20,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      userSelectedAnswer == index_Q1
-                                          ? Visibility(
-                                              visible: isAnswerCheck,
-                                              child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Image(
-                                          height: 30,
-                                                image: AssetImage(
-                                                    answersFromDB[0][index_Q1]['is_answer'] == 1 ?'assets/static/correct.png' : 'assets/static/wrong.png'
-                                                    ),
-                                                fit: BoxFit.cover,
-                                                alignment: Alignment.center,
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 12.0),
+                                            child: Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.7,
+                                              child: Text(
+                                                answersFromDB[0][index_Q1]
+                                                    ['title'],
+                                                style: GoogleFonts.muktaMalar(
+                                                  fontSize: 20,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                            )
-                                          : SizedBox()
-                                    ],
-                                  ),
+                                    ),
+                                    userSelectedAnswer == index_Q1
+                                        ? CorrectOrWrong(
+                                            isAnswerCheck: isAnswerCheck,
+                                            correctAnswer: answersFromDB[0]
+                                                [index_Q1]['is_answer'],
+                                            questionType: 2,
+                                          )
+                                        : SizedBox()
+                                  ],
                                 ),
                               ),
                             );

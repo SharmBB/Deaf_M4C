@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/components/Breadcrumps.dart';
+import 'package:deaf_app/components/CorrectOrWrongCheck.dart';
 import 'package:deaf_app/components/SubmitBtn.dart';
 import 'package:deaf_app/components/appbar.dart';
 import 'package:deaf_app/constants.dart';
@@ -105,12 +106,12 @@ class _Quiz1PageState extends State<QuizType4> {
                                         : Colors.white,
                                     width: 2),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                child: Stack(
-                                  children: [
-                                    Row(
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10, horizontal: 10),
+                                    child: Row(
                                       children: [
                                         ClipOval(
                                           child: Container(
@@ -134,10 +135,7 @@ class _Quiz1PageState extends State<QuizType4> {
                                           padding:
                                               const EdgeInsets.only(left: 12.0),
                                           child: Container(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.7,
+                                            width: MediaQuery.of(context).size.width * 0.7,
                                             child: Text(
                                               answersFromDB[0][index_Q1]
                                                   ['title'],
@@ -149,32 +147,19 @@ class _Quiz1PageState extends State<QuizType4> {
                                             ),
                                           ),
                                         ),
-                                        Spacer(),
                                       ],
                                     ),
-                                    Visibility(
+                                  ),
+                                  Visibility(
                                       visible: userSelectedAnswer == index_Q1,
-                                      child: Visibility(
-                                        visible: isAnswerCheck,
-                                        child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Image(
-                                            height: 50,
-                                                  image: AssetImage(
-                                                      answersFromDB[0][index_Q1]['is_answer'] == 1 ?'assets/static/correct.png' : 'assets/static/wrong.png'
-                                                      ),
-                                                  fit: BoxFit.cover,
-                                                  alignment: Alignment.center,
-                                                ),
-                                        ),
-                                      ),
-                                      ),
+                                      child: CorrectOrWrong(
+                                            isAnswerCheck: isAnswerCheck,
+                                            correctAnswer: answersFromDB[0]
+                                                [index_Q1]['is_answer'],
+                                            questionType: 2,
+                                          ),
                                     )
-                                    // : SizedBox()
-                                  ],
-                                ),
+                                ],
                               ),
                             ),
                           );

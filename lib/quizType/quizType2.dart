@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/components/Breadcrumps.dart';
+import 'package:deaf_app/components/CorrectOrWrongCheck.dart';
 import 'package:deaf_app/components/SubmitBtn.dart';
 import 'package:deaf_app/components/appbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -153,19 +154,7 @@ class _Quiz1PageState extends State<QuizType2> {
                                     Icon(Icons.error)),
                           ),
                           userSelectedAnswer == index_A
-                              ? Visibility(
-                                  visible: isAnswerCheck,
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Image(
-                                              image: AssetImage(
-                                                  _AnswersFromDB[0][index_A]['is_answer'] == 1 ?'assets/static/correct.png' : 'assets/static/wrong.png'
-                                                  ),
-                                              fit: BoxFit.cover,
-                                              alignment: Alignment.center,
-                                            ),
-                                    ),
-                                )
+                              ? CorrectOrWrong(isAnswerCheck: isAnswerCheck, correctAnswer: _AnswersFromDB[0][index_A]['is_answer'],)
                               : SizedBox()
                         ]),
                       ),
