@@ -8,9 +8,11 @@ import 'package:deaf_app/quiz/quiz4.dart';
 import 'package:deaf_app/quiz/quiz3dart';
 import 'package:deaf_app/quiz/quiz2.dart';
 import 'package:deaf_app/quiz/quiz1.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuestionLockPage extends StatefulWidget {
   QuestionLockPage({
@@ -41,9 +43,11 @@ class _LockPageState extends State<QuestionLockPage> {
   bool _isLoading = false;
 
   int index = 1;
+  List _lockCheck = [];
 
   @override
   void initState() {
+    _apiLockCheck();
     gradeid = widget.gradeid;
     print(gradeid);
     level = widget.level;
@@ -69,134 +73,184 @@ class _LockPageState extends State<QuestionLockPage> {
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                  padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-                  child: Text(
-                    "கற்றல் செயட்பாடுகள்",
-                    style: GoogleFonts.muktaMalar(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-              GridView.builder(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 15.0, horizontal: 25.0),
+                child: Text(
+                  "கற்றல் செயட்பாடுகள்",
+                  style: GoogleFonts.muktaMalar(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+            _isLoading ? Center(child: CupertinoActivityIndicator()) : 
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
-                  mainAxisSpacing: 25.0,
-                  crossAxisSpacing: 25.0,
+                  // mainAxisSpacing: 25.0,
+                  // crossAxisSpacing: 25.0,
                 ),
                 itemCount: widget.level,
                 itemBuilder: (BuildContext ctx, int index) {
                   //  index = 0;
                   return GestureDetector(
                     onTap: () {
-                      print(index+1);
-                      Navigator.push(
+                      // print(index + 1);
+                      // print("length - ${_lockCheck.length}");
+                      if(_lockCheck.length < index ){
+                         popup(context,_lockCheck.length+1 ,index + 1);
+                      } else {
+                        Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => Quiz1Page(
                                   gradeid: widget.gradeid,
-                                  title: "", level: index+1,
+                                  title: "",
+                                  level: index + 1,
                                 )),
-                      );
+                        );
+
+                      }
+                      
+                      
                     },
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text("${index+1}"),
-                      decoration: BoxDecoration(
-                          color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(15)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Container(
+                        child: Stack(
+                          children: [
+                            Center(
+                              child: Text(
+                                "${index + 1}",
+                                style: TextStyle(fontSize: 24, color: _lockCheck.length > index ? Colors.white : Colors.black),
+                              ),
+                            ),
+                            Align(
+                                alignment: Alignment.bottomRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image(
+                                    height: 20,
+                                    image: AssetImage( _lockCheck.length > index ? 'assets/static/unlock.png' : 'assets/static/lock.png'),
+                                    fit: BoxFit.contain,
+                                    alignment: Alignment.center,
+                                  ),
+                                )),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          color: _lockCheck.length > index ? Colors.lightGreen.shade300 : Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   );
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  // Future<dynamic> popup(BuildContext context, int xNilai, int xNilai2) {
-  //   return showDialog(
-  //       context: context,
-  //       builder: (BuildContext context) {
-  //         return AlertDialog(
-  //           title: Padding(
-  //               padding:
-  //                   const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-  //               child: Align(
-  //                 alignment: Alignment.center,
-  //                 child: Column(
-  //                   children: <Widget>[
-  //                     Text('நிலை $xNilai2 ஐ திறக்க நீங்கள்',
-  //                         style: GoogleFonts.muktaMalar(
-  //                           fontSize: 18,
-  //                           fontWeight: FontWeight.bold,
-  //                         )),
-  //                     Text('நிலை $xNilai ஐ முடிக்க வேண்டும் ',
-  //                         style: GoogleFonts.muktaMalar(
-  //                           fontSize: 18,
-  //                           fontWeight: FontWeight.bold,
-  //                         )),
-  //                     Padding(
-  //                         padding: const EdgeInsets.only(top: 15.0),
-  //                         child: ConstrainedBox(
-  //                           constraints:
-  //                               BoxConstraints.tightFor(width: 130, height: 40),
-  //                           child: ElevatedButton(
-  //                             onPressed: () {},
-  //                             child: Text(
-  //                               'சரி',
-  //                               style: GoogleFonts.muktaMalar(
-  //                                 color: Colors.white,
-  //                                 fontSize: 18,
-  //                               ),
-  //                             ),
-  //                             style: ElevatedButton.styleFrom(
-  //                               primary: kPrimaryRedColor,
-  //                               elevation: 0,
-  //                               shape: RoundedRectangleBorder(
-  //                                   borderRadius: new BorderRadius.all(
-  //                                       new Radius.circular(20))),
-  //                             ),
-  //                           ),
-  //                         )),
-  //                   ],
-  //                 ),
-  //               )),
-  //         );
-  //       });
-  // }
+  Future<dynamic> popup(BuildContext context, int firstText, int secondText) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Padding(
+                padding:
+                    const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    children: <Widget>[
+                      Text('நிலை $secondText ஐ திறக்க நீங்கள்',
+                          style: GoogleFonts.muktaMalar(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      Text('நிலை $firstText ஐ முடிக்க வேண்டும் ',
+                          style: GoogleFonts.muktaMalar(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: ConstrainedBox(
+                            constraints:
+                                BoxConstraints.tightFor(width: 130, height: 40),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                'சரி',
+                                style: GoogleFonts.muktaMalar(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: kPrimaryRedColor,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.all(
+                                        new Radius.circular(20))),
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                )),
+          );
+        });
+  }
 
-  // void _apiGetSubjects() async {
-  //   setState(() {
-  //     //  _isLoading = true;
-  //   });
-  //   try {
-  //     _SubjectsFromDB.clear();
-  //     var bodyRoutes;
-  //     var res = await CallApi()
-  //         .getQuestionsByGradeId('questionsByGradeId/${widget.id}/1');
-  //     bodyRoutes = json.decode(res.body);
-
-  //     // Add subjects to _SubjectsFromDB List
-  //     _SubjectsFromDB.add(bodyRoutes);
-  //     _foundSubject = _SubjectsFromDB[0];
-  //     print(_foundSubject);
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   setState(() {
-  //     _isLoading = false;
-  //   });
-  // }
+  void _apiLockCheck() async {
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      _lockCheck.clear();
+      var bodyRoutes;
+      var res = await CallApi()
+          .getQuestionsByGradeId('user_results/findByUserId/${storage.getInt("userId")}');
+      bodyRoutes = json.decode(res.body);
+      print(bodyRoutes);
+      bodyRoutes.forEach((data)=> {
+        _lockCheck.add({
+          "level" : data['level'],
+          "result" : data['result']
+        })
+      });
+      
+      print(_lockCheck);
+    } catch (e) {
+      print(e);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
 }

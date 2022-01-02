@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:deaf_app/_helper/controller.dart';
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/components/Breadcrumps.dart';
 import 'package:deaf_app/components/CorrectOrWrongCheck.dart';
@@ -9,11 +10,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizType2 extends StatefulWidget {
   final int questionId;
   final String title;
-  QuizType2({key, required this.questionId, required this.title})
+  final String gradeLevelQuestionID;
+  final int questionLength;
+  final int gradeid;
+  final int level;
+  QuizType2({key, required this.questionId, required this.title, required this.gradeLevelQuestionID, required this.questionLength, required this.gradeid, required this.level})
       : super(key: key);
 
   @override
@@ -22,7 +28,7 @@ class QuizType2 extends StatefulWidget {
 
 class _Quiz1PageState extends State<QuizType2> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  MarksServices marksServices = MarksServices();
   late int gradeid;
   late int questionId;
   late String title;
@@ -122,16 +128,18 @@ class _Quiz1PageState extends State<QuizType2> {
                       mainAxisSpacing: 5.0,
                       crossAxisSpacing: 5.0),
                   itemCount: _AnswersFromDB[0].length,
-                  itemBuilder: (BuildContext ctx, index_A) {
+                  itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: () {
+                      onTap: isAnswerCheck
+                            ? () {}
+                            : () {
                         setState(() {
-                          isAnswer = _AnswersFromDB[0][index_A]['is_answer'];
+                          isAnswer = _AnswersFromDB[0][index]['is_answer'];
                         });
-                        userSelectedAnswer = index_A;
+                        userSelectedAnswer = index;
                       },
                       child: Card(
-                        color: userSelectedAnswer == index_A
+                        color: userSelectedAnswer == index
                             ? Colors.yellow
                             : null,
                         elevation: 0,
@@ -140,7 +148,7 @@ class _Quiz1PageState extends State<QuizType2> {
                             padding: const EdgeInsets.all(5.0),
                             child: CachedNetworkImage(
                                 imageUrl:
-                                    image + _AnswersFromDB[0][index_A]['image'],
+                                    image + _AnswersFromDB[0][index]['image'],
                                 imageBuilder: (context, imageProvider) =>
                                     Container(
                                       decoration: BoxDecoration(
@@ -153,8 +161,8 @@ class _Quiz1PageState extends State<QuizType2> {
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error)),
                           ),
-                          userSelectedAnswer == index_A
-                              ? CorrectOrWrong(isAnswerCheck: isAnswerCheck, correctAnswer: _AnswersFromDB[0][index_A]['is_answer'],)
+                          userSelectedAnswer == index
+                              ? CorrectOrWrong(isAnswerCheck: isAnswerCheck, correctAnswer: _AnswersFromDB[0][index]['is_answer'],)
                               : SizedBox()
                         ]),
                       ),
@@ -163,11 +171,19 @@ class _Quiz1PageState extends State<QuizType2> {
               Visibility(
                   visible: !_isLoading,
                   child: SubmitBtn(
-                    function: () {
+                    function: () async{
                       if (userSelectedAnswer != null) {
                         setState(() {
                           isAnswerCheck = true;
+                          marksServices.addResults(widget.gradeLevelQuestionID, widget.questionId, isAnswer);
                         });
+                        var resultList = await marksServices.getResultList();
+                        var finalResult =
+                        await marksServices.findAverage(widget.questionLength);
+                        if(widget.questionLength == resultList.length){
+                          print(finalResult);
+                          marksServices.apiUpdateResult(widget.gradeid, finalResult, widget.level);
+                        }
                       }
                     },
                   ),
@@ -201,4 +217,5 @@ class _Quiz1PageState extends State<QuizType2> {
       _isLoading = false;
     });
   }
+  
 }
