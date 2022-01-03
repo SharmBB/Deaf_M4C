@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:deaf_app/_helper/controller.dart';
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/components/appbar.dart';
 import 'package:deaf_app/quizType/quizType1.dart';
@@ -8,9 +7,7 @@ import 'package:deaf_app/quizType/quizType3.dart';
 import 'package:deaf_app/quizType/quizType4.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Quiz1Page extends StatefulWidget {
   Quiz1Page(
@@ -29,19 +26,13 @@ class Quiz1Page extends StatefulWidget {
 }
 
 class _Quiz1PageState extends State<Quiz1Page> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  MarksServices marksServices = MarksServices();
-  late int gradeid;
-  String? _question;
 
-  //initialize list for add questions from API
-  List _QuestionsFromDB = [];
-// loader
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  List questionsFromDB = [];
   bool _isLoading = false;
 
   @override
   void initState() {
-    gradeid = widget.gradeid;
     print("gradeid ${widget.gradeid} / level ${widget.level}");
     _apiGetQuestions();
     super.initState();
@@ -49,13 +40,11 @@ class _Quiz1PageState extends State<Quiz1Page> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       key: _scaffoldKey,
       appBar: BaseAppBar(
         bacKText: "திரும்பி செல்",
-        username: 'நிக்கி',
         appBar: AppBar(),
       ),
       body: Column(
@@ -64,20 +53,17 @@ class _Quiz1PageState extends State<Quiz1Page> {
           Padding(
             padding: const EdgeInsets.only(
                 left: 30, right: 20.0, top: 20, bottom: 20),
-            child: Visibility(
-              visible: _question == null ? true : false,
-              child: Text(
-                'நிலை ${widget.level}',
-                style: GoogleFonts.muktaMalar(
-                  fontSize: 20,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+            child: Text(
+              'நிலை ${widget.level}',
+              style: GoogleFonts.muktaMalar(
+                fontSize: 20,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
           !_isLoading
-              ? _QuestionsFromDB.length == 0
+              ? questionsFromDB.length == 0
                   ? Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Align(child: Text("No Questions available")),
@@ -89,7 +75,7 @@ class _Quiz1PageState extends State<Quiz1Page> {
 
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _QuestionsFromDB[0].length,
+                          itemCount: questionsFromDB[0].length,
                           //   itemBuilder: (context, index_Q) {
                           itemBuilder: (context, index) {
                             return new Card(
@@ -104,10 +90,10 @@ class _Quiz1PageState extends State<Quiz1Page> {
                               child: ListTile(
                                 onTap: () {
                                   print("Question type");
-                                  print(_QuestionsFromDB[0][index]["type_id"]);
+                                  print(questionsFromDB[0][index]["type_id"]);
                                   setState(
                                     () {
-                                      if (_QuestionsFromDB[0][index]
+                                      if (questionsFromDB[0][index]
                                               ["type_id"] ==
                                           1) {
                                         setState(
@@ -116,24 +102,25 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => QuizType1(
-                                                  image: _QuestionsFromDB[0]
+                                                  image: questionsFromDB[0]
                                                       [index]['image'],
                                                   questionId:
-                                                      _QuestionsFromDB[0][index]
+                                                      questionsFromDB[0][index]
                                                           ['id'],
                                                   gradeLevelQuestionID:
                                                       '${widget.gradeid}-${widget.level}',
                                                   questionLength:
-                                                      _QuestionsFromDB[0]
+                                                      questionsFromDB[0]
                                                           .length,
                                                   gradeid: widget.gradeid,
                                                   level: widget.level,
+                                                  questionIndex : index
                                                 ),
                                               ),
                                             );
                                           },
                                         );
-                                      } else if (_QuestionsFromDB[0][index]
+                                      } else if (questionsFromDB[0][index]
                                               ["type_id"] ==
                                           2) {
                                         setState(
@@ -142,27 +129,28 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => QuizType2(
-                                                  title: _QuestionsFromDB[0]
+                                                  title: questionsFromDB[0]
                                                       [index]['title'],
                                                   questionId:
-                                                      _QuestionsFromDB[0][index]
+                                                      questionsFromDB[0][index]
                                                           ['id'],
                                                   gradeLevelQuestionID:
                                                       '${widget.gradeid}-${widget.level}',
                                                   questionLength:
-                                                      _QuestionsFromDB[0]
+                                                      questionsFromDB[0]
                                                           .length,
                                                   gradeid: widget.gradeid,
                                                   level: widget.level,
+                                                  questionIndex : index
                                                 ),
                                               ),
                                             );
                                           },
                                         );
-                                      } else if (_QuestionsFromDB[0][index]
+                                      } else if (questionsFromDB[0][index]
                                               ["type_id"] ==
                                           3) {
-                                        print(_QuestionsFromDB[0][index]);
+                                        print(questionsFromDB[0][index]);
                                         setState(
                                           () {
                                             Navigator.push(
@@ -170,25 +158,26 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                               MaterialPageRoute(
                                                 builder: (context) => QuizType3(
                                                   questionId:
-                                                      _QuestionsFromDB[0][index]
+                                                      questionsFromDB[0][index]
                                                           ['id'],
-                                                  title: _QuestionsFromDB[0]
+                                                  title: questionsFromDB[0]
                                                       [index]['title'],
-                                                  image: _QuestionsFromDB[0]
+                                                  image: questionsFromDB[0]
                                                       [index]['image'],
                                                   gradeLevelQuestionID:
                                                       '${widget.gradeid}-${widget.level}',
                                                   questionLength:
-                                                      _QuestionsFromDB[0]
+                                                      questionsFromDB[0]
                                                           .length,
                                                   gradeid: widget.gradeid,
                                                   level: widget.level,
+                                                  questionIndex : index
                                                 ),
                                               ),
                                             );
                                           },
                                         );
-                                      } else if (_QuestionsFromDB[0][index]
+                                      } else if (questionsFromDB[0][index]
                                               ["type_id"] ==
                                           4) {
                                         setState(
@@ -198,17 +187,18 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                               MaterialPageRoute(
                                                 builder: (context) => QuizType4(
                                                   questionId:
-                                                      _QuestionsFromDB[0][index]
+                                                      questionsFromDB[0][index]
                                                           ['id'],
-                                                  title: _QuestionsFromDB[0]
+                                                  title: questionsFromDB[0]
                                                       [index]['title'],
                                                   gradeLevelQuestionID:
                                                       '${widget.gradeid}-${widget.level}',
                                                   questionLength:
-                                                      _QuestionsFromDB[0]
+                                                      questionsFromDB[0]
                                                           .length,
                                                   gradeid: widget.gradeid,
                                                   level: widget.level,
+                                                  questionIndex : index
                                                 ),
                                               ),
                                             );
@@ -219,7 +209,7 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                   );
                                 },
                                 title: Text(
-                                  _QuestionsFromDB[0][index]['title'],
+                                  questionsFromDB[0][index]['title'],
                                   // textAlign: TextAlign.center,
                                 ),
                               ),
@@ -243,18 +233,17 @@ class _Quiz1PageState extends State<Quiz1Page> {
       _isLoading = true;
     });
     try {
-      _QuestionsFromDB.clear();
+      questionsFromDB.clear();
       var bodyRoutes;
       var res = await CallApi().getQuestionsByGradeId(
           'questionsByGradeId/${widget.gradeid}/${widget.level}');
       bodyRoutes = json.decode(res.body);
 
-      // Add Questions to _QuestionsFromDB List
+      // Add Questions to questionsFromDB List
       print(bodyRoutes);
       if (bodyRoutes['errorMessage'] == true) {
-        _QuestionsFromDB.add(bodyRoutes['data']);
+        questionsFromDB.add(bodyRoutes['data']);
       }
-      print(_QuestionsFromDB[0].length);
     } catch (e) {
       print(e);
     }

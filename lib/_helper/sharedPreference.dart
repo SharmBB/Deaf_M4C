@@ -10,10 +10,20 @@ class MySharedPreferences {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     myPrefs.setString(key, value);
   }
- 
-  Future<String> getStringValue(String key) async {
+
+  setIntValue(String key, int value) async {
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    myPrefs.setInt(key, value);
+  }
+
+  Future getStringValue(String key) async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     return myPrefs.getString(key) ?? "";
+  }
+ 
+  Future getIntValue(String key) async {
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    return myPrefs.getInt(key) ?? "";
   }
  
   Future<bool> containsKey(String key) async {

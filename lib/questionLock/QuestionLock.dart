@@ -1,30 +1,22 @@
 import 'dart:convert';
-
-import 'package:deaf_app/Subject/subSubject.dart';
+import 'package:deaf_app/_helper/controller.dart';
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/components/appbar.dart';
 import 'package:deaf_app/constants.dart';
-import 'package:deaf_app/quiz/quiz4.dart';
-import 'package:deaf_app/quiz/quiz3dart';
-import 'package:deaf_app/quiz/quiz2.dart';
 import 'package:deaf_app/quiz/quiz1.dart';
+import 'package:deaf_app/quizSucces/StageSuccess.dart';
+import 'package:deaf_app/quizSucces/Stagefail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class QuestionLockPage extends StatefulWidget {
   QuestionLockPage({
     Key? key,
-    required this.nilai,
-    required this.next_nilai,
     required this.gradeid,
     required this.level,
   }) : super(key: key);
-
-  final int nilai;
-  final int next_nilai;
   final int gradeid;
   final int level;
 
@@ -33,6 +25,7 @@ class QuestionLockPage extends StatefulWidget {
 }
 
 class _LockPageState extends State<QuestionLockPage> {
+  MarksServices marksServices = MarksServices();
   late int gradeid;
   late int level;
   //initialize list for add subjects from API
@@ -52,14 +45,7 @@ class _LockPageState extends State<QuestionLockPage> {
     print(gradeid);
     level = widget.level;
     print(level);
-
     super.initState();
-  }
-
-  int no = 0;
-
-  void calc() {
-    no = no + 1;
   }
 
   @override
@@ -69,7 +55,6 @@ class _LockPageState extends State<QuestionLockPage> {
     return Scaffold(
       appBar: BaseAppBar(
         bacKText: "திரும்பி செல்",
-        username: 'நிக்கி',
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
@@ -88,84 +73,97 @@ class _LockPageState extends State<QuestionLockPage> {
                     fontWeight: FontWeight.bold,
                   ),
                 )),
-            _isLoading ? Center(child: CupertinoActivityIndicator()) : 
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  // mainAxisSpacing: 25.0,
-                  // crossAxisSpacing: 25.0,
-                ),
-                itemCount: widget.level,
-                itemBuilder: (BuildContext ctx, int index) {
-                  //  index = 0;
-                  return GestureDetector(
-                    onTap: () {
-                      // print(index + 1);
-                      // print("length - ${_lockCheck.length}");
-                      if(_lockCheck.length < index ){
-                         popup(context,_lockCheck.length+1 ,index + 1);
-                      } else {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Quiz1Page(
-                                  gradeid: widget.gradeid,
-                                  title: "",
-                                  level: index + 1,
-                                )),
-                        );
+            _isLoading
+                ? Center(child: CupertinoActivityIndicator())
+                : Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        // mainAxisSpacing: 25.0,
+                        // crossAxisSpacing: 25.0,
+                      ),
+                      itemCount: widget.level,
+                      itemBuilder: (BuildContext ctx, int index) {
+                        //  index = 0;
+                        return GestureDetector(
+                          onTap: () async {
+                            // print(index + 1);
+                            // print("length - ${_lockCheck.length}");
+                            if (_lockCheck.length < index) {
+                              popup(context, _lockCheck.length + 1, index + 1);
+                            } else {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Quiz1Page(
+                                          gradeid: widget.gradeid,
+                                          title: "",
+                                          level: index + 1,
+                                        )),
+                              );
+                              print("------------${result}------------");
+                              if(result != null){
+                                _apiLockCheck();
+                              }
 
-                      }
-                      
-                      
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Container(
-                        child: Stack(
-                          children: [
-                            Center(
-                              child: Text(
-                                "${index + 1}",
-                                style: TextStyle(fontSize: 24, color: _lockCheck.length > index ? Colors.white : Colors.black),
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Container(
+                              child: Stack(
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      "${index + 1}",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          color: _lockCheck.length + 1 > index
+                                              ? Colors.white
+                                              : Colors.black),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image(
+                                        height: 20,
+                                        image: AssetImage(
+                                            _lockCheck.length + 1 > index
+                                                ? 'assets/static/unlock.png'
+                                                : 'assets/static/lock.png'),
+                                        fit: BoxFit.contain,
+                                        alignment: Alignment.center,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              decoration: BoxDecoration(
+                                color: _lockCheck.length + 1 > index
+                                    ? Colors.lightGreen.shade300
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(
+                                        0, 3), // changes position of shadow
+                                  ),
+                                ],
                               ),
                             ),
-                            Align(
-                                alignment: Alignment.bottomRight,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image(
-                                    height: 20,
-                                    image: AssetImage( _lockCheck.length > index ? 'assets/static/unlock.png' : 'assets/static/lock.png'),
-                                    fit: BoxFit.contain,
-                                    alignment: Alignment.center,
-                                  ),
-                                )),
-                          ],
-                        ),
-                        decoration: BoxDecoration(
-                          color: _lockCheck.length > index ? Colors.lightGreen.shade300 : Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ),
+                  ),
           ],
         ),
       ),
@@ -174,56 +172,61 @@ class _LockPageState extends State<QuestionLockPage> {
 
   Future<dynamic> popup(BuildContext context, int firstText, int secondText) {
     return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Padding(
-                padding:
-                    const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: <Widget>[
-                      Text('நிலை $secondText ஐ திறக்க நீங்கள்',
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+            child: Align(
+              alignment: Alignment.center,
+              child: Column(
+                children: <Widget>[
+                  Text('நிலை $secondText ஐ திறக்க நீங்கள்',
+                      style: GoogleFonts.muktaMalar(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  Text('நிலை $firstText ஐ முடிக்க வேண்டும் ',
+                      style: GoogleFonts.muktaMalar(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: ConstrainedBox(
+                      constraints:
+                          BoxConstraints.tightFor(width: 130, height: 40),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'சரி',
                           style: GoogleFonts.muktaMalar(
+                            color: Colors.white,
                             fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      Text('நிலை $firstText ஐ முடிக்க வேண்டும் ',
-                          style: GoogleFonts.muktaMalar(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          child: ConstrainedBox(
-                            constraints:
-                                BoxConstraints.tightFor(width: 130, height: 40),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                'சரி',
-                                style: GoogleFonts.muktaMalar(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: kPrimaryRedColor,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.all(
-                                        new Radius.circular(20))),
-                              ),
-                            ),
-                          )),
-                    ],
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: kPrimaryRedColor,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.all(
+                                  new Radius.circular(20))),
+                        ),
+                      ),
+                    ),
                   ),
-                )),
-          );
-        });
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _apiLockCheck() async {
@@ -234,17 +237,14 @@ class _LockPageState extends State<QuestionLockPage> {
     try {
       _lockCheck.clear();
       var bodyRoutes;
-      var res = await CallApi()
-          .getQuestionsByGradeId('user_results/findByUserId/${storage.getInt("userId")}');
+      var res = await CallApi().getQuestionsByGradeId(
+          'user_results/findByUserId/${storage.getInt("userId")}');
       bodyRoutes = json.decode(res.body);
       print(bodyRoutes);
-      bodyRoutes.forEach((data)=> {
-        _lockCheck.add({
-          "level" : data['level'],
-          "result" : data['result']
-        })
+      bodyRoutes.forEach((data) => {
+          _lockCheck.add({"level": data['level'], "result": data['result']})
       });
-      
+
       print(_lockCheck);
     } catch (e) {
       print(e);
@@ -253,4 +253,16 @@ class _LockPageState extends State<QuestionLockPage> {
       _isLoading = false;
     });
   }
+
+    void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+    // start the SecondScreen and wait for it to finish with a result
+    // final result = await Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => Calendar(),
+    //     ));
+
+
+  }
+
 }

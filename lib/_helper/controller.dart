@@ -23,7 +23,7 @@ class MarksServices {
     });
     if (checkContains.length == 0) {
       print("0 length");
-      myStringList.add(json.encode({"id": "${gradeLevelQuestionID}-${questionId}", "quantity": points}));
+      myStringList.add(json.encode({"id": "${gradeLevelQuestionID}-${questionId}", "results": points}));
       storage.setStringList('resultList', myStringList);
     }
     print("myStringList");
@@ -37,6 +37,19 @@ class MarksServices {
     return myStringList;
   }
 
+    // get result list from local storage
+  Future<int> getCorrectAnswers() async{
+    var correctAnswers = 0;
+    SharedPreferences storage = await SharedPreferences.getInstance();
+    final myStringList = storage.getStringList('resultList') ?? [];
+
+   for(var data in myStringList){
+      int result = jsonDecode(data)['results'];
+      correctAnswers = correctAnswers + result;
+   }
+   return correctAnswers;
+  }
+
   // Find total marks and average
   Future<double> findAverage(questionLength) async {
     var correctAnswers = 0;
@@ -44,7 +57,7 @@ class MarksServices {
     final myStringList = storage.getStringList('resultList') ?? [];
 
    for(var data in myStringList){
-      int result = jsonDecode(data)['quantity'];
+      int result = jsonDecode(data)['results'];
       correctAnswers = correctAnswers + result;
    }
     print("total - ${correctAnswers}");
@@ -59,9 +72,6 @@ class MarksServices {
     SharedPreferences storage = await SharedPreferences.getInstance();
     storage.remove("results");
     storage.remove("resultList");
-    storage.remove("info");
-    storage.remove("my_string_list_key");
-    
   }
 
   // API update result on DB
@@ -81,6 +91,7 @@ class MarksServices {
       bodyRoutes = json.decode(res.body);
       print(bodyRoutes);
 
+      //delete list
       deleteAllLocalStorage();
 
     } catch (e) {

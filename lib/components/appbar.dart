@@ -1,9 +1,9 @@
+import 'package:deaf_app/_helper/sharedPreference.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String bacKText;
-  final String username;
   final AppBar? appBar;
   final List<Widget>? widgets;
 
@@ -12,11 +12,10 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   const BaseAppBar(
       {Key? key,
       required this.bacKText,
-      required this.username,
       this.appBar,
       this.widgets})
       : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -60,13 +59,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Text(
-                username,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16.0,
-                ),
-              ),
+              child: UserName(),
             ),
             Container(
               margin: const EdgeInsets.only(right: 30.0, top: 0.0),
@@ -88,4 +81,45 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => new Size.fromHeight(appBar!.preferredSize.height);
+}
+
+class UserName extends StatefulWidget {
+  const UserName({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<UserName> createState() => _UserNameState();
+}
+
+class _UserNameState extends State<UserName> {
+  String? userName;
+  bool loader = false;
+
+  getUserName() async {
+    setState(() {
+      loader = true;
+    });
+    userName = await MySharedPreferences.instance.getStringValue("userName");
+    setState(() {
+      loader = false;
+    });
+  }
+
+  @override
+  void initState() {
+    getUserName();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+     loader? "" : "${userName}",
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 16.0,
+      ),
+    );
+  }
 }

@@ -47,7 +47,6 @@ class _GradePageState extends State<GradePage> {
       key: _scaffoldKey,
       appBar: BaseAppBar(
         bacKText: "திரும்பி செல்",
-        username: 'நிக்கி',
         appBar: AppBar(),
       ),
       body: Container(

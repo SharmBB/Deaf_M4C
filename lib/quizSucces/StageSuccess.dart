@@ -1,25 +1,26 @@
+import 'package:deaf_app/Subject/subject.dart';
+import 'package:deaf_app/_helper/controller.dart';
+import 'package:deaf_app/components/appbar.dart';
 import 'package:deaf_app/questionLock/Lock.dart';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 
 import '../constants.dart';
 
-class Stage4 extends StatefulWidget {
-     Stage4({Key? key, required this.persentage,required this.max,required this.correct}) : super(key: key);
-
-  final double persentage;
-  final int max;
-  final int correct;
+class StageSuccess extends StatefulWidget {
+  StageSuccess({Key? key,required this.totalQuestions,required this.correctAnswers, required this.successPercent}) : super(key: key);
+  final int totalQuestions;
+  final int correctAnswers;
+  final double successPercent;
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<Stage4> {
+class _HomePageState extends State<StageSuccess> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  MarksServices marksServices = MarksServices();
   Color getColor(Set<MaterialState> states) {
     const Set<MaterialState> interactiveStates = <MaterialState>{
       MaterialState.pressed,
@@ -38,36 +39,10 @@ class _HomePageState extends State<Stage4> {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LockPage(nilai: 3,next_nilai: 4,)),
-              );
-            },
-          ),
-          leadingWidth: 70,
-          actions: [
-            Container(
-                margin: const EdgeInsets.only(right: 30.0, top: 10.0),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: new SvgPicture.asset(
-                    'assets/images/Group 86.svg',
-                    width: 50.0,
-                    height: 50.0,
-                    allowDrawingOutsideViewBox: true,
-                  ),
-                )),
-          ],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
+        appBar: BaseAppBar(
+        bacKText: "திரும்பி செல்",
+        appBar: AppBar(),
+      ),
         body: Stack(children: [
           Center(
               child: new Form(
@@ -75,7 +50,7 @@ class _HomePageState extends State<Stage4> {
             SizedBox(height: screenHeight * (1 / 20)),
             Container(
               child: new Image.asset(
-                "assets/png/Stage4.png",
+                "assets/png/Stage1.png",
               ),
             ),
             SizedBox(height: screenHeight * (1 / 20)),
@@ -83,15 +58,13 @@ class _HomePageState extends State<Stage4> {
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "நீங்கள் ${widget.correct} இல் ${widget.max} க்கு ${widget.persentage.floor()}% சரியாக ",
+                "நீங்கள் ${widget.totalQuestions} இல் ${widget.correctAnswers} க்கு ${widget.successPercent}% சரியாக ",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold),
               ),
-            )
-        
-                ),
+            )),
             Container(
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -112,7 +85,9 @@ class _HomePageState extends State<Stage4> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Icon(Icons.done),
+                      Icon(
+                        Icons.done,
+                      ),
                     ],
                   ),
                 ),
@@ -127,19 +102,24 @@ class _HomePageState extends State<Stage4> {
                     padding: const EdgeInsets.only(top: 0),
                     child: ConstrainedBox(
                       constraints:
-                          BoxConstraints.tightFor(width: screenWidth*1.0, height: 80),
+                          BoxConstraints.tightFor(width: screenWidth*1.0, height: 75),
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => LockPage(nilai: 4,next_nilai: 5,)),
-                          );
-                        },
+                          // Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => SubjectPage()),
+                          //     );
+                          marksServices.deleteAllLocalStorage();
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.pop(context, "success");
+                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'நிலை 4 வரை',
+                              'நிலை 1 வரை',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16.0,

@@ -64,7 +64,7 @@ class _Screen2State extends State<Screen2> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SubjectPage(title: '')),
+                                builder: (context) => SubjectPage()),
                           );
                         },
                         child: Row(

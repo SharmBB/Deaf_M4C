@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:deaf_app/Screen/Screen1.dart';
+import 'package:deaf_app/Subject/subject.dart';
+import 'package:deaf_app/_helper/sharedPreference.dart';
 import 'package:deaf_app/api/api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../constants.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,145 +16,118 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  GlobalKey<FormState> formKey = new GlobalKey();
+  final formKey = new GlobalKey<FormState>();
 
   TextEditingController _emailController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
 
-  String? email, password;
-
-  bool showPassword = true;
-
   bool _validate = false;
-  //initialize list for add subjects from API
-  List<dynamic> _foundUsers = [];
-  List _UsersFromDB = [];
-  List user = [];
 
-  String? usernameDB;
-
-// loader
+  // loader
   bool _isLoading = false;
-  List orderAdd = [];
 
   @override
   initState() {
-    _apiGetUsers();
-    addItems();
     super.initState();
   }
-
-  addItems() {
-    for (var i = 0; i < _foundUsers.length; i++) {
-      orderAdd.add({
-        _foundUsers[i]["name"],
-        // "quantity": _cart[i]["numberofPacks"]
-      });
-    }
-    // print(addItems());
-    print("object");
-    print(orderAdd);
-  }
-
-  void performLogin() {
-    final snackbar = new SnackBar(
-      content: new Text("Email : $email, password : $password"),
-    );
-    scaffoldKey.currentState!.showSnackBar(snackbar);
-  }
-
-  var mac = "24234.52345.354345";
 
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         //     resizeToAvoidBottomInset: false,
-        body: Stack(children: [
-      Center(
-          child: new Form(
-              key: formKey,
-              //   autovalidate: _validate,
-              child: new Column(children: <Widget>[
-                SizedBox(height: screenHeight * (2 / 20)),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 25),
-                    child: Text(
-                      'உள்நுழைக',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: kPrimaryDarkColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                SizedBox(height: screenHeight * (2.5 / 20)),
-
-                Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Container(
-                      child: Column(
-                    children: <Widget>[
-                      nameInput(),
-                      SizedBox(height: screenHeight * (0.5 / 20)),
-                      telephoneInput(),
-                      SizedBox(height: screenHeight * (5 / 20)),
-                    ],
-                  )),
-                ),
-
-                Container(
-                  child: SvgPicture.asset(
-                    "assets/images/arrow.svg",
-                  ),
-                ),
-                // SizedBox(height: 60.0),
-              ]))),
-      SafeArea(
-        child: Align(
-            alignment: Alignment.bottomCenter,
-            child: ConstrainedBox(
-              constraints:
-                  BoxConstraints.tightFor(width: screenWidth * 1.0, height: 75),
-
-              child: ElevatedButton(
-                onPressed: () {
-                  onClick();
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Screen1()),
-                  // );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'உள்நுழைக',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.0,
+        body: Stack(
+          children: [
+            Center(
+              child: new Form(
+                key: formKey,
+                autovalidateMode: AutovalidateMode.always,
+                child: new Column(
+                  children: <Widget>[
+                    SizedBox(height: screenHeight * (2 / 20)),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: Text(
+                          'உள்நுழைக',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: kPrimaryDarkColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
+                    SizedBox(height: screenHeight * (1.5 / 20)),
+                    Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            nameInput(),
+                            SizedBox(height: screenHeight * (0.5 / 20)),
+                            telephoneInput(),
+                            SizedBox(height: screenHeight * (4 / 20)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: SvgPicture.asset(
+                        "assets/images/arrow.svg",
+                      ),
+                    ),
+                    // SizedBox(height: 60.0),
                   ],
                 ),
-                style: ElevatedButton.styleFrom(
-                  primary: kPrimaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
+              ),
+            ),
+            SafeArea(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints.tightFor(
+                      width: screenWidth * 1.0, height: 75),
+
+                  child: ElevatedButton(
+                    onPressed: () {
+                      onClick();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _isLoading ? CircularProgressIndicator(
+                          color: Colors.white,
+                        ) : Text(
+                          'உள்நுழைக',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: kPrimaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                        ),
+                      ),
                     ),
                   ),
+                  //   ),
                 ),
               ),
-              //   ),
-            )),
-      )
-    ]));
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget nameInput() {
@@ -183,9 +155,6 @@ class _LoginPageState extends State<LoginPage> {
           return null;
         }
       },
-      onSaved: (String? val) {
-        email = val;
-      },
       controller: _emailController,
     );
   }
@@ -194,16 +163,13 @@ class _LoginPageState extends State<LoginPage> {
     return TextFormField(
       keyboardType: TextInputType.number,
       validator: (value) {
-        RegExp regex = new RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
+        RegExp regex = new RegExp(r'(^(?:[+0]9)?[0-9]{9,10}$)');
         if (value!.length == 0) {
           return 'Telephone Number Required';
         } else if (!regex.hasMatch(value)) {
           return 'Enter Valid Telephone Number';
         }
         return null;
-      },
-      onSaved: (String? val) {
-        password = val;
       },
       controller: _passwordController,
       textInputAction: TextInputAction.next,
@@ -227,6 +193,7 @@ class _LoginPageState extends State<LoginPage> {
       // scaffoldKey.currentState!.showSnackBar(snackbar);
 
     } else {
+      print("validate error");
       setState(() {
         _validate = true;
       });
@@ -235,75 +202,25 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleLogin() async {
     setState(() {
-      //  _isLoading = true;
+       _isLoading = true;
     });
     try {
       var data = {
         "name": _emailController.text,
         "phone": _passwordController.text,
-        "mac": mac,
+        "mac": "0.0.0.0",
       };
-
-      var res = await CallApi().postData(data, 'users');
-
+      
+      var res = await CallApi().postData(data, 'users/register');
       var body = json.decode(res.body);
-      print(body);
-      print(body['phone']);
+      MySharedPreferences.instance.setIntValue("userId", body['data']['id']);
+      MySharedPreferences.instance.setStringValue("userName", body['data']['name']);
+      // await MySharedPreferences.instance.getIntValue("userId");
+      // await MySharedPreferences.instance.getStringValue("userName");
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (BuildContext context) => SubjectPage()),
+      );
 
-      if (body['phone'] != user) {
-        // SharedPreferences localStorage = await SharedPreferences.getInstance();
-        // var phoneNumber = body['phone'];
-        // localStorage.setString('phone', phoneNumber);
-        // print(phoneNumber);
-        // print("------------");
-        // print(orderAdd);
-        // print(body);
-        // print(body);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => Screen1()),
-        );
-      } else {
-        print("error");
-      }
-    } catch (e) {
-      print(e);
-    }
-    setState(() {
-      //_isLoading = false;
-    });
-  }
-
-  //get subjects details from api
-  void _apiGetUsers() async {
-    setState(() {
-      // _isLoading = true;
-    });
-    try {
-      _UsersFromDB.clear();
-      var bodyRoutes;
-      var res = await CallApi().getAllUsers('users');
-      bodyRoutes = json.decode(res.body);
-
-      // Add subjects to _SubjectsFromDB List
-      _UsersFromDB.add(bodyRoutes);
-      _foundUsers = _UsersFromDB[0];
-      for (var i = 0; i < _foundUsers.length; i++) {
-        SharedPreferences localStorage = await SharedPreferences.getInstance();
-        user.add({'no': _foundUsers[i]['id'].toString()});
-        // var phoneNumber = user[i]['no'];
-        // localStorage.setString('no', phoneNumber).toString();
-        // print(phoneNumber);
-        // print("------------");
-        // print(phoneNumber);
-
-        // print(user);
-      }
-
-      // print(user);
-      // print("nckjn");
-      // print(_foundUsers);
-      // print("nckjn");
-      // print(ph)
     } catch (e) {
       print(e);
     }

@@ -8,6 +8,8 @@ import 'package:deaf_app/components/CorrectOrWrongCheck.dart';
 import 'package:deaf_app/components/SubmitBtn.dart';
 import 'package:deaf_app/components/appbar.dart';
 import 'package:deaf_app/constants.dart';
+import 'package:deaf_app/quizSucces/StageFail.dart';
+import 'package:deaf_app/quizSucces/StageSuccess.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,10 +23,11 @@ class QuizType3 extends StatefulWidget {
   final String image;
   final String gradeLevelQuestionID;
   final int questionLength;
+  final int questionIndex;
   final int gradeid;
   final int level;
   QuizType3(
-      {key, required this.questionId, required this.title, required this.image, required this.gradeLevelQuestionID, required this.questionLength, required this.gradeid, required this.level})
+      {key, required this.questionId, required this.title, required this.image, required this.gradeLevelQuestionID, required this.questionLength, required this.gradeid, required this.level, required this.questionIndex})
       : super(key: key);
 
   @override
@@ -82,7 +85,6 @@ class _Quiz1PageState extends State<QuizType3> {
       key: _scaffoldKey,
       appBar: BaseAppBar(
         bacKText: "திரும்பி செல்",
-        username: 'நிக்கி',
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
@@ -94,7 +96,7 @@ class _Quiz1PageState extends State<QuizType3> {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: Breadcrumbs(
-                    title: 'நிலை 3 > கேள்வி 1',
+                    title: 'நிலை ${widget.level} > கேள்வி ${widget.questionIndex+1}',
                   ),
                 ),
                 // Padding(
@@ -217,17 +219,42 @@ class _Quiz1PageState extends State<QuizType3> {
                   child: SubmitBtn(
                     function: () async{
                       if (userSelectedAnswer != null) {
-                        setState(() {
-                          isAnswerCheck = true;
-                          marksServices.addResults(widget.gradeLevelQuestionID, widget.questionId, isAnswer);
-                        });
-                        var resultList = await marksServices.getResultList();
-                        var finalResult = await marksServices.findAverage(widget.questionLength);
-                        if(widget.questionLength == resultList.length){
-                          print(finalResult);
+                    setState(() {
+                      print("finalResult");
+                      isAnswerCheck = true;
+                      marksServices.addResults(widget.gradeLevelQuestionID, widget.questionId, isAnswer);
+                    });
+
+                    var resultList = await marksServices.getResultList();
+                    var finalResult =
+                        await marksServices.findAverage(widget.questionLength);
+                        
+                    if(widget.questionLength == resultList.length){
+                      print(finalResult);
+                      double successPercent = await marksServices.findAverage(widget.questionLength);
+                      int correctAnswers = await marksServices.getCorrectAnswers();
+
+                      if(successPercent > 50){
                           marksServices.apiUpdateResult(widget.gradeid, finalResult, widget.level);
-                        }
+                          // navigate to success or fail page
+                          double successPercent = await marksServices.findAverage(widget.questionLength);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StageSuccess(correctAnswers: correctAnswers, totalQuestions: widget.questionLength, successPercent: successPercent,),
+                            ),
+                          );
+                      } else {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StageFail(correctAnswers: correctAnswers, totalQuestion: widget.questionLength, successPercent: successPercent),
+                            ),
+                          );
                       }
+                    }
+                    
+                  }
                     },
                   ),
                 ),

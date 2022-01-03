@@ -62,7 +62,6 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
       key: _scaffoldKey,
       appBar: BaseAppBar(
         bacKText: "திரும்பி செல்",
-        username: 'நிக்கி',
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
@@ -216,8 +215,6 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             QuestionLockPage(
-                                                                nilai: 0,
-                                                                next_nilai: 0,
                                                                 gradeid: widget
                                                                     .idForGetTerms,
                                                                 level: widget

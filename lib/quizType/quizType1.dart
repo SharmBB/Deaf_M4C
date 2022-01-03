@@ -6,6 +6,8 @@ import 'package:deaf_app/components/Breadcrumps.dart';
 import 'package:deaf_app/components/CorrectOrWrongCheck.dart';
 import 'package:deaf_app/components/SubmitBtn.dart';
 import 'package:deaf_app/components/appbar.dart';
+import 'package:deaf_app/quizSucces/StageSuccess.dart';
+import 'package:deaf_app/quizSucces/Stagefail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,6 +18,7 @@ class QuizType1 extends StatefulWidget {
   final String image;
   final String gradeLevelQuestionID;
   final int questionLength;
+  final int questionIndex;
   final int gradeid;
   final int level;
   QuizType1(
@@ -25,7 +28,7 @@ class QuizType1 extends StatefulWidget {
       required this.gradeLevelQuestionID,
       required this.questionLength,
       required this.gradeid,
-      required this.level})
+      required this.level, required this.questionIndex})
       : super(key: key);
 
   @override
@@ -74,7 +77,6 @@ class _Quiz1PageState extends State<QuizType1> {
       key: _scaffoldKey,
       appBar: BaseAppBar(
         bacKText: "திரும்பி செல்",
-        username: 'நிக்கி',
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
@@ -87,7 +89,7 @@ class _Quiz1PageState extends State<QuizType1> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Breadcrumbs(
-                title: 'நிலை 1 > கேள்வி 1',
+                title: 'நிலை ${widget.level} > கேள்வி ${widget.questionIndex+1}',
               ),
             ),
             // Padding(
@@ -188,23 +190,43 @@ class _Quiz1PageState extends State<QuizType1> {
             Visibility(
               visible: !_isLoading,
               child: SubmitBtn(
-                function: () async {
+                function: () async {    
                   if (userSelectedAnswer != null) {
                     setState(() {
                       print("finalResult");
                       isAnswerCheck = true;
-                      marksServices.addResults(
-                              widget.gradeLevelQuestionID, widget.questionId, isAnswer);
-                         
+                      marksServices.addResults(widget.gradeLevelQuestionID, widget.questionId, isAnswer);
                     });
 
                     var resultList = await marksServices.getResultList();
                     var finalResult =
                         await marksServices.findAverage(widget.questionLength);
+                        
                     if(widget.questionLength == resultList.length){
                       print(finalResult);
-                      marksServices.apiUpdateResult(widget.gradeid, finalResult, widget.level);
+                      double successPercent = await marksServices.findAverage(widget.questionLength);
+                      int correctAnswers = await marksServices.getCorrectAnswers();
+
+                      if(successPercent > 50){
+                          marksServices.apiUpdateResult(widget.gradeid, finalResult, widget.level);
+                          // navigate to success or fail page
+                          double successPercent = await marksServices.findAverage(widget.questionLength);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StageSuccess(correctAnswers: correctAnswers, totalQuestions: widget.questionLength, successPercent: successPercent,),
+                            ),
+                          );
+                      } else {
+                         Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StageFail(correctAnswers: correctAnswers, totalQuestion: widget.questionLength, successPercent: successPercent),
+                            ),
+                          );
+                      }
                     }
+                    
                   }
                 },
               ),

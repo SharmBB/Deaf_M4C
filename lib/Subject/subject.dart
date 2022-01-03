@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:deaf_app/_helper/sharedPreference.dart';
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/constants.dart';
 import 'package:deaf_app/grade/grade.dart';
@@ -11,9 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SubjectPage extends StatefulWidget {
-  SubjectPage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  SubjectPage({Key? key}) : super(key: key);
 
   @override
   _SubjectPageState createState() => _SubjectPageState();
@@ -21,28 +20,15 @@ class SubjectPage extends StatefulWidget {
 
 class _SubjectPageState extends State<SubjectPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  String userName = "";
 
-  Color getColor(Set<MaterialState> states) {
-    const Set<MaterialState> interactiveStates = <MaterialState>{
-      MaterialState.pressed,
-      MaterialState.hovered,
-      MaterialState.focused,
-    };
-    if (states.any(interactiveStates.contains)) {
-      return Colors.red;
-    }
-    return Colors.grey;
-  }
-
-//initialize list for add subjects from API
-  // List<dynamic> _foundSubject = [];
   List _SubjectsFromDB = [];
 
 // loader
   bool _isLoading = false;
 
   @override
-  initState() {
+  initState()  {
     _apiGetSubjects();
     super.initState();
   }
@@ -106,7 +92,7 @@ class _SubjectPageState extends State<SubjectPage> {
                       fontSize: 15,
                     ),
                   )),
-              new Text('நிக்கி.',
+              new Text('${userName}.',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 18.0,
@@ -186,33 +172,23 @@ class _SubjectPageState extends State<SubjectPage> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextButton(
-                        style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.resolveWith(getColor),
-                          overlayColor:
-                              MaterialStateProperty.all(Colors.transparent),
-                        ),
-                        onPressed: () {},
+                      GestureDetector(
+                        onTap: (){},
                         child: Text(
                           'வகைகள்  ',
                           style: GoogleFonts.muktaMalar(
                             fontSize: 18,
+                            color: Colors.grey
                           ),
                         ),
                       ),
-                      TextButton(
-                        style: ButtonStyle(
-                          foregroundColor:
-                              MaterialStateProperty.resolveWith(getColor),
-                          overlayColor:
-                              MaterialStateProperty.all(Colors.transparent),
-                        ),
-                        onPressed: () {},
+                      GestureDetector(
+                        onTap: (){},
                         child: Text(
                           'அனைத்தையும் காட்டு',
                           style: GoogleFonts.muktaMalar(
                             fontSize: 18,
+                            color: Colors.grey
                           ),
                         ),
                       ),
@@ -228,20 +204,20 @@ class _SubjectPageState extends State<SubjectPage> {
                         shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          // childAspectRatio: 9/10,
                           mainAxisSpacing: 5.0,
-                          // crossAxisSpacing: 25.0
                         ),
                         itemCount: _SubjectsFromDB[0].length,
                         itemBuilder: (BuildContext context, int index) =>
                             GestureDetector(
                           onTap: () {
                             Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => GradePage(
-                                        idForGetSubjects: _SubjectsFromDB[0][index]['id']),
-                                  ));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GradePage(
+                                    idForGetSubjects: _SubjectsFromDB[0][index]
+                                        ['id']),
+                              ),
+                            );
                           },
                           child: Container(
                             padding: EdgeInsets.all(10),
@@ -292,6 +268,7 @@ class _SubjectPageState extends State<SubjectPage> {
 
 //get subjects details from api
   void _apiGetSubjects() async {
+    userName = await MySharedPreferences.instance.getStringValue("userName");
     setState(() {
       _isLoading = true;
     });
