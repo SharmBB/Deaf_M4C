@@ -4,7 +4,6 @@ import 'package:deaf_app/api/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MarksServices {
-
   // set user id - this should be add when user login but now I'm using this for dev purpose
   userSet() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
@@ -23,7 +22,8 @@ class MarksServices {
     });
     if (checkContains.length == 0) {
       print("0 length");
-      myStringList.add(json.encode({"id": "${gradeLevelQuestionID}-${questionId}", "results": points}));
+      myStringList.add(json.encode(
+          {"id": "${gradeLevelQuestionID}-${questionId}", "results": points}));
       storage.setStringList('resultList', myStringList);
     }
     print("myStringList");
@@ -31,23 +31,23 @@ class MarksServices {
   }
 
   // get result list from local storage
-  Future getResultList() async{
+  Future getResultList() async {
     SharedPreferences storage = await SharedPreferences.getInstance();
     final myStringList = storage.getStringList('resultList') ?? [];
     return myStringList;
   }
 
-    // get result list from local storage
-  Future<int> getCorrectAnswers() async{
+  // get result list from local storage
+  Future<int> getCorrectAnswers() async {
     var correctAnswers = 0;
     SharedPreferences storage = await SharedPreferences.getInstance();
     final myStringList = storage.getStringList('resultList') ?? [];
 
-   for(var data in myStringList){
+    for (var data in myStringList) {
       int result = jsonDecode(data)['results'];
       correctAnswers = correctAnswers + result;
-   }
-   return correctAnswers;
+    }
+    return correctAnswers;
   }
 
   // Find total marks and average
@@ -56,10 +56,10 @@ class MarksServices {
     SharedPreferences storage = await SharedPreferences.getInstance();
     final myStringList = storage.getStringList('resultList') ?? [];
 
-   for(var data in myStringList){
+    for (var data in myStringList) {
       int result = jsonDecode(data)['results'];
       correctAnswers = correctAnswers + result;
-   }
+    }
     print("total - ${correctAnswers}");
     var average = (100 / questionLength) * correctAnswers;
     print("average - ${average}");
@@ -93,11 +93,8 @@ class MarksServices {
 
       //delete list
       deleteAllLocalStorage();
-
     } catch (e) {
       print(e);
     }
   }
-
-
 }

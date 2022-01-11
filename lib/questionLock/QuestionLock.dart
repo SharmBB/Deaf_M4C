@@ -105,10 +105,9 @@ class _LockPageState extends State<QuestionLockPage> {
                                         )),
                               );
                               print("------------${result}------------");
-                              if(result != null){
+                              if (result != null) {
                                 _apiLockCheck();
                               }
-
                             }
                           },
                           child: Padding(
@@ -242,8 +241,8 @@ class _LockPageState extends State<QuestionLockPage> {
       bodyRoutes = json.decode(res.body);
       print(bodyRoutes);
       bodyRoutes.forEach((data) => {
-          _lockCheck.add({"level": data['level'], "result": data['result']})
-      });
+            _lockCheck.add({"level": data['level'], "result": data['result']})
+          });
 
       print(_lockCheck);
     } catch (e) {
@@ -254,15 +253,12 @@ class _LockPageState extends State<QuestionLockPage> {
     });
   }
 
-    void _awaitReturnValueFromSecondScreen(BuildContext context) async {
+  void _awaitReturnValueFromSecondScreen(BuildContext context) async {
     // start the SecondScreen and wait for it to finish with a result
     // final result = await Navigator.push(
     //     context,
     //     MaterialPageRoute(
     //       builder: (context) => Calendar(),
     //     ));
-
-
   }
-
 }

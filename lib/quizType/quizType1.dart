@@ -106,7 +106,7 @@ class _Quiz1PageState extends State<QuizType1> {
               ),
             ),
             CachedNetworkImage(
-              height: 300,
+              height: 150,
               // width: 160,
               imageUrl: image + widget.image,
               imageBuilder: (context, imageProvider) => Container(
@@ -212,7 +212,7 @@ class _Quiz1PageState extends State<QuizType1> {
                       int correctAnswers =
                           await marksServices.getCorrectAnswers();
 
-                      if (successPercent > 50) {
+                      if (successPercent >= 50) {
                         marksServices.apiUpdateResult(
                             widget.gradeid, finalResult, widget.level);
                         // navigate to success or fail page
