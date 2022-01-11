@@ -52,69 +52,69 @@ class _GradePageState extends State<GradePage> {
       body: Container(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10, right: 20, left: 20),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: kPrimaryGreyColor,
-                        prefixIcon: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20, right: 20.0),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.grey,
-                            )),
-                        suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 20.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Container(
-                                    height: 30,
-                                    width: 40,
-                                    child: VerticalDivider(
-                                      color: Colors.grey,
-                                      thickness: 1,
-                                    )),
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Colors.black,
-                                )
-                              ],
-                            )),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15.0),
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15.0),
-                          ),
-                          borderSide: BorderSide(
-                            color: kPrimaryGreyColor,
-                            width: 2,
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.all(25.0),
-                        filled: true,
-                        hintText: 'தேடு',
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 10, right: 20, left: 20),
+            //   child: Column(
+            //     children: [
+            //       Padding(
+            //         padding: const EdgeInsets.only(top: 10.0),
+            //         child: TextField(
+            //           decoration: InputDecoration(
+            //             border: InputBorder.none,
+            //             fillColor: kPrimaryGreyColor,
+            //             prefixIcon: Padding(
+            //                 padding:
+            //                     const EdgeInsets.only(left: 20, right: 20.0),
+            //                 child: Icon(
+            //                   Icons.search,
+            //                   color: Colors.grey,
+            //                 )),
+            //             suffixIcon: Padding(
+            //                 padding: const EdgeInsets.only(right: 20.0),
+            //                 child: Row(
+            //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //                   mainAxisSize: MainAxisSize.min,
+            //                   children: <Widget>[
+            //                     Container(
+            //                         height: 30,
+            //                         width: 40,
+            //                         child: VerticalDivider(
+            //                           color: Colors.grey,
+            //                           thickness: 1,
+            //                         )),
+            //                     Icon(
+            //                       Icons.keyboard_arrow_down,
+            //                       color: Colors.black,
+            //                     )
+            //                   ],
+            //                 )),
+            //             enabledBorder: OutlineInputBorder(
+            //               borderRadius: BorderRadius.all(
+            //                 Radius.circular(15.0),
+            //               ),
+            //               borderSide: BorderSide(
+            //                 color: Colors.white,
+            //                 width: 2,
+            //               ),
+            //             ),
+            //             focusedBorder: OutlineInputBorder(
+            //               borderRadius: BorderRadius.all(
+            //                 Radius.circular(15.0),
+            //               ),
+            //               borderSide: BorderSide(
+            //                 color: kPrimaryGreyColor,
+            //                 width: 2,
+            //               ),
+            //             ),
+            //             contentPadding: EdgeInsets.all(25.0),
+            //             filled: true,
+            //             hintText: 'தேடு',
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             !_isLoading
                 ? _GradesFromDB.length == 0
                     ? Padding(
@@ -123,7 +123,8 @@ class _GradePageState extends State<GradePage> {
                       )
                     : Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20.0, horizontal: 20),
                           //list
                           child: ListView.builder(
                             itemCount: _GradesFromDB[0].length,
@@ -141,10 +142,11 @@ class _GradePageState extends State<GradePage> {
                                                 builder: (context) =>
                                                     SubSubjectPage(
                                                       idForGetTerms:
-                                                          _GradesFromDB[0][index]
-                                                              ['id'],
+                                                          _GradesFromDB[0]
+                                                              [index]['id'],
                                                       noOfLevels:
-                                                          _GradesFromDB[0][index]
+                                                          _GradesFromDB[0]
+                                                                  [index]
                                                               ['no_of_levels'],
                                                       title: "",
                                                     )));
@@ -181,9 +183,9 @@ class _GradePageState extends State<GradePage> {
                         ),
                       )
                 : Padding(
-                  padding: const EdgeInsets.only(top: 50),
-                  child: CupertinoActivityIndicator(),
-                ),
+                    padding: const EdgeInsets.only(top: 50),
+                    child: CupertinoActivityIndicator(),
+                  ),
           ],
         ),
       ),
@@ -204,10 +206,9 @@ class _GradePageState extends State<GradePage> {
 
       // Add grades from body to _GradesFromDB List
       print(bodyRoutes);
-      if(bodyRoutes['errorMessage'] == true){
+      if (bodyRoutes['errorMessage'] == true) {
         _GradesFromDB.add(bodyRoutes['data']);
       }
-      
     } catch (e) {
       print(e);
     }

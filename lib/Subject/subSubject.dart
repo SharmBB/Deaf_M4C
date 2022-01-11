@@ -72,62 +72,62 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
               padding: const EdgeInsets.only(top: 20, left: 20, right: 20.0),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: kPrimaryGreyColor,
-                        prefixIcon: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 20, right: 20.0),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.grey,
-                            )),
-                        suffixIcon: Padding(
-                            padding: const EdgeInsets.only(right: 20.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Container(
-                                    height: 30,
-                                    width: 40,
-                                    child: VerticalDivider(
-                                      color: Colors.grey,
-                                      thickness: 1,
-                                    )),
-                                Icon(
-                                  Icons.keyboard_arrow_down,
-                                  color: Colors.black,
-                                )
-                              ],
-                            )),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15.0),
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.white,
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(15.0),
-                          ),
-                          borderSide: BorderSide(
-                            color: kPrimaryGreyColor,
-                            width: 2,
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.all(25.0),
-                        filled: true,
-                        hintText: 'தேடு',
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(top: 10.0),
+                  //   child: TextField(
+                  //     decoration: InputDecoration(
+                  //       border: InputBorder.none,
+                  //       fillColor: kPrimaryGreyColor,
+                  //       prefixIcon: Padding(
+                  //           padding:
+                  //               const EdgeInsets.only(left: 20, right: 20.0),
+                  //           child: Icon(
+                  //             Icons.search,
+                  //             color: Colors.grey,
+                  //           )),
+                  //       suffixIcon: Padding(
+                  //           padding: const EdgeInsets.only(right: 20.0),
+                  //           child: Row(
+                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //             mainAxisSize: MainAxisSize.min,
+                  //             children: <Widget>[
+                  //               Container(
+                  //                   height: 30,
+                  //                   width: 40,
+                  //                   child: VerticalDivider(
+                  //                     color: Colors.grey,
+                  //                     thickness: 1,
+                  //                   )),
+                  //               Icon(
+                  //                 Icons.keyboard_arrow_down,
+                  //                 color: Colors.black,
+                  //               )
+                  //             ],
+                  //           )),
+                  //       enabledBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.all(
+                  //           Radius.circular(15.0),
+                  //         ),
+                  //         borderSide: BorderSide(
+                  //           color: Colors.white,
+                  //           width: 2,
+                  //         ),
+                  //       ),
+                  //       focusedBorder: OutlineInputBorder(
+                  //         borderRadius: BorderRadius.all(
+                  //           Radius.circular(15.0),
+                  //         ),
+                  //         borderSide: BorderSide(
+                  //           color: kPrimaryGreyColor,
+                  //           width: 2,
+                  //         ),
+                  //       ),
+                  //       contentPadding: EdgeInsets.all(25.0),
+                  //       filled: true,
+                  //       hintText: 'தேடு',
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

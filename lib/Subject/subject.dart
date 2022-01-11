@@ -28,7 +28,7 @@ class _SubjectPageState extends State<SubjectPage> {
   bool _isLoading = false;
 
   @override
-  initState()  {
+  initState() {
     _apiGetSubjects();
     super.initState();
   }
@@ -98,101 +98,97 @@ class _SubjectPageState extends State<SubjectPage> {
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold)),
             ]),
-            Stack(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20.0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          fillColor: kPrimaryGreyColor,
-                          prefixIcon: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20.0),
-                              child: Icon(
-                                Icons.search,
-                                color: Colors.grey,
-                              )),
-                          suffixIcon: Padding(
-                              padding: const EdgeInsets.only(right: 20.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Container(
-                                      height: 30,
-                                      width: 40,
-                                      child: VerticalDivider(
-                                        color: Colors.grey,
-                                        thickness: 1,
-                                      )),
-                                  Icon(
-                                    Icons.keyboard_arrow_down,
-                                    color: Colors.black,
-                                  )
-                                ],
-                              )),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15.0),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                              width: 2,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15.0),
-                            ),
-                            borderSide: BorderSide(
-                              color: kPrimaryGreyColor,
-                              width: 2,
-                            ),
-                          ),
-                          contentPadding: EdgeInsets.all(25.0),
-                          filled: true,
-                          hintText: 'தேடு',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ]),
-            Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 20,
-                ),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: (){},
-                        child: Text(
-                          'வகைகள்  ',
-                          style: GoogleFonts.muktaMalar(
-                            fontSize: 18,
-                            color: Colors.grey
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: (){},
-                        child: Text(
-                          'அனைத்தையும் காட்டு',
-                          style: GoogleFonts.muktaMalar(
-                            fontSize: 18,
-                            color: Colors.grey
-                          ),
-                        ),
-                      ),
-                    ])),
+            // Stack(children: <Widget>[
+            //   Padding(
+            //     padding: const EdgeInsets.only(left: 20, right: 20.0),
+            //     child: Column(
+            //       children: [
+            //         Padding(
+            //           padding: const EdgeInsets.only(top: 10.0),
+            //           child: TextField(
+            //             decoration: InputDecoration(
+            //               border: InputBorder.none,
+            //               fillColor: kPrimaryGreyColor,
+            //               prefixIcon: Padding(
+            //                   padding:
+            //                       const EdgeInsets.only(left: 20, right: 20.0),
+            //                   child: Icon(
+            //                     Icons.search,
+            //                     color: Colors.grey,
+            //                   )),
+            //               suffixIcon: Padding(
+            //                   padding: const EdgeInsets.only(right: 20.0),
+            //                   child: Row(
+            //                     mainAxisAlignment:
+            //                         MainAxisAlignment.spaceBetween,
+            //                     mainAxisSize: MainAxisSize.min,
+            //                     children: <Widget>[
+            //                       Container(
+            //                           height: 30,
+            //                           width: 40,
+            //                           child: VerticalDivider(
+            //                             color: Colors.grey,
+            //                             thickness: 1,
+            //                           )),
+            //                       Icon(
+            //                         Icons.keyboard_arrow_down,
+            //                         color: Colors.black,
+            //                       )
+            //                     ],
+            //                   )),
+            //               enabledBorder: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.all(
+            //                   Radius.circular(15.0),
+            //                 ),
+            //                 borderSide: BorderSide(
+            //                   color: Colors.white,
+            //                   width: 2,
+            //                 ),
+            //               ),
+            //               focusedBorder: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.all(
+            //                   Radius.circular(15.0),
+            //                 ),
+            //                 borderSide: BorderSide(
+            //                   color: kPrimaryGreyColor,
+            //                   width: 2,
+            //                 ),
+            //               ),
+            //               contentPadding: EdgeInsets.all(25.0),
+            //               filled: true,
+            //               hintText: 'தேடு',
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ]),
+            // Padding(
+            //     padding: const EdgeInsets.only(
+            //       left: 20,
+            //       right: 20,
+            //     ),
+            //     child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           GestureDetector(
+            //             onTap: () {},
+            //             child: Text(
+            //               'வகைகள்  ',
+            //               style: GoogleFonts.muktaMalar(
+            //                   fontSize: 18, color: Colors.grey),
+            //             ),
+            //           ),
+            //           GestureDetector(
+            //             onTap: () {},
+            //             child: Text(
+            //               'அனைத்தையும் காட்டு',
+            //               style: GoogleFonts.muktaMalar(
+            //                   fontSize: 18, color: Colors.grey),
+            //             ),
+            //           ),
+            //         ])),
             !_isLoading
                 ? _SubjectsFromDB[0].length == 0
                     ? Padding(

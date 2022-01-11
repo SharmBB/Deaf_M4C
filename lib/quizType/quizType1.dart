@@ -4,6 +4,7 @@ import 'package:deaf_app/_helper/controller.dart';
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/components/Breadcrumps.dart';
 import 'package:deaf_app/components/CorrectOrWrongCheck.dart';
+import 'package:deaf_app/components/NextBeforeBtn.dart';
 import 'package:deaf_app/components/SubmitBtn.dart';
 import 'package:deaf_app/components/appbar.dart';
 import 'package:deaf_app/quizSucces/StageSuccess.dart';
@@ -28,7 +29,8 @@ class QuizType1 extends StatefulWidget {
       required this.gradeLevelQuestionID,
       required this.questionLength,
       required this.gradeid,
-      required this.level, required this.questionIndex})
+      required this.level,
+      required this.questionIndex})
       : super(key: key);
 
   @override
@@ -89,20 +91,20 @@ class _Quiz1PageState extends State<QuizType1> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Breadcrumbs(
-                title: 'நிலை ${widget.level} > கேள்வி ${widget.questionIndex+1}',
+                title:
+                    'நிலை ${widget.level} > கேள்வி ${widget.questionIndex + 1}',
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(vertical: 10),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //     children: [
-            //       NextBeforeBtn(text: 'முந்திய', function: (){}),
-            //       NextBeforeBtn(text: 'அடுத்து', function: (){})
-            //     ],
-            //   ),
-            // ),
-
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  // NextBeforeBtn(text: 'முந்திய', function: () {}),
+                  // NextBeforeBtn(text: 'அடுத்து', function: () {})
+                ],
+              ),
+            ),
             CachedNetworkImage(
               height: 300,
               // width: 160,
@@ -190,43 +192,54 @@ class _Quiz1PageState extends State<QuizType1> {
             Visibility(
               visible: !_isLoading,
               child: SubmitBtn(
-                function: () async {    
+                function: () async {
                   if (userSelectedAnswer != null) {
                     setState(() {
                       print("finalResult");
                       isAnswerCheck = true;
-                      marksServices.addResults(widget.gradeLevelQuestionID, widget.questionId, isAnswer);
+                      marksServices.addResults(widget.gradeLevelQuestionID,
+                          widget.questionId, isAnswer);
                     });
 
                     var resultList = await marksServices.getResultList();
                     var finalResult =
                         await marksServices.findAverage(widget.questionLength);
-                        
-                    if(widget.questionLength == resultList.length){
-                      print(finalResult);
-                      double successPercent = await marksServices.findAverage(widget.questionLength);
-                      int correctAnswers = await marksServices.getCorrectAnswers();
 
-                      if(successPercent > 50){
-                          marksServices.apiUpdateResult(widget.gradeid, finalResult, widget.level);
-                          // navigate to success or fail page
-                          double successPercent = await marksServices.findAverage(widget.questionLength);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => StageSuccess(correctAnswers: correctAnswers, totalQuestions: widget.questionLength, successPercent: successPercent,),
+                    if (widget.questionLength == resultList.length) {
+                      print(finalResult);
+                      double successPercent = await marksServices
+                          .findAverage(widget.questionLength);
+                      int correctAnswers =
+                          await marksServices.getCorrectAnswers();
+
+                      if (successPercent > 50) {
+                        marksServices.apiUpdateResult(
+                            widget.gradeid, finalResult, widget.level);
+                        // navigate to success or fail page
+                        double successPercent = await marksServices
+                            .findAverage(widget.questionLength);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => StageSuccess(
+                              correctAnswers: correctAnswers,
+                              totalQuestions: widget.questionLength,
+                              successPercent: successPercent,
                             ),
-                          );
+                          ),
+                        );
                       } else {
-                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => StageFail(correctAnswers: correctAnswers, totalQuestion: widget.questionLength, successPercent: successPercent),
-                            ),
-                          );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => StageFail(
+                                correctAnswers: correctAnswers,
+                                totalQuestion: widget.questionLength,
+                                successPercent: successPercent),
+                          ),
+                        );
                       }
                     }
-                    
                   }
                 },
               ),
