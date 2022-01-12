@@ -4,6 +4,7 @@ import 'package:deaf_app/_helper/controller.dart';
 import 'package:deaf_app/api/api.dart';
 import 'package:deaf_app/components/Breadcrumps.dart';
 import 'package:deaf_app/components/CorrectOrWrongCheck.dart';
+import 'package:deaf_app/components/NextBeforeBtn.dart';
 import 'package:deaf_app/components/SubmitBtn.dart';
 import 'package:deaf_app/components/appbar.dart';
 import 'package:deaf_app/constants.dart';
@@ -177,6 +178,16 @@ class _Quiz1PageState extends State<QuizType4> {
                         },
                       ),
                     ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    NextBeforeBtn(text: 'முந்திய', function: () {}),
+                    NextBeforeBtn(text: 'அடுத்து', function: () {})
+                  ],
+                ),
+              ),
               Visibility(
                 visible: !_isLoading,
                 child: SubmitBtn(

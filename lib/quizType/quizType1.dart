@@ -95,16 +95,6 @@ class _Quiz1PageState extends State<QuizType1> {
                     'நிலை ${widget.level} > கேள்வி ${widget.questionIndex + 1}',
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  // NextBeforeBtn(text: 'முந்திய', function: () {}),
-                  // NextBeforeBtn(text: 'அடுத்து', function: () {})
-                ],
-              ),
-            ),
             CachedNetworkImage(
               height: 150,
               // width: 160,
@@ -189,6 +179,16 @@ class _Quiz1PageState extends State<QuizType1> {
                         ),
                       );
                     }),
+             Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  NextBeforeBtn(text: 'முந்திய', function: () {}),
+                  NextBeforeBtn(text: 'அடுத்து', function: () {})
+                ],
+              ),
+            ),
             Visibility(
               visible: !_isLoading,
               child: SubmitBtn(

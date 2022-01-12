@@ -184,7 +184,7 @@ class _GradePageState extends State<GradePage> {
                       )
                 : Padding(
                     padding: const EdgeInsets.only(top: 50),
-                    child: CupertinoActivityIndicator(),
+                    child: Center(child: CupertinoActivityIndicator()),
                   ),
           ],
         ),
