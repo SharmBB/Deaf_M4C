@@ -100,19 +100,9 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => QuizType1(
-                                                    image: questionsFromDB[0]
-                                                        [index]['image'],
-                                                    questionId:
-                                                        questionsFromDB[0]
-                                                            [index]['id'],
-                                                    gradeLevelQuestionID:
-                                                        '${widget.gradeid}-${widget.level}',
-                                                    questionLength:
-                                                        questionsFromDB[0]
-                                                            .length,
-                                                    gradeid: widget.gradeid,
-                                                    level: widget.level,
-                                                    questionIndex: index),
+                                                  gradeid: widget.gradeid,
+                                                  level: widget.level,
+                                                ),
                                               ),
                                             );
                                           },

@@ -6,6 +6,7 @@ import 'package:deaf_app/constants.dart';
 import 'package:deaf_app/quiz/quiz1.dart';
 import 'package:deaf_app/quizSucces/StageSuccess.dart';
 import 'package:deaf_app/quizSucces/Stagefail.dart';
+import 'package:deaf_app/quizType/quizType1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -98,12 +99,23 @@ class _LockPageState extends State<QuestionLockPage> {
                               final result = await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Quiz1Page(
-                                          gradeid: widget.gradeid,
-                                          title: "",
-                                          level: index + 1,
-                                        )),
+                                  builder: (context) => QuizType1(
+                                    gradeid: 19,
+                                    level: 1,
+                                    
+                                  ),
+                                ),
                               );
+
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => Quiz1Page(
+                              //             gradeid: widget.gradeid,
+                              //             title: "",
+                              //             level: index + 1,
+                              //           )),
+                              // );
                               print("------------${result}------------");
                               if (result != null) {
                                 _apiLockCheck();
