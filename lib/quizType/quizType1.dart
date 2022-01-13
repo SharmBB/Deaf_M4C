@@ -37,7 +37,7 @@ class _Quiz1PageState extends State<QuizType1> {
   late String image;
   late String gradeLevelQuestionID;
 
-  int currentIndex = 1;
+  int currentIndex = 0;
   int correctAnswerCount = 0;
   List<String> StringQues = [];
 
@@ -183,14 +183,20 @@ class _Quiz1PageState extends State<QuizType1> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        NextBeforeBtn(
-                            text: 'முந்திய',
-                            function: () {
-                              currentIndex--;
-                            }),
+                        currentIndex != 0
+                            ? NextBeforeBtn(
+                                text: 'முந்திய',
+                                function: () {
+                                  currentIndex--;
+                                })
+                            : SizedBox(),
                         NextBeforeBtn(
                             text: 'அடுத்து',
                             function: () {
+                              setState(() {
+                                _isLoading = true;
+                                _apiGetQuestions();
+                              });
                               if (questionLength == currentIndex + 1) {
                                 double successPercent =
                                     (correctAnswerCount.toDouble() /
@@ -239,6 +245,8 @@ class _Quiz1PageState extends State<QuizType1> {
   //get questions from grade ID details from api
   void _apiGetQuestions() async {
     try {
+      userSelectedAnswer = null;
+      isAnswerCheck = false;
       questionsFromDB.clear();
       var bodyRoutes;
       int grade = widget.gradeid;
