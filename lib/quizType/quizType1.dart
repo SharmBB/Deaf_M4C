@@ -135,8 +135,10 @@ class _Quiz1PageState extends State<QuizType1> {
                                   if (_AnswersFromDB[0][index]['is_answer'] ==
                                       1) {
                                     isCorrectAnswer = true;
+                                  } else {
+                                    isCorrectAnswer = false;
                                   }
-                                  print(questionsFromDB[0][currentIndex]["id"]);
+
                                   submitAnswer();
                                 },
                           child: Card(
@@ -212,10 +214,10 @@ class _Quiz1PageState extends State<QuizType1> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => StageSuccess(
-                                        correctAnswers: correctAnswerCount,
-                                        totalQuestions: questionLength,
-                                        successPercent: successPercent,
-                                      ),
+                                          correctAnswers: correctAnswerCount,
+                                          totalQuestions: questionLength,
+                                          successPercent: successPercent,
+                                          level: widget.level),
                                     ),
                                   );
                                 } else {
@@ -293,48 +295,7 @@ class _Quiz1PageState extends State<QuizType1> {
       }
       setState(() {
         isAnswerCheck = true;
-        //marksServices.addResults(gradeLevelQuestionID, questionId, isAnswer);
       });
-
-      // var resultList = await marksServices.getResultList();
-      // var finalResult = await marksServices.findAverage(questionLength);
-
-      //print(resultList);
-
-      // if (questionLength == currentIndex + 1) {
-      //   double successPercent =
-      //       (correctAnswerCount.toDouble() / questionLength) * 100;
-      //   //int correctAnswers = await marksServices.getCorrectAnswers();
-
-      //   print(successPercent);
-      //   print(questionLength);
-      //   print(correctAnswerCount);
-      //   if (successPercent >= 50 && currentIndex + 1 == questionLength) {
-      //     marksServices.apiUpdateResult(
-      //         widget.gradeid, successPercent, widget.level);
-
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (context) => StageSuccess(
-      //           correctAnswers: correctAnswerCount,
-      //           totalQuestions: questionLength,
-      //           successPercent: successPercent,
-      //         ),
-      //       ),
-      //     );
-      //   } else {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (context) => StageFail(
-      //             correctAnswers: correctAnswerCount,
-      //             totalQuestion: questionLength,
-      //             successPercent: successPercent),
-      //       ),
-      //     );
-      //   }
-      // }
     }
   }
 }

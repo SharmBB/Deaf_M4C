@@ -99,15 +99,17 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _isLoading ? CircularProgressIndicator(
-                          color: Colors.white,
-                        ) : Text(
-                          'உள்நுழைக',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          ),
-                        ),
+                        _isLoading
+                            ? CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : Text(
+                                'உள்நுழைக',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.0,
+                                ),
+                              ),
                       ],
                     ),
                     style: ElevatedButton.styleFrom(
@@ -148,9 +150,9 @@ class _LoginPageState extends State<LoginPage> {
       keyboardType: TextInputType.name,
       validator: (value) {
         if (value!.length == 0) {
-          return 'Name Required';
+          return 'பெயர் தேவை';
         } else if (!regex.hasMatch(value)) {
-          return 'Enter Valid Name';
+          return 'சரியான பெயரை உள்ளிடவும்';
         } else {
           return null;
         }
@@ -161,20 +163,20 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget telephoneInput() {
     return TextFormField(
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.name,
       validator: (value) {
-        RegExp regex = new RegExp(r'(^(?:[+0]9)?[0-9]{9,10}$)');
+        RegExp regex = new RegExp("([a-zA-Z',.-]+( [a-zA-Z',.-]+)*){2,30}");
         if (value!.length == 0) {
-          return 'Telephone Number Required';
+          return 'அப்பாவின் பெயர் தேவை';
         } else if (!regex.hasMatch(value)) {
-          return 'Enter Valid Telephone Number';
+          return 'சரியான பெயரை உள்ளிடவும்';
         }
         return null;
       },
       controller: _passwordController,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        hintText: "தொலைபேசி எண்",
+        hintText: "அப்பாவின் பெயர்",
         hintStyle: TextStyle(
             fontSize: 16.0, color: Colors.black, fontWeight: FontWeight.bold),
         fillColor: Colors.black12,
@@ -202,25 +204,25 @@ class _LoginPageState extends State<LoginPage> {
 
   void _handleLogin() async {
     setState(() {
-       _isLoading = true;
+      _isLoading = true;
     });
     try {
       var data = {
         "name": _emailController.text,
-        "phone": _passwordController.text,
+        "last_name": _passwordController.text,
         "mac": "0.0.0.0",
       };
-      
+
       var res = await CallApi().postData(data, 'users/register');
       var body = json.decode(res.body);
       MySharedPreferences.instance.setIntValue("userId", body['data']['id']);
-      MySharedPreferences.instance.setStringValue("userName", body['data']['name']);
+      MySharedPreferences.instance
+          .setStringValue("userName", body['data']['name']);
       // await MySharedPreferences.instance.getIntValue("userId");
       // await MySharedPreferences.instance.getStringValue("userName");
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => SubjectPage()),
+        MaterialPageRoute(builder: (BuildContext context) => SubjectPage()),
       );
-
     } catch (e) {
       print(e);
     }

@@ -116,19 +116,20 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => QuizType2(
-                                                    title: questionsFromDB[0]
-                                                        [index]['title'],
-                                                    questionId:
-                                                        questionsFromDB[0]
-                                                            [index]['id'],
-                                                    gradeLevelQuestionID:
-                                                        '${widget.gradeid}-${widget.level}',
-                                                    questionLength:
-                                                        questionsFromDB[0]
-                                                            .length,
-                                                    gradeid: widget.gradeid,
-                                                    level: widget.level,
-                                                    questionIndex: index),
+                                                  // title: questionsFromDB[0]
+                                                  //     [index]['title'],
+                                                  // questionId:
+                                                  //     questionsFromDB[0]
+                                                  //         [index]['id'],
+                                                  // gradeLevelQuestionID:
+                                                  //     '${widget.gradeid}-${widget.level}',
+                                                  // // questionLength:
+                                                  //     questionsFromDB[0]
+                                                  //         .length,
+                                                  gradeid: widget.gradeid,
+                                                  level: widget.level,
+                                                  //questionIndex: index
+                                                ),
                                               ),
                                             );
                                           },
@@ -143,21 +144,22 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => QuizType3(
-                                                    questionId:
-                                                        questionsFromDB[0]
-                                                            [index]['id'],
-                                                    title: questionsFromDB[0]
-                                                        [index]['title'],
-                                                    image: questionsFromDB[0]
-                                                        [index]['image'],
-                                                    gradeLevelQuestionID:
-                                                        '${widget.gradeid}-${widget.level}',
-                                                    questionLength:
-                                                        questionsFromDB[0]
-                                                            .length,
-                                                    gradeid: widget.gradeid,
-                                                    level: widget.level,
-                                                    questionIndex: index),
+                                                  // questionId:
+                                                  //     questionsFromDB[0]
+                                                  //         [index]['id'],
+                                                  // title: questionsFromDB[0]
+                                                  //     [index]['title'],
+                                                  // image: questionsFromDB[0]
+                                                  //     [index]['image'],
+                                                  // gradeLevelQuestionID:
+                                                  //     '${widget.gradeid}-${widget.level}',
+                                                  // questionLength:
+                                                  //     questionsFromDB[0]
+                                                  //         .length,
+                                                  gradeid: widget.gradeid,
+                                                  level: widget.level,
+                                                  //questionIndex: index
+                                                ),
                                               ),
                                             );
                                           },
@@ -171,19 +173,20 @@ class _Quiz1PageState extends State<Quiz1Page> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) => QuizType4(
-                                                    questionId:
-                                                        questionsFromDB[0]
-                                                            [index]['id'],
-                                                    title: questionsFromDB[0]
-                                                        [index]['title'],
-                                                    gradeLevelQuestionID:
-                                                        '${widget.gradeid}-${widget.level}',
-                                                    questionLength:
-                                                        questionsFromDB[0]
-                                                            .length,
-                                                    gradeid: widget.gradeid,
-                                                    level: widget.level,
-                                                    questionIndex: index),
+                                                  // questionId:
+                                                  //     questionsFromDB[0]
+                                                  //         [index]['id'],
+                                                  // title: questionsFromDB[0]
+                                                  //     [index]['title'],
+                                                  // gradeLevelQuestionID:
+                                                  //     '${widget.gradeid}-${widget.level}',
+                                                  // questionLength:
+                                                  //     questionsFromDB[0]
+                                                  //         .length,
+                                                  gradeid: widget.gradeid,
+                                                  level: widget.level,
+                                                  // questionIndex: index
+                                                ),
                                               ),
                                             );
                                           },

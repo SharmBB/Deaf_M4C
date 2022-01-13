@@ -19,15 +19,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizType4 extends StatefulWidget {
-  final int questionId;
-  final String title;
-  final String gradeLevelQuestionID;
-  final int questionLength;
-  final int questionIndex;
   final int gradeid;
   final int level;
-  QuizType4({key, required this.questionId, required this.title, required this.gradeLevelQuestionID, required this.questionLength, required this.gradeid, required this.level, required this.questionIndex})
-      : super(key: key);
+  QuizType4({
+    key,
+    required this.gradeid,
+    required this.level,
+  }) : super(key: key);
 
   @override
   _Quiz1PageState createState() => _Quiz1PageState();
@@ -36,12 +34,23 @@ class QuizType4 extends StatefulWidget {
 class _Quiz1PageState extends State<QuizType4> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   MarksServices marksServices = MarksServices();
-  
+
   late int gradeid;
+  late String title;
 
   double _persentage = 0;
   int _total = 0;
   List<String> StringQues = [];
+
+  List questionsFromDB = [];
+  late int questionLength;
+  late int questionId;
+
+  late String gradeLevelQuestionID;
+
+  int currentIndex = 0;
+  int correctAnswerCount = 0;
+  bool isCorrectAnswer = false;
 
   String? _answerQNo;
 
@@ -51,7 +60,7 @@ class _Quiz1PageState extends State<QuizType4> {
   bool _hasBeenPressed = false;
   String? _hasBeenPressedValue;
 
-  bool _isLoading = false;
+  bool _isLoading = true;
   int isAnswer = 0;
   bool isAnswerCheck = false;
   int? userSelectedAnswer;
@@ -59,7 +68,7 @@ class _Quiz1PageState extends State<QuizType4> {
 
   @override
   void initState() {
-    _apiGetAnswers();
+    _apiGetQuestions();
     super.initState();
   }
 
@@ -76,23 +85,25 @@ class _Quiz1PageState extends State<QuizType4> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Breadcrumbs(
-                title: 'நிலை ${widget.level} > கேள்வி ${widget.questionIndex+1}',
-              ),
-              SizedBox(height: 40),
-              Text(
-                widget.title,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              _isLoading
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: Center(child: CupertinoActivityIndicator()),
-                    )
-                  : Padding(
+          child: _isLoading
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Center(child: CupertinoActivityIndicator()),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Breadcrumbs(
+                      title:
+                          'நிலை ${widget.level} > கேள்வி ${currentIndex + 1}',
+                    ),
+                    SizedBox(height: 40),
+                    Text(
+                      title,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
@@ -101,14 +112,21 @@ class _Quiz1PageState extends State<QuizType4> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: isAnswerCheck
-                            ? () {}
-                            : () {
-                              setState(() {
-                                isAnswer =
-                                    answersFromDB[0][index]['is_answer'];
-                              });
-                              userSelectedAnswer = index;
-                            },
+                                ? () {}
+                                : () {
+                                    setState(() {
+                                      isAnswer =
+                                          answersFromDB[0][index]['is_answer'];
+                                    });
+                                    userSelectedAnswer = index;
+                                    if (answersFromDB[0][index]['is_answer'] ==
+                                        1) {
+                                      isCorrectAnswer = true;
+                                    } else {
+                                      isCorrectAnswer = false;
+                                    }
+                                    submitAnswer();
+                                  },
                             child: Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
@@ -147,10 +165,12 @@ class _Quiz1PageState extends State<QuizType4> {
                                           padding:
                                               const EdgeInsets.only(left: 12.0),
                                           child: Container(
-                                            width: MediaQuery.of(context).size.width * 0.7,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.7,
                                             child: Text(
-                                              answersFromDB[0][index]
-                                                  ['title'],
+                                              answersFromDB[0][index]['title'],
                                               style: GoogleFonts.muktaMalar(
                                                 fontSize: 20,
                                                 color: Colors.black,
@@ -163,14 +183,14 @@ class _Quiz1PageState extends State<QuizType4> {
                                     ),
                                   ),
                                   Visibility(
-                                      visible: userSelectedAnswer == index,
-                                      child: CorrectOrWrong(
-                                            isAnswerCheck: isAnswerCheck,
-                                            correctAnswer: answersFromDB[0]
-                                                [index]['is_answer'],
-                                            questionType: 2,
-                                          ),
-                                    )
+                                    visible: userSelectedAnswer == index,
+                                    child: CorrectOrWrong(
+                                      isAnswerCheck: isAnswerCheck,
+                                      correctAnswer: answersFromDB[0][index]
+                                          ['is_answer'],
+                                      questionType: 2,
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
@@ -178,82 +198,109 @@ class _Quiz1PageState extends State<QuizType4> {
                         },
                       ),
                     ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    NextBeforeBtn(text: 'முந்திய', function: () {}),
-                    NextBeforeBtn(text: 'அடுத்து', function: () {})
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          currentIndex != 0
+                              ? NextBeforeBtn(
+                                  text: 'முந்திய',
+                                  function: () {
+                                    currentIndex--;
+                                  })
+                              : SizedBox(),
+                          NextBeforeBtn(
+                              text: 'அடுத்து',
+                              function: () {
+                                setState(() {
+                                  _isLoading = true;
+                                  _apiGetQuestions();
+                                });
+                                if (questionLength == currentIndex + 1) {
+                                  double successPercent =
+                                      (correctAnswerCount.toDouble() /
+                                              questionLength) *
+                                          100;
+
+                                  if (successPercent >= 50 &&
+                                      currentIndex + 1 == questionLength) {
+                                    marksServices.apiUpdateResult(
+                                        widget.gradeid,
+                                        successPercent,
+                                        widget.level);
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => StageSuccess(
+                                            correctAnswers: correctAnswerCount,
+                                            totalQuestions: questionLength,
+                                            successPercent: successPercent,
+                                            level: widget.level),
+                                      ),
+                                    );
+                                  } else {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => StageFail(
+                                            correctAnswers: correctAnswerCount,
+                                            totalQuestion: questionLength,
+                                            successPercent: successPercent),
+                                      ),
+                                    );
+                                  }
+                                } else {
+                                  currentIndex++;
+                                }
+                              })
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              Visibility(
-                visible: !_isLoading,
-                child: SubmitBtn(
-                  function: () async{
-                    if (userSelectedAnswer != null) {
-                    setState(() {
-                      print("finalResult");
-                      isAnswerCheck = true;
-                      marksServices.addResults(widget.gradeLevelQuestionID, widget.questionId, isAnswer);
-                    });
-
-                    var resultList = await marksServices.getResultList();
-                    var finalResult =
-                        await marksServices.findAverage(widget.questionLength);
-                        
-                    if(widget.questionLength == resultList.length){
-                      print(finalResult);
-                      double successPercent = await marksServices.findAverage(widget.questionLength);
-                      int correctAnswers = await marksServices.getCorrectAnswers();
-
-                      if(successPercent > 50){
-                          marksServices.apiUpdateResult(widget.gradeid, finalResult, widget.level);
-                          // navigate to success or fail page
-                          double successPercent = await marksServices.findAverage(widget.questionLength);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => StageSuccess(correctAnswers: correctAnswers, totalQuestions: widget.questionLength, successPercent: successPercent,),
-                            ),
-                          );
-                      } else {
-                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => StageFail(correctAnswers: correctAnswers, totalQuestion: widget.questionLength, successPercent: successPercent),
-                            ),
-                          );
-                      }
-                    }
-                    
-                  }
-                  },
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
   }
 
-  void _apiGetAnswers() async {
-    setState(() {
-      _isLoading = true;
-    });
+  //get questions from grade ID details from api
+  void _apiGetQuestions() async {
     try {
-      answersFromDB.clear();
+      userSelectedAnswer = null;
+      isAnswerCheck = false;
+      questionsFromDB.clear();
       var bodyRoutes;
+      int grade = widget.gradeid;
+      int level = widget.level;
       var res = await CallApi()
-          .getAnswerByQuestionId('getAnswersByQuestionId/${widget.questionId}');
+          .getQuestionsByGradeId('questionsByGradeId/$grade/$level');
       bodyRoutes = json.decode(res.body);
 
-      // Add Answers to _AnswersFromDB List
-      answersFromDB.add(bodyRoutes);
-      // _foundAnswers = _AnswersFromDB[0];
-      // print(answersFromDB[0]);
+      // Add Questions to questionsFromDB List
+      print(bodyRoutes);
+
+      if (bodyRoutes['errorMessage'] == true) {
+        questionsFromDB.add(bodyRoutes['data']);
+      }
+      print(questionsFromDB.length);
+
+      questionId = questionsFromDB[0][currentIndex]["id"];
+      //print(questionsFromDB);
+      title = questionsFromDB[0][currentIndex]["title"];
+      questionLength = questionsFromDB[0].length;
+      gradeLevelQuestionID = "19-1";
+
+      answersFromDB.clear();
+      var bodyRoutesAns;
+      int currentQuestionId = questionsFromDB[0][currentIndex]["id"];
+      var resAns = await CallApi()
+          .getAnswerByQuestionId('getAnswersByQuestionId/$currentQuestionId');
+      bodyRoutesAns = json.decode(resAns.body);
+      print(bodyRoutesAns);
+      // Add Answers to answersFromDB List
+      answersFromDB.add(bodyRoutesAns);
     } catch (e) {
       print(e);
     }
@@ -262,4 +309,14 @@ class _Quiz1PageState extends State<QuizType4> {
     });
   }
 
+  void submitAnswer() async {
+    if (userSelectedAnswer != null) {
+      if (isCorrectAnswer) {
+        correctAnswerCount++;
+      }
+      setState(() {
+        isAnswerCheck = true;
+      });
+    }
+  }
 }

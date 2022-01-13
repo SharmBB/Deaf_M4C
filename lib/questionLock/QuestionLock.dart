@@ -7,6 +7,9 @@ import 'package:deaf_app/quiz/quiz1.dart';
 import 'package:deaf_app/quizSucces/StageSuccess.dart';
 import 'package:deaf_app/quizSucces/Stagefail.dart';
 import 'package:deaf_app/quizType/quizType1.dart';
+import 'package:deaf_app/quizType/quizType2.dart';
+import 'package:deaf_app/quizType/quizType3.dart';
+import 'package:deaf_app/quizType/quizType4.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -96,16 +99,59 @@ class _LockPageState extends State<QuestionLockPage> {
                             if (_lockCheck.length < index) {
                               popup(context, _lockCheck.length + 1, index + 1);
                             } else {
-                              final result = await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => QuizType1(
-                                    gradeid: 19,
-                                    level: 1,
-                                    
+                              if (index + 1 == 1) {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => QuizType1(
+                                      gradeid: widget.gradeid,
+                                      level: index + 1,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                                if (result != null) {
+                                  _apiLockCheck();
+                                }
+                              } else if (index + 1 == 2) {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => QuizType2(
+                                      gradeid: widget.gradeid,
+                                      level: index + 1,
+                                    ),
+                                  ),
+                                );
+                                if (result != null) {
+                                  _apiLockCheck();
+                                }
+                              } else if (index + 1 == 3) {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => QuizType3(
+                                      gradeid: widget.gradeid,
+                                      level: index + 1,
+                                    ),
+                                  ),
+                                );
+                                if (result != null) {
+                                  _apiLockCheck();
+                                }
+                              } else if (index + 1 == 4) {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => QuizType4(
+                                      gradeid: widget.gradeid,
+                                      level: index + 1,
+                                    ),
+                                  ),
+                                );
+                                if (result != null) {
+                                  _apiLockCheck();
+                                }
+                              }
 
                               // Navigator.push(
                               //   context,
@@ -116,10 +162,7 @@ class _LockPageState extends State<QuestionLockPage> {
                               //             level: index + 1,
                               //           )),
                               // );
-                              print("------------${result}------------");
-                              if (result != null) {
-                                _apiLockCheck();
-                              }
+
                             }
                           },
                           child: Padding(

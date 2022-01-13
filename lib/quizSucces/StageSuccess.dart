@@ -9,10 +9,17 @@ import 'package:flutter_svg/svg.dart';
 import '../constants.dart';
 
 class StageSuccess extends StatefulWidget {
-  StageSuccess({Key? key,required this.totalQuestions,required this.correctAnswers, required this.successPercent}) : super(key: key);
+  StageSuccess({
+    Key? key,
+    required this.totalQuestions,
+    required this.correctAnswers,
+    required this.successPercent,
+    required this.level,
+  }) : super(key: key);
   final int totalQuestions;
   final int correctAnswers;
   final double successPercent;
+  final int level;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -40,9 +47,9 @@ class _HomePageState extends State<StageSuccess> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: BaseAppBar(
-        bacKText: "திரும்பி செல்",
-        appBar: AppBar(),
-      ),
+          bacKText: "திரும்பி செல்",
+          appBar: AppBar(),
+        ),
         body: Stack(children: [
           Center(
               child: new Form(
@@ -101,8 +108,8 @@ class _HomePageState extends State<StageSuccess> {
                 child: Padding(
                     padding: const EdgeInsets.only(top: 0),
                     child: ConstrainedBox(
-                      constraints:
-                          BoxConstraints.tightFor(width: screenWidth*1.0, height: 75),
+                      constraints: BoxConstraints.tightFor(
+                          width: screenWidth * 1.0, height: 75),
                       child: ElevatedButton(
                         onPressed: () {
                           // Navigator.push(
@@ -110,16 +117,17 @@ class _HomePageState extends State<StageSuccess> {
                           //       MaterialPageRoute(
                           //           builder: (context) => SubjectPage()),
                           //     );
+
                           marksServices.deleteAllLocalStorage();
                           Navigator.pop(context);
                           Navigator.pop(context);
                           Navigator.pop(context, "success");
-                         },
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'நிலை 1 வரை',
+                              'நிலை ${widget.level} வரை',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16.0,
