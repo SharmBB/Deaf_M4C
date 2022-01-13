@@ -95,7 +95,7 @@ class _Quiz1PageState extends State<QuizType1> {
                     ),
                   ),
                   CachedNetworkImage(
-                    height: 150,
+                    height: 200,
                     // width: 160,
                     imageUrl: imageUrl + image,
                     imageBuilder: (context, imageProvider) => Container(
