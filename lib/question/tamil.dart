@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:deaf_app/api/api.dart';
+import 'package:deaf_app/components/appbar.dart';
 import 'package:deaf_app/constants.dart';
 import 'package:deaf_app/questionLock/Lock.dart';
 import 'package:deaf_app/terms/termsCatergory.dart';
@@ -33,7 +35,6 @@ class _TamilPageState extends State<TamilPage> {
   }
 
 //initialize list for add terms from API
-  List<dynamic> _foundTerms = [];
   List _TermsFromDB = [];
 
   // loader
@@ -45,210 +46,172 @@ class _TamilPageState extends State<TamilPage> {
     var image = "https://deafapi.moodfor.codes/images/";
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          leading: Padding(
-              padding: const EdgeInsets.only(
-                top: 20.0,
-                left: 10,
-              ),
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () {
-                    Navigator.pop(
-                      context,
-                    );
-                  },
-                ),
-                Padding(
-                    padding: const EdgeInsets.only(
-                      top: 5.0,
-                    ),
-                    child: new Text('திரும்பி செல்',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10.0,
-                        ))),
-              ])),
-          leadingWidth: width * 1,
-          titleSpacing: 0.00,
-          actions: [
-            Padding(
-                padding: const EdgeInsets.only(
-                  top: 30.0,
-                  right: 10,
-                ),
-                child: new Text('நிக்கி.',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                    ))),
-            Container(
-                margin: const EdgeInsets.only(right: 30.0, top: 10.0),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: new SvgPicture.asset(
-                    'assets/svg/Group 86.svg',
-                    width: 50.0,
-                    height: 50.0,
-                    allowDrawingOutsideViewBox: true,
-                  ),
-                )),
-          ],
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: SingleChildScrollView(
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Stack(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20, right: 20.0),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          fillColor: kPrimaryGreyColor,
-                          prefixIcon: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20.0),
-                              child: Icon(
-                                Icons.search,
-                                color: Colors.grey,
-                              )),
-                          suffixIcon: Padding(
-                              padding: const EdgeInsets.only(right: 20.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Container(
-                                      height: 30,
-                                      width: 40,
-                                      child: VerticalDivider(
-                                        color: Colors.grey,
-                                        thickness: 1,
-                                      )),
-                                  Icon(
-                                    Icons.keyboard_arrow_down,
-                                    color: Colors.black,
-                                  )
-                                ],
-                              )),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15.0),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.white,
-                              width: 2,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15.0),
-                            ),
-                            borderSide: BorderSide(
-                              color: kPrimaryGreyColor,
-                              width: 2,
-                            ),
-                          ),
-                          contentPadding: EdgeInsets.all(25.0),
-                          filled: true,
-                          hintText: 'தேடு',
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ]),
+      key: _scaffoldKey,
+      appBar: BaseAppBar(
+        bacKText: "திரும்பி செல்",
+        appBar: AppBar(),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Stack(children: <Widget>[
+            //   Padding(
+            //     padding: const EdgeInsets.only(top: 20, left: 20, right: 20.0),
+            //     child: Column(
+            //       children: [
+            //         Padding(
+            //           padding: const EdgeInsets.only(top: 10.0),
+            //           child: TextField(
+            //             decoration: InputDecoration(
+            //               border: InputBorder.none,
+            //               fillColor: kPrimaryGreyColor,
+            //               prefixIcon: Padding(
+            //                   padding:
+            //                       const EdgeInsets.only(left: 20, right: 20.0),
+            //                   child: Icon(
+            //                     Icons.search,
+            //                     color: Colors.grey,
+            //                   )),
+            //               suffixIcon: Padding(
+            //                   padding: const EdgeInsets.only(right: 20.0),
+            //                   child: Row(
+            //                     mainAxisAlignment:
+            //                         MainAxisAlignment.spaceBetween,
+            //                     mainAxisSize: MainAxisSize.min,
+            //                     children: <Widget>[
+            //                       Container(
+            //                           height: 30,
+            //                           width: 40,
+            //                           child: VerticalDivider(
+            //                             color: Colors.grey,
+            //                             thickness: 1,
+            //                           )),
+            //                       Icon(
+            //                         Icons.keyboard_arrow_down,
+            //                         color: Colors.black,
+            //                       )
+            //                     ],
+            //                   )),
+            //               enabledBorder: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.all(
+            //                   Radius.circular(15.0),
+            //                 ),
+            //                 borderSide: BorderSide(
+            //                   color: Colors.white,
+            //                   width: 2,
+            //                 ),
+            //               ),
+            //               focusedBorder: OutlineInputBorder(
+            //                 borderRadius: BorderRadius.all(
+            //                   Radius.circular(15.0),
+            //                 ),
+            //                 borderSide: BorderSide(
+            //                   color: kPrimaryGreyColor,
+            //                   width: 2,
+            //                 ),
+            //               ),
+            //               contentPadding: EdgeInsets.all(25.0),
+            //               filled: true,
+            //               hintText: 'தேடு',
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ]),
             SizedBox(
               height: 20,
             ),
             Padding(
-                padding: const EdgeInsets.only(
-                  left: 20,
-                  right: 20.0,
-                  top: 20,
-                ),
-                child: Container(
-                  child: !_isLoading
-                      ? _TermsFromDB[0].length == 0
-                          ? Padding(
-                              padding: const EdgeInsets.only(top: 20),
-                              child: Text("No terms available"),
-                            )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: _foundTerms.length,
-                              itemBuilder: (context, index) {
-                                return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      Terms_Catergory(
-                                                          gradeid: widget.id)),
-                                            );
-                                          },
-                                          child: Card(
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                              ),
-                                              child: Container(
-                                                height: 100,
-                                                child: Stack(
-                                                  children: <Widget>[
-                                                    Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 20,
-                                                                right: 20),
-                                                        child: Container(
-                                                            height: 150.0,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                                    image:
-                                                                        DecorationImage(
-                                                              image:
-                                                                  NetworkImage(
-                                                                image +
-                                                                    _foundTerms[
-                                                                            index]
-                                                                        [
-                                                                        'image'],
-                                                              ),
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                            )))),
-                                                  ],
-                                                ),
-                                              ))),
-                                      SizedBox(
-                                        height: 20,
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 20.0,
+                top: 20,
+              ),
+              child: Container(
+                child: !_isLoading
+                    ? _TermsFromDB[0].length == 0
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Text("No terms available"),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: _TermsFromDB[0].length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Terms_Catergory(
+                                            list: _TermsFromDB[0][index],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
                                       ),
-                                    ]);
-                              })
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 120.0, left: 180),
-                          child: CupertinoActivityIndicator(),
-                        ),
-                )),
-          ]),
-        ));
+                                      child: Container(
+                                        height: 120,
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: CachedNetworkImage(
+                                                height: 200,
+                                                // width: 160,
+                                                imageUrl: image +
+                                                    _TermsFromDB[0][index]
+                                                        ['image'],
+                                                imageBuilder:
+                                                    (context, imageProvider) =>
+                                                        Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                    image: DecorationImage(
+                                                        image: imageProvider,
+                                                        fit: BoxFit.contain),
+                                                  ),
+                                                ),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(Icons.error),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              );
+                            },
+                          )
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 120.0, left: 180),
+                        child: CupertinoActivityIndicator(),
+                      ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   //get subjects details from api
@@ -264,8 +227,7 @@ class _TamilPageState extends State<TamilPage> {
 
       // Add terms from body to _GradesFromDB List
       _TermsFromDB.add(bodyRoutes);
-      _foundTerms = _TermsFromDB[0];
-      print(_foundTerms);
+      print(_TermsFromDB[0]);
     } catch (e) {
       print(e);
     }

@@ -82,7 +82,7 @@ class _LockPageState extends State<QuestionLockPage> {
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
+                        crossAxisCount: 2,
                         // mainAxisSpacing: 25.0,
                         // crossAxisSpacing: 25.0,
                       ),
