@@ -1,7 +1,7 @@
-import 'package:deaf_app/_helper/controller.dart';
-import 'package:deaf_app/components/appbar.dart';
-import 'package:deaf_app/constants.dart';
-import 'package:deaf_app/questionLock/Lock.dart';
+import 'package:assistive_app/_helper/controller.dart';
+import 'package:assistive_app/components/appbar.dart';
+import 'package:assistive_app/constants.dart';
+import 'package:assistive_app/questionLock/Lock.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

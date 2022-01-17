@@ -1,4 +1,4 @@
-import 'package:deaf_app/_helper/sharedPreference.dart';
+import 'package:assistive_app/_helper/sharedPreference.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -10,24 +10,21 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// you can add more fields that meet your needs
 
   const BaseAppBar(
-      {Key? key,
-      required this.bacKText,
-      this.appBar,
-      this.widgets})
+      {Key? key, required this.bacKText, this.appBar, this.widgets})
       : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     return AppBar(
       title: Text(
-              bacKText,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16.0,
-              ),
-            ),
-            centerTitle: false,
+        bacKText,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 16.0,
+        ),
+      ),
+      centerTitle: false,
       automaticallyImplyLeading: false,
       leadingWidth: 30,
       backgroundColor: Colors.transparent,
@@ -53,7 +50,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           // ),
         ],
       ),
-
       actions: [
         Row(
           children: [
@@ -115,7 +111,7 @@ class _UserNameState extends State<UserName> {
   @override
   Widget build(BuildContext context) {
     return Text(
-     loader? "" : "${userName}",
+      loader ? "" : "${userName}",
       style: TextStyle(
         color: Colors.black,
         fontSize: 16.0,

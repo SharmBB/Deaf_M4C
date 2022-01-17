@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:deaf_app/api/api.dart';
-import 'package:deaf_app/components/appbar.dart';
-import 'package:deaf_app/quizType/quizType1.dart';
-import 'package:deaf_app/quizType/quizType2.dart';
-import 'package:deaf_app/quizType/quizType3.dart';
-import 'package:deaf_app/quizType/quizType4.dart';
+import 'package:assistive_app/api/api.dart';
+import 'package:assistive_app/components/appbar.dart';
+import 'package:assistive_app/quizType/quizType1.dart';
+import 'package:assistive_app/quizType/quizType2.dart';
+import 'package:assistive_app/quizType/quizType3.dart';
+import 'package:assistive_app/quizType/quizType4.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

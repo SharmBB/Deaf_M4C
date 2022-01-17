@@ -1,4 +1,4 @@
-import 'package:deaf_app/Screen/screen2.dart';
+import 'package:assistive_app/Screen/screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -60,8 +60,8 @@ class _Scrren1State extends State<Screen1> {
                         // bottom: 150,
                         ),
                     child: ConstrainedBox(
-                      constraints:
-                          BoxConstraints.tightFor(width: screenWidth*1.0, height: 75),
+                      constraints: BoxConstraints.tightFor(
+                          width: screenWidth * 1.0, height: 75),
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(

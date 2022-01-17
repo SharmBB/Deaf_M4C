@@ -1,5 +1,5 @@
-import 'package:deaf_app/Login/login.dart';
-import 'package:deaf_app/Screen/Screen1.dart';
+import 'package:assistive_app/Login/login.dart';
+import 'package:assistive_app/Screen/Screen1.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Deaf APP',
+      title: 'assistive APP',
       theme: ThemeData(),
       home: LoginPage(),
     );

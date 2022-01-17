@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:deaf_app/Subject/subject.dart';
-import 'package:deaf_app/_helper/sharedPreference.dart';
-import 'package:deaf_app/api/api.dart';
+import 'package:assistive_app/Subject/subject.dart';
+import 'package:assistive_app/_helper/sharedPreference.dart';
+import 'package:assistive_app/api/api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

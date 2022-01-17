@@ -1,9 +1,9 @@
-import 'package:deaf_app/components/appbar.dart';
-import 'package:deaf_app/constants.dart';
-import 'package:deaf_app/grade/grade.dart';
-import 'package:deaf_app/question/tamil.dart';
-import 'package:deaf_app/questionLock/Lock.dart';
-import 'package:deaf_app/questionLock/QuestionLock.dart';
+import 'package:assistive_app/components/appbar.dart';
+import 'package:assistive_app/constants.dart';
+import 'package:assistive_app/grade/grade.dart';
+import 'package:assistive_app/question/tamil.dart';
+import 'package:assistive_app/questionLock/Lock.dart';
+import 'package:assistive_app/questionLock/QuestionLock.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

@@ -1,6 +1,6 @@
 {
-    "name": "deaf_app",
-    "short_name": "deaf_app",
+    "name": "assistive_app",
+    "short_name": "assistive_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

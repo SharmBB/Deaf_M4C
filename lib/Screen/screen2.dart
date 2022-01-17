@@ -1,4 +1,4 @@
-import 'package:deaf_app/Subject/subject.dart';
+import 'package:assistive_app/Subject/subject.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

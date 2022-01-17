@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:deaf_app/api/api.dart';
+import 'package:assistive_app/api/api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MarksServices {

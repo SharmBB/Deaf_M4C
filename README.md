@@ -1,4 +1,4 @@
-# deaf_app
+# assistive_app
 
 A new Flutter project.
 

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:deaf_app/_helper/sharedPreference.dart';
-import 'package:deaf_app/api/api.dart';
-import 'package:deaf_app/constants.dart';
-import 'package:deaf_app/grade/grade.dart';
+import 'package:assistive_app/_helper/sharedPreference.dart';
+import 'package:assistive_app/api/api.dart';
+import 'package:assistive_app/constants.dart';
+import 'package:assistive_app/grade/grade.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

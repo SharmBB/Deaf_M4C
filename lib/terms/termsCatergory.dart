@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:deaf_app/components/appbar.dart';
-import 'package:deaf_app/constants.dart';
-import 'package:deaf_app/questionLock/Lock.dart';
-import 'package:deaf_app/questionLock/QuestionLock.dart';
+import 'package:assistive_app/components/appbar.dart';
+import 'package:assistive_app/constants.dart';
+import 'package:assistive_app/questionLock/Lock.dart';
+import 'package:assistive_app/questionLock/QuestionLock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';

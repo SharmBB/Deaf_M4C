@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:deaf_app/Subject/subSubject.dart';
-import 'package:deaf_app/Subject/subject.dart';
-import 'package:deaf_app/api/api.dart';
-import 'package:deaf_app/components/appbar.dart';
-import 'package:deaf_app/constants.dart';
+import 'package:assistive_app/Subject/subSubject.dart';
+import 'package:assistive_app/Subject/subject.dart';
+import 'package:assistive_app/api/api.dart';
+import 'package:assistive_app/components/appbar.dart';
+import 'package:assistive_app/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

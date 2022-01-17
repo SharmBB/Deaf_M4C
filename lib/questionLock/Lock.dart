@@ -1,9 +1,9 @@
-// import 'package:deaf_app/Subject/subSubject.dart';
-// import 'package:deaf_app/constants.dart';
-// import 'package:deaf_app/quiz/quiz4.dart';
-// import 'package:deaf_app/quiz/quiz3dart';
-// import 'package:deaf_app/quiz/quiz2.dart';
-// import 'package:deaf_app/quiz/quiz1.dart';
+// import 'package:assistive_app/Subject/subSubject.dart';
+// import 'package:assistive_app/constants.dart';
+// import 'package:assistive_app/quiz/quiz4.dart';
+// import 'package:assistive_app/quiz/quiz3dart';
+// import 'package:assistive_app/quiz/quiz2.dart';
+// import 'package:assistive_app/quiz/quiz1.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:google_fonts/google_fonts.dart';
