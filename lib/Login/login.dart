@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
             Center(
               child: new Form(
                 key: formKey,
-                autovalidateMode: AutovalidateMode.always,
+                //autovalidateMode: AutovalidateMode.always,
                 child: new Column(
                   children: <Widget>[
                     SizedBox(height: screenHeight * (2 / 20)),

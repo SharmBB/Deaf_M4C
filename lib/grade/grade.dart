@@ -124,7 +124,7 @@ class _GradePageState extends State<GradePage> {
                     : Expanded(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 20.0, horizontal: 20),
+                              vertical: 120.0, horizontal: 20),
                           //list
                           child: ListView.builder(
                             itemCount: _GradesFromDB[0].length,
@@ -132,6 +132,10 @@ class _GradePageState extends State<GradePage> {
                               return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 40),
+                                    ),
                                     GestureDetector(
                                       onTap: () {
                                         print(_GradesFromDB[0][index]);
@@ -184,9 +188,7 @@ class _GradePageState extends State<GradePage> {
                       )
                 : Padding(
                     padding: const EdgeInsets.only(top: 50),
-                    child: Center(
-                      child: CupertinoActivityIndicator()
-                    ),
+                    child: Center(child: CupertinoActivityIndicator()),
                   ),
           ],
         ),
