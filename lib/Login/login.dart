@@ -207,6 +207,7 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
     try {
+      MySharedPreferences.instance.removeAll();
       var data = {
         "name": _emailController.text,
         "last_name": _passwordController.text,
