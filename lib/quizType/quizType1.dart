@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:assistive_app/_helper/sharedPreference.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:assistive_app/_helper/controller.dart';
 import 'package:assistive_app/api/api.dart';
@@ -37,7 +38,7 @@ class _Quiz1PageState extends State<QuizType1> {
   late String image;
   late String gradeLevelQuestionID;
 
-  int currentIndex = 0;
+  late int currentIndex;
   int correctAnswerCount = 0;
   List<String> StringQues = [];
 
@@ -190,8 +191,12 @@ class _Quiz1PageState extends State<QuizType1> {
                         currentIndex != 0
                             ? NextBeforeBtn(
                                 text: 'முந்திய',
-                                function: () {
+                                function: () async {
                                   currentIndex--;
+                                  SharedPreferences localStorage =
+                                      await SharedPreferences.getInstance();
+                                  localStorage.setInt(
+                                      'currentIndex', currentIndex);
                                   setState(() {
                                     _isLoading = true;
                                     _apiGetQuestions();
@@ -200,7 +205,7 @@ class _Quiz1PageState extends State<QuizType1> {
                             : SizedBox(),
                         NextBeforeBtn(
                             text: 'அடுத்து',
-                            function: () {
+                            function: () async {
                               if (questionLength == currentIndex + 1) {
                                 double successPercent =
                                     (correctAnswerCount.toDouble() /
@@ -216,6 +221,7 @@ class _Quiz1PageState extends State<QuizType1> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => StageSuccess(
+                                          gradeid: widget.gradeid,
                                           correctAnswers: correctAnswerCount,
                                           totalQuestions: questionLength,
                                           successPercent: successPercent,
@@ -235,9 +241,14 @@ class _Quiz1PageState extends State<QuizType1> {
                                 }
                               } else {
                                 currentIndex++;
+                                SharedPreferences localStorage =
+                                    await SharedPreferences.getInstance();
+                                localStorage.setInt(
+                                    'currentIndex', currentIndex);
                               }
                               setState(() {
                                 _isLoading = true;
+
                                 _apiGetQuestions();
                               });
                             })
@@ -253,6 +264,15 @@ class _Quiz1PageState extends State<QuizType1> {
   //get questions from grade ID details from api
   void _apiGetQuestions() async {
     try {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      var token = localStorage.getInt('currentIndex');
+
+      if (token != null) {
+        currentIndex = token;
+      } else {
+        currentIndex = 0;
+      }
+
       userSelectedAnswer = null;
       isAnswerCheck = false;
       questionsFromDB.clear();

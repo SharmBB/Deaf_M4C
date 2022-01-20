@@ -2,6 +2,7 @@ import 'package:assistive_app/Subject/subject.dart';
 import 'package:assistive_app/_helper/controller.dart';
 import 'package:assistive_app/components/appbar.dart';
 import 'package:assistive_app/questionLock/Lock.dart';
+import 'package:assistive_app/questionLock/QuestionLock.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
@@ -15,11 +16,13 @@ class StageSuccess extends StatefulWidget {
     required this.correctAnswers,
     required this.successPercent,
     required this.level,
+    required this.gradeid,
   }) : super(key: key);
   final int totalQuestions;
   final int correctAnswers;
   final double successPercent;
   final int level;
+  final int gradeid;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -112,16 +115,17 @@ class _HomePageState extends State<StageSuccess> {
                           width: screenWidth * 1.0, height: 75),
                       child: ElevatedButton(
                         onPressed: () {
-                          // Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => SubjectPage()),
-                          //     );
-
                           marksServices.deleteAllLocalStorage();
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          Navigator.pop(context, "success");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => QuestionLockPage(
+                                    gradeid: widget.gradeid, level: 4)),
+                          );
+
+                          // Navigator.pop(context);
+                          // Navigator.pop(context);
+                          // Navigator.pop(context, "success");
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

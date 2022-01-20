@@ -228,6 +228,7 @@ class _Quiz1PageState extends State<QuizType2> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => StageSuccess(
+                                            gradeid: widget.gradeid,
                                             correctAnswers: correctAnswerCount,
                                             totalQuestions: questionLength,
                                             successPercent: successPercent,
