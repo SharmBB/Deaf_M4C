@@ -25,7 +25,7 @@ class _SubjectPageState extends State<SubjectPage> {
   List _SubjectsFromDB = [];
 
 // loader
-  bool _isLoading = false;
+  bool _isLoading = true;
 
   @override
   initState() {
@@ -189,74 +189,67 @@ class _SubjectPageState extends State<SubjectPage> {
             //             ),
             //           ),
             //         ])),
-            !_isLoading
-                ? _SubjectsFromDB[0].length == 0
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Text("No Subjects available"),
-                      )
-                    : GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 5.0,
-                        ),
-                        itemCount: _SubjectsFromDB[0].length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => GradePage(
-                                    idForGetSubjects: _SubjectsFromDB[0][index]
-                                        ['id']),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                        _SubjectsFromDB[0][index]['title'],
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 15.0)),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: CachedNetworkImage(
-                                    // height: 150,
-                                    // width: 160,
-                                    imageUrl: image +
-                                        _SubjectsFromDB[0][index]['image'],
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover),
-                                      ),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        Icon(Icons.error),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                : Padding(
+            _isLoading
+                ? Padding(
                     padding: const EdgeInsets.only(top: 30.0, left: 190),
                     child: CupertinoActivityIndicator(),
+                  )
+                : GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 5.0,
+                    ),
+                    itemCount: _SubjectsFromDB[0].length,
+                    itemBuilder: (BuildContext context, int index) =>
+                        GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GradePage(
+                                idForGetSubjects: _SubjectsFromDB[0][index]
+                                    ['id']),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(_SubjectsFromDB[0][index]['title'],
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 15.0)),
+                              ),
+                            ),
+                            Expanded(
+                              child: CachedNetworkImage(
+                                // height: 150,
+                                // width: 160,
+                                imageUrl:
+                                    image + _SubjectsFromDB[0][index]['image'],
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
           ]),
         ));
@@ -265,9 +258,7 @@ class _SubjectPageState extends State<SubjectPage> {
 //get subjects details from api
   void _apiGetSubjects() async {
     userName = await MySharedPreferences.instance.getStringValue("userName");
-    setState(() {
-      _isLoading = true;
-    });
+
     try {
       _SubjectsFromDB.clear();
       var bodyRoutes;
