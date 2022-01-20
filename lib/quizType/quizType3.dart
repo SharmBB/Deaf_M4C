@@ -237,15 +237,15 @@ class _Quiz1PageState extends State<QuizType3> {
                                     text: 'முந்திய',
                                     function: () {
                                       currentIndex--;
+                                      setState(() {
+                                        _isLoading = true;
+                                        _apiGetQuestions();
+                                      });
                                     })
                                 : SizedBox(),
                             NextBeforeBtn(
                                 text: 'அடுத்து',
                                 function: () {
-                                  setState(() {
-                                    _isLoading = true;
-                                    _apiGetQuestions();
-                                  });
                                   if (questionLength == currentIndex + 1) {
                                     double successPercent =
                                         (correctAnswerCount.toDouble() /
@@ -285,6 +285,10 @@ class _Quiz1PageState extends State<QuizType3> {
                                   } else {
                                     currentIndex++;
                                   }
+                                  setState(() {
+                                    _isLoading = true;
+                                    _apiGetQuestions();
+                                  });
                                 })
                           ],
                         ),

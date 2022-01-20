@@ -291,9 +291,11 @@ class _LockPageState extends State<QuestionLockPage> {
     try {
       _lockCheck.clear();
       var bodyRoutes;
+
       var res = await CallApi().getQuestionsByGradeId(
-          'user_results/findByUserId/${storage.getInt("userId")}');
+          'user_results/findByUserId/${storage.getInt("userId")}/${widget.gradeid}');
       bodyRoutes = json.decode(res.body);
+
       print(bodyRoutes);
       bodyRoutes.forEach((data) => {
             _lockCheck.add({"level": data['level'], "result": data['result']})

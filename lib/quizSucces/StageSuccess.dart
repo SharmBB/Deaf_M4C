@@ -76,7 +76,7 @@ class _HomePageState extends State<StageSuccess> {
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                " பதில் அளித்துள்ளார் ",
+                " பதில் அளித்துள்ளீர்கள் ",
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 16.0,
