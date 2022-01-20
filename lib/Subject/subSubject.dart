@@ -183,13 +183,43 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              details[index]['name'],
-                                              style: GoogleFonts.muktaMalar(
-                                                fontSize: 20,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                if (details[index]['name'] ==
+                                                    "கலைச்சொற்கள்") {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            TamilPage(
+                                                                title: '',
+                                                                id: widget
+                                                                    .idForGetTerms)),
+                                                  );
+                                                } else if (details[index]
+                                                        ['name'] ==
+                                                    "கற்றல் செயட்பாடுகள்") {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            QuestionLockPage(
+                                                                gradeid: widget
+                                                                    .idForGetTerms,
+                                                                level: widget
+                                                                    .noOfLevels)),
+                                                  );
+                                                } else {
+                                                  return;
+                                                }
+                                              },
+                                              child: Text(
+                                                  details[index]['name'],
+                                                  style: GoogleFonts.muktaMalar(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  )),
                                             ),
                                             SizedBox(
                                               width: 10,
