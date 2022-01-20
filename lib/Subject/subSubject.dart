@@ -198,7 +198,7 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                   );
                                                 } else if (details[index]
                                                         ['name'] ==
-                                                    "கற்றல் செயற்பாடுகள் செயட்பாடுகள்") {
+                                                    "கற்றல் செயற்பாடுகள்") {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
