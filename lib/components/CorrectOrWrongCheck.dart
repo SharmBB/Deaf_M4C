@@ -23,10 +23,9 @@ class CorrectOrWrong extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: correctAnswer == 1
-                ? Colors.green.withOpacity(0.5)
-                : Colors.red.withOpacity(0.5),
+                  ? Colors.green.withOpacity(0.5)
+                  : Colors.red.withOpacity(0.5),
             ),
-            
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.center,

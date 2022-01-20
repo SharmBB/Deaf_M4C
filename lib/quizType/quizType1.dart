@@ -94,18 +94,20 @@ class _Quiz1PageState extends State<QuizType1> {
                           'நிலை ${widget.level} > கேள்வி ${currentIndex + 1}',
                     ),
                   ),
-                  CachedNetworkImage(
-                    height: 200,
-                    // width: 160,
-                    imageUrl: imageUrl + image,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(
-                            image: imageProvider, fit: BoxFit.cover),
+                  Center(
+                    child: CachedNetworkImage(
+                      height: 200,
+                      width: 160,
+                      imageUrl: imageUrl + image,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.fill),
+                        ),
                       ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                   SizedBox(
                     height: 15,
