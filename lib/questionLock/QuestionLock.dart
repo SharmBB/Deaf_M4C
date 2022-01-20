@@ -58,7 +58,7 @@ class _LockPageState extends State<QuestionLockPage> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: BaseAppBar(
-        bacKText: "திரும்பி செல்",
+        bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
@@ -70,7 +70,7 @@ class _LockPageState extends State<QuestionLockPage> {
                 padding: const EdgeInsets.symmetric(
                     vertical: 15.0, horizontal: 25.0),
                 child: Text(
-                  "கற்றல் செயட்பாடுகள்",
+                  "கற்றல் செயற்பாடுகள்",
                   style: GoogleFonts.muktaMalar(
                     fontSize: 20,
                     color: Colors.black,

@@ -46,7 +46,7 @@ class _HomePageState extends State<StageFail> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: BaseAppBar(
-          bacKText: "திரும்பி செல்",
+          bacKText: "திரும்பிச் செல்",
           appBar: AppBar(),
         ),
         body: Stack(children: [

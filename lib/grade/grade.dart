@@ -46,7 +46,7 @@ class _GradePageState extends State<GradePage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: BaseAppBar(
-        bacKText: "திரும்பி செல்",
+        bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
       ),
       body: Container(

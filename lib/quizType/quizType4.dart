@@ -79,7 +79,7 @@ class _Quiz1PageState extends State<QuizType4> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: BaseAppBar(
-        bacKText: "திரும்பி செல்",
+        bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(

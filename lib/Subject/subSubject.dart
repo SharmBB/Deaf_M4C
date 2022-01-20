@@ -38,7 +38,7 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
   ];
   final List<Map> details = [
     {'img': 'assets/png/1.png', "name": 'கலைச்சொற்கள்'},
-    {'img': 'assets/png/2.png', "name": 'கற்றல் செயட்பாடுகள்'},
+    {'img': 'assets/png/2.png', "name": 'கற்றல் செயற்பாடுகள்'},
   ];
   late int idForGetTerms;
   late int noOfLevels;
@@ -61,7 +61,7 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: BaseAppBar(
-        bacKText: "திரும்பி செல்",
+        bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
       ),
       body: SingleChildScrollView(
@@ -198,7 +198,7 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                   );
                                                 } else if (details[index]
                                                         ['name'] ==
-                                                    "கற்றல் செயட்பாடுகள்") {
+                                                    "கற்றல் செயற்பாடுகள் செயட்பாடுகள்") {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -239,7 +239,7 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                   );
                                                 } else if (details[index]
                                                         ['name'] ==
-                                                    "கற்றல் செயட்பாடுகள்") {
+                                                    "கற்றல் செயற்பாடுகள்") {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(

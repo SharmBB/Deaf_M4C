@@ -42,7 +42,7 @@ class _Quiz1PageState extends State<Quiz1Page> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: BaseAppBar(
-        bacKText: "திரும்பி செல்",
+        bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
       ),
       body: Column(

@@ -50,7 +50,7 @@ class _HomePageState extends State<StageSuccess> {
     return Scaffold(
         key: _scaffoldKey,
         appBar: BaseAppBar(
-          bacKText: "திரும்பி செல்",
+          bacKText: "திரும்பிச் செல்",
           appBar: AppBar(),
         ),
         body: Stack(children: [
@@ -59,9 +59,21 @@ class _HomePageState extends State<StageSuccess> {
                   child: new Column(children: <Widget>[
             SizedBox(height: screenHeight * (1 / 20)),
             Container(
-              child: new Image.asset(
-                "assets/png/Stage1.png",
-              ),
+              child: widget.level == 1
+                  ? Image.asset(
+                      "assets/png/Stage1.png",
+                    )
+                  : widget.level == 2
+                      ? Image.asset(
+                          "assets/png/Stage2.png",
+                        )
+                      : widget.level == 3
+                          ? Image.asset(
+                              "assets/png/Stage3.png",
+                            )
+                          : Image.asset(
+                              "assets/png/Stage4.png",
+                            ),
             ),
             SizedBox(height: screenHeight * (1 / 20)),
             Container(

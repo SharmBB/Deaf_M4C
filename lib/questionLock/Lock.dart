@@ -105,7 +105,7 @@
 //                   padding: const EdgeInsets.only(
 //                     top: 5.0,
 //                   ),
-//                   child: new Text('திரும்பி செல்',
+//                   child: new Text('திரும்பிச் செல்',
 //                       style: TextStyle(
 //                         color: Colors.black,
 //                         fontSize: 10.0,
@@ -149,7 +149,7 @@
 //                   Padding(
 //                       padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
 //                       child: Text(
-//                         "கற்றல் செயட்பாடுகள்",
+//                         "கற்றல் செயற்பாடுகள்",
 //                         style: GoogleFonts.muktaMalar(
 //                           fontSize: 20,
 //                           color: Colors.black,
