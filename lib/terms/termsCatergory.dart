@@ -115,25 +115,25 @@ class VideoDemoState extends State<Terms_Catergory> {
                 ],
               ),
             ),
-            Container(
-              width: 280,
-              child: Card(
-                elevation: 0,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      "${widget.list['description']}",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          color: kPrimaryDarkColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Container(
+            //   width: 280,
+            //   child: Card(
+            //     elevation: 0,
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Center(
+            //         child: Text(
+            //           "${widget.list['description']}",
+            //           textAlign: TextAlign.left,
+            //           style: TextStyle(
+            //               color: kPrimaryDarkColor,
+            //               fontSize: 20,
+            //               fontWeight: FontWeight.bold),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             // Padding(
             //   padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 25),
             //   child: FutureBuilder(

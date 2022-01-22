@@ -118,19 +118,21 @@ class _Quiz1PageState extends State<QuizType3> {
                       //     ],
                       //   ),
                       // ),
-                      CachedNetworkImage(
-                          height: 300,
-                          // width: 160,
-                          imageUrl: image + imageFromDB,
-                          imageBuilder: (context, imageProvider) => Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  image: DecorationImage(
-                                      image: imageProvider, fit: BoxFit.cover),
+                      Center(
+                        child: CachedNetworkImage(
+                            height: 200,
+                            width: 160,
+                            imageUrl: image + imageFromDB,
+                            imageBuilder: (context, imageProvider) => Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    image: DecorationImage(
+                                        image: imageProvider, fit: BoxFit.fill),
+                                  ),
                                 ),
-                              ),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error)),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error)),
+                      ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: ListView.builder(
