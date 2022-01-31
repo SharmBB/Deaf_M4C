@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:assistive_app/_helper/controller.dart';
 import 'package:assistive_app/api/api.dart';
 import 'package:assistive_app/components/appbar.dart';
+import 'package:assistive_app/components/levelappbar.dart';
 import 'package:assistive_app/constants.dart';
 import 'package:assistive_app/quiz/quiz1.dart';
 import 'package:assistive_app/quizSucces/StageSuccess.dart';
@@ -16,13 +17,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class QuestionLockPage extends StatefulWidget {
-  QuestionLockPage({
-    Key? key,
-    required this.gradeid,
-    required this.level,
-  }) : super(key: key);
+  QuestionLockPage(
+      {Key? key,
+      required this.gradeid,
+      required this.level,
+      required this.subjectId})
+      : super(key: key);
   final int gradeid;
   final int level;
+  final int subjectId;
 
   @override
   _LockPageState createState() => _LockPageState();
@@ -57,9 +60,11 @@ class _LockPageState extends State<QuestionLockPage> {
     var image = "https://deafapi.moodfor.codes/images/";
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: BaseAppBar(
+      appBar: QuestionsBaseAppBar(
         bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
+        gradeid: gradeid,
+        subjectId: widget.subjectId,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -106,6 +111,7 @@ class _LockPageState extends State<QuestionLockPage> {
                                     builder: (context) => QuizType1(
                                       gradeid: widget.gradeid,
                                       level: index + 1,
+                                      subjectId: widget.subjectId,
                                     ),
                                   ),
                                 );
@@ -119,6 +125,7 @@ class _LockPageState extends State<QuestionLockPage> {
                                     builder: (context) => QuizType2(
                                       gradeid: widget.gradeid,
                                       level: index + 1,
+                                      subjectId: widget.subjectId,
                                     ),
                                   ),
                                 );
@@ -132,6 +139,7 @@ class _LockPageState extends State<QuestionLockPage> {
                                     builder: (context) => QuizType3(
                                       gradeid: widget.gradeid,
                                       level: index + 1,
+                                      subjectId: widget.subjectId,
                                     ),
                                   ),
                                 );
@@ -145,6 +153,7 @@ class _LockPageState extends State<QuestionLockPage> {
                                     builder: (context) => QuizType4(
                                       gradeid: widget.gradeid,
                                       level: index + 1,
+                                      subjectId: widget.subjectId,
                                     ),
                                   ),
                                 );

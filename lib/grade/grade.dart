@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:assistive_app/components/subjectappbar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:assistive_app/Subject/subSubject.dart';
 import 'package:assistive_app/Subject/subject.dart';
@@ -45,7 +46,7 @@ class _GradePageState extends State<GradePage> {
     var image = "https://deafapi.moodfor.codes/images/";
     return Scaffold(
       key: _scaffoldKey,
-      appBar: BaseAppBar(
+      appBar: SubjectBaseAppBar(
         bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
       ),
@@ -153,6 +154,8 @@ class _GradePageState extends State<GradePage> {
                                                                   [index]
                                                               ['no_of_levels'],
                                                       title: "",
+                                                      subjectId:
+                                                          idForGetSubjects,
                                                     )));
                                       },
                                       child: Card(

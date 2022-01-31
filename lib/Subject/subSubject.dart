@@ -1,4 +1,5 @@
 import 'package:assistive_app/components/appbar.dart';
+import 'package:assistive_app/components/gradeappbar.dart';
 import 'package:assistive_app/constants.dart';
 import 'package:assistive_app/grade/grade.dart';
 import 'package:assistive_app/question/tamil.dart';
@@ -14,12 +15,14 @@ class SubSubjectPage extends StatefulWidget {
       {Key? key,
       required this.title,
       required this.idForGetTerms,
-      required this.noOfLevels})
+      required this.noOfLevels,
+      required this.subjectId})
       : super(key: key);
 
   final String title;
   final int idForGetTerms;
   final int noOfLevels;
+  final int subjectId;
 
   @override
   _SubSubjectPageState createState() => _SubSubjectPageState();
@@ -60,9 +63,10 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
     var width = MediaQuery.of(context).size.width;
     return Scaffold(
       key: _scaffoldKey,
-      appBar: BaseAppBar(
+      appBar: GradeBaseAppBar(
         bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
+        subjectId: widget.subjectId,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -207,7 +211,9 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                                 gradeid: widget
                                                                     .idForGetTerms,
                                                                 level: widget
-                                                                    .noOfLevels)),
+                                                                    .noOfLevels,
+                                                                subjectId: widget
+                                                                    .subjectId)),
                                                   );
                                                 } else {
                                                   return;
@@ -245,10 +251,13 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             QuestionLockPage(
-                                                                gradeid: widget
-                                                                    .idForGetTerms,
-                                                                level: widget
-                                                                    .noOfLevels)),
+                                                              gradeid: widget
+                                                                  .idForGetTerms,
+                                                              level: widget
+                                                                  .noOfLevels,
+                                                              subjectId: widget
+                                                                  .subjectId,
+                                                            )),
                                                   );
                                                 } else {
                                                   return;

@@ -18,10 +18,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 class QuizType2 extends StatefulWidget {
   final int gradeid;
   final int level;
+  final int subjectId;
   QuizType2({
     key,
     required this.gradeid,
     required this.level,
+    required this.subjectId,
   }) : super(key: key);
 
   @override
@@ -232,7 +234,8 @@ class _Quiz1PageState extends State<QuizType2> {
                                             correctAnswers: correctAnswerCount,
                                             totalQuestions: questionLength,
                                             successPercent: successPercent,
-                                            level: widget.level),
+                                            level: widget.level,
+                                            subjectId: widget.subjectId),
                                       ),
                                     );
                                   } else {

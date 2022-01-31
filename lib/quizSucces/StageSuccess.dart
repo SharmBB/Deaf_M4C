@@ -17,12 +17,14 @@ class StageSuccess extends StatefulWidget {
     required this.successPercent,
     required this.level,
     required this.gradeid,
+    required this.subjectId,
   }) : super(key: key);
   final int totalQuestions;
   final int correctAnswers;
   final double successPercent;
   final int level;
   final int gradeid;
+  final int subjectId;
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -132,7 +134,10 @@ class _HomePageState extends State<StageSuccess> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => QuestionLockPage(
-                                    gradeid: widget.gradeid, level: 4)),
+                                      gradeid: widget.gradeid,
+                                      level: 4,
+                                      subjectId: widget.subjectId,
+                                    )),
                           );
 
                           // Navigator.pop(context);
