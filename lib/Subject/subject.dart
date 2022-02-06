@@ -46,10 +46,10 @@ class _SubjectPageState extends State<SubjectPage> {
                 left: 10,
               ),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                IconButton(
-                  icon: Icon(Icons.subject, color: Colors.black),
-                  onPressed: () {},
-                ),
+                // IconButton(
+                //   icon: Icon(Icons.subject, color: Colors.black),
+                //   onPressed: () {},
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(
                     top: 5.0,

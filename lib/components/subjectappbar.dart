@@ -64,7 +64,10 @@ class SubjectBaseAppBar extends StatelessWidget implements PreferredSizeWidget {
             Container(
               margin: const EdgeInsets.only(right: 30.0, top: 0.0),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SubjectPage()));
+                },
                 child: new SvgPicture.asset(
                   'assets/svg/Group 86.svg',
                   width: 40.0,

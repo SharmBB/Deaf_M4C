@@ -1,4 +1,5 @@
 import 'package:assistive_app/Subject/subSubject.dart';
+import 'package:assistive_app/Subject/subject.dart';
 import 'package:assistive_app/_helper/sharedPreference.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -77,7 +78,10 @@ class QuestionsBaseAppBar extends StatelessWidget
             Container(
               margin: const EdgeInsets.only(right: 30.0, top: 0.0),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SubjectPage()));
+                },
                 child: new SvgPicture.asset(
                   'assets/svg/Group 86.svg',
                   width: 40.0,
