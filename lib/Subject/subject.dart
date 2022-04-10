@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:assistive_app/Login/login.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:assistive_app/_helper/sharedPreference.dart';
 import 'package:assistive_app/api/api.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SubjectPage extends StatefulWidget {
   SubjectPage({Key? key}) : super(key: key);
@@ -68,7 +70,9 @@ class _SubjectPageState extends State<SubjectPage> {
             Container(
                 margin: const EdgeInsets.only(right: 30.0, top: 10.0),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    openDialog(context);
+                  },
                   child: new SvgPicture.asset(
                     'assets/svg/Group 86.svg',
                     width: 50.0,
@@ -254,6 +258,85 @@ class _SubjectPageState extends State<SubjectPage> {
           ]),
         ));
   }
+
+  Future openDialog(BuildContext context) => showDialog(
+        context: context,
+        builder: (context) =>StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+    return  Center(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              backgroundColor: Colors.white,
+              content: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      "இப்போது வெளியேற வேண்டுமா?",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: kPrimaryRedColor),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                    child: Text("வெளியேற, இங்கே கிளிக் செய்யவும்.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        )),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.height * 0.13,
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      child: TextButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(kPrimaryRedColor),
+                            shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)))),
+                        child: Text(
+                          "வெளியேறு",
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        onPressed: () async {
+                          try {
+                            MySharedPreferences.instance.removeAll();
+
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()));
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+    );
+        }
+        ),
+      );
 
 //get subjects details from api
   void _apiGetSubjects() async {

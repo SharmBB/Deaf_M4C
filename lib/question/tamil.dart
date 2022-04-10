@@ -51,7 +51,14 @@ class _TamilPageState extends State<TamilPage> {
         bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
       ),
-      body: SingleChildScrollView(
+      body:  NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (OverscrollIndicatorNotification overscroll) {
+            // ignore: deprecated_member_use
+            overscroll.disallowGlow();
+            return false;
+          },
+          child:SingleChildScrollView(
+        
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -137,7 +144,10 @@ class _TamilPageState extends State<TamilPage> {
                             padding: const EdgeInsets.only(top: 20),
                             child: Text("No terms available"),
                           )
-                        : ListView.builder(
+                        : SizedBox(
+                          height: MediaQuery.of(context).size.height*0.8,
+                          child:
+                        ListView.builder(
                             shrinkWrap: true,
                             itemCount: _TermsFromDB[0].length,
                             itemBuilder: (context, index) {
@@ -201,7 +211,8 @@ class _TamilPageState extends State<TamilPage> {
                                 ],
                               );
                             },
-                          )
+                          ),
+                        )
                     : Padding(
                         padding: const EdgeInsets.only(top: 120.0, left: 180),
                         child: CupertinoActivityIndicator(),
@@ -210,6 +221,7 @@ class _TamilPageState extends State<TamilPage> {
             ),
           ],
         ),
+      ),
       ),
     );
   }
