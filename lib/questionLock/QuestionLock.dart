@@ -293,6 +293,21 @@ class _LockPageState extends State<QuestionLockPage> {
   }
 
   void _apiLockCheck() async {
+    int? initScreen;
+    int? gradeid;
+    int? level;
+    int? subjectId;
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    initScreen = await preferences.getInt('initScreen');
+    await preferences.setInt('initScreen', 1);
+    gradeid = await preferences.getInt('gradeid');
+    await preferences.setInt('gradeid', widget.gradeid);
+    level = await preferences.getInt('level');
+    await preferences.setInt('level', widget.level);
+    print(level);
+    subjectId = await preferences.getInt('subjectId');
+    await preferences.setInt('subjectId', widget.subjectId);
+    print(subjectId);
     SharedPreferences storage = await SharedPreferences.getInstance();
     setState(() {
       _isLoading = true;
