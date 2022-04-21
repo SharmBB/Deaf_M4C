@@ -246,6 +246,11 @@ class _SubSubjectPageState extends State<SubSubjectPage> {
                                                 } else if (details[index]
                                                         ['name'] ==
                                                     "கற்றல் செயற்பாடுகள்") {
+                                                      print("-------------");
+                                                      print(widget.idForGetTerms);
+                                                      print(widget.noOfLevels);
+                                                      print(widget.subjectId);
+                                                      print("-------------");
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(

@@ -7,11 +7,12 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String bacKText;
   final AppBar? appBar;
   final List<Widget>? widgets;
+  final VoidCallback? function;
 
   /// you can add more fields that meet your needs
 
   const BaseAppBar(
-      {Key? key, required this.bacKText, this.appBar, this.widgets})
+      {Key? key, required this.bacKText, this.appBar, this.widgets, this.function})
       : super(key: key);
 
   @override
@@ -35,7 +36,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           Expanded(
             child: IconButton(
               icon: Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
+              onPressed: function ?? () {
                 Navigator.of(context).pop();
               },
             ),

@@ -33,8 +33,9 @@ class QuestionLockPage extends StatefulWidget {
 
 class _LockPageState extends State<QuestionLockPage> {
   MarksServices marksServices = MarksServices();
-  late int gradeid;
-  late int level;
+  int? gradeid;
+  int? level;
+  int? subjectId;
   //initialize list for add subjects from API
   List<dynamic> _foundSubject = [];
   List _SubjectsFromDB = [];
@@ -63,7 +64,7 @@ class _LockPageState extends State<QuestionLockPage> {
       appBar: QuestionsBaseAppBar(
         bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
-        gradeid: gradeid,
+        gradeid: gradeid!,
         subjectId: widget.subjectId,
       ),
       body: SingleChildScrollView(
@@ -99,7 +100,16 @@ class _LockPageState extends State<QuestionLockPage> {
                         //  index = 0;
                         return GestureDetector(
                           onTap: () async {
-                            // print(index + 1);
+                            // SharedPreferences localStorage = await SharedPreferences.getInstance();
+                            // gradeid = await localStorage.getInt('gradeid');
+                            // await localStorage.setInt('gradeid', widget.gradeid);
+                            // level = await localStorage.getInt('level');
+                            // await localStorage.setInt('level', index);
+                            // subjectId = await localStorage.getInt('subjectId');
+                            // await localStorage.setInt('subjectId', widget.subjectId);
+                            // print("level - ${localStorage.getInt('level')} | gradeid - ${localStorage.getInt('gradeid')} | subjectId - ${localStorage.getInt('subjectId')}");
+
+                            print("shan ${index + 1}");
                             // print("length - ${_lockCheck.length}");
                             if (_lockCheck.length < index) {
                               popup(context, _lockCheck.length + 1, index + 1);
@@ -300,14 +310,12 @@ class _LockPageState extends State<QuestionLockPage> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     initScreen = await preferences.getInt('initScreen');
     await preferences.setInt('initScreen', 1);
-    gradeid = await preferences.getInt('gradeid');
-    await preferences.setInt('gradeid', widget.gradeid);
-    level = await preferences.getInt('level');
-    await preferences.setInt('level', widget.level);
-    print(level);
-    subjectId = await preferences.getInt('subjectId');
-    await preferences.setInt('subjectId', widget.subjectId);
-    print(subjectId);
+    // gradeid = await preferences.getInt('gradeid');
+    // await preferences.setInt('gradeid', widget.gradeid);
+    // level = await preferences.getInt('level');
+    // await preferences.setInt('level', widget.level);
+    // subjectId = await preferences.getInt('subjectId');
+    // await preferences.setInt('subjectId', widget.subjectId);
     SharedPreferences storage = await SharedPreferences.getInstance();
     setState(() {
       _isLoading = true;
@@ -320,6 +328,7 @@ class _LockPageState extends State<QuestionLockPage> {
           'user_results/findByUserId/${storage.getInt("userId")}/${widget.gradeid}');
       bodyRoutes = json.decode(res.body);
 
+      print("bodyRoutes");
       print(bodyRoutes);
       bodyRoutes.forEach((data) => {
             _lockCheck.add({"level": data['level'], "result": data['result']})

@@ -192,8 +192,15 @@ class _Quiz1PageState extends State<QuizType1> {
                         currentIndex != 0
                             ? NextBeforeBtn(
                                 text: 'முந்திய',
-                                function: () {
+                                function: () async{
                                   currentIndex--;
+
+                                  SharedPreferences preferences = await SharedPreferences.getInstance();
+                                  await preferences.setInt('currentQuestionIndex', currentIndex--);
+                                  currentIndex = (await preferences.getInt('currentQuestionIndex'))!;
+                                  print("currentQuestionIndex ${currentIndex}");
+
+
                                   setState(() {
                                     _isLoading = true;
                                     _apiGetQuestions();
@@ -202,7 +209,7 @@ class _Quiz1PageState extends State<QuizType1> {
                             : SizedBox(),
                         NextBeforeBtn(
                             text: 'அடுத்து',
-                            function: () {
+                            function: () async{
                               if (questionLength == currentIndex + 1) {
                                 double successPercent =
                                     (correctAnswerCount.toDouble() /
@@ -240,6 +247,15 @@ class _Quiz1PageState extends State<QuizType1> {
                                 }
                               } else {
                                 currentIndex++;
+
+                                SharedPreferences preferences = await SharedPreferences.getInstance();
+                                await preferences.setInt('currentQuestionIndex', currentIndex++);
+                                currentIndex = (await preferences.getInt('currentQuestionIndex'))!;
+                                await preferences.setInt('gradeid', widget.gradeid);
+                                await preferences.setInt('level', widget.level);
+                                await preferences.setInt('subjectId', widget.subjectId);
+                                print("currentQuestionIndex ${currentIndex}");
+
                               }
                               setState(() {
                                 _isLoading = true;
@@ -257,6 +273,11 @@ class _Quiz1PageState extends State<QuizType1> {
 
   //get questions from grade ID details from api
   void _apiGetQuestions() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    currentIndex = await preferences.getInt("currentQuestionIndex") ?? 0;
+    // if(currentIndex)
+    print("currentQuestionIndex ${currentIndex}");
+
     try {
       userSelectedAnswer = null;
       isAnswerCheck = false;

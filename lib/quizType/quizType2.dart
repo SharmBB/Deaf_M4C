@@ -15,6 +15,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../questionLock/QuestionLock.dart';
+
 class QuizType2 extends StatefulWidget {
   final int gradeid;
   final int level;
@@ -84,6 +86,18 @@ class _Quiz1PageState extends State<QuizType2> {
       appBar: BaseAppBar(
         bacKText: "திரும்பிச் செல்",
         appBar: AppBar(),
+        function: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QuestionLockPage(
+                gradeid: 19,
+                level: 4,
+                subjectId: 6,
+              ),
+            ),
+          );
+        },
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -202,8 +216,14 @@ class _Quiz1PageState extends State<QuizType2> {
                           currentIndex != 0
                               ? NextBeforeBtn(
                                   text: 'முந்திய',
-                                  function: () {
+                                  function: () async{
                                     currentIndex--;
+
+                                    SharedPreferences preferences = await SharedPreferences.getInstance();
+                                    await preferences.setInt('currentQuestionIndex', currentIndex--);
+                                    currentIndex = (await preferences.getInt('currentQuestionIndex'))!;
+                                    print("currentQuestionIndex ${currentIndex}");
+
                                     setState(() {
                                       _isLoading = true;
                                       _apiGetQuestions();
@@ -212,7 +232,8 @@ class _Quiz1PageState extends State<QuizType2> {
                               : SizedBox(),
                           NextBeforeBtn(
                               text: 'அடுத்து',
-                              function: () {
+                              function: () async {
+                                // print("currentIndex - ${currentIndex}");
                                 if (questionLength == currentIndex + 1) {
                                   double successPercent =
                                       (correctAnswerCount.toDouble() /
@@ -251,6 +272,15 @@ class _Quiz1PageState extends State<QuizType2> {
                                   }
                                 } else {
                                   currentIndex++;
+
+                                  SharedPreferences preferences = await SharedPreferences.getInstance();
+                                  await preferences.setInt('currentQuestionIndex', currentIndex++);
+                                  currentIndex = (await preferences.getInt('currentQuestionIndex'))!;
+                                  await preferences.setInt('gradeid', widget.gradeid);
+                                  await preferences.setInt('level', widget.level);
+                                  await preferences.setInt('subjectId', widget.subjectId);
+                                  print("currentQuestionIndex ${currentIndex}");
+
                                 }
                                 setState(() {
                                   _isLoading = true;
@@ -269,6 +299,12 @@ class _Quiz1PageState extends State<QuizType2> {
 
   //get questions from grade ID details from api
   void _apiGetQuestions() async {
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    currentIndex = await preferences.getInt("currentQuestionIndex") ?? 0;
+    // if(currentIndex)
+    print("currentQuestionIndex ${currentIndex}");
+
     try {
       userSelectedAnswer = null;
       isAnswerCheck = false;
@@ -286,6 +322,7 @@ class _Quiz1PageState extends State<QuizType2> {
       if (bodyRoutes['errorMessage'] == true) {
         questionsFromDB.add(bodyRoutes['data']);
       }
+      print("questionsFromDB.length");
       print(questionsFromDB.length);
 
       questionId = questionsFromDB[0][currentIndex]["id"];
@@ -297,8 +334,7 @@ class _Quiz1PageState extends State<QuizType2> {
       _AnswersFromDB.clear();
       var bodyRoutesAns;
       int currentQuestionId = questionsFromDB[0][currentIndex]["id"];
-      var resAns = await CallApi()
-          .getAnswerByQuestionId('getAnswersByQuestionId/$currentQuestionId');
+      var resAns = await CallApi().getAnswerByQuestionId('getAnswersByQuestionId/$currentQuestionId');
       bodyRoutesAns = json.decode(resAns.body);
       print(bodyRoutesAns);
       // Add Answers to _AnswersFromDB List
