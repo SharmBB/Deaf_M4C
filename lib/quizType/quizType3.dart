@@ -54,6 +54,7 @@ class _Quiz1PageState extends State<QuizType3> {
 
   late String gradeLevelQuestionID;
 
+  List<int> saveindex = [];
   int currentIndex = 0;
   int correctAnswerCount = 0;
   bool isCorrectAnswer = false;
@@ -367,8 +368,14 @@ class _Quiz1PageState extends State<QuizType3> {
 
   void submitAnswer() async {
     if (userSelectedAnswer != null) {
+       print(saveindex);
+      print(currentIndex);
       if (isCorrectAnswer) {
-        correctAnswerCount++;
+        if (saveindex.contains(currentIndex)) {
+        } else {
+          correctAnswerCount++;
+          saveindex.add(currentIndex);
+        }
       }
       setState(() {
         isAnswerCheck = true;

@@ -261,19 +261,20 @@ class _SubjectPageState extends State<SubjectPage> {
 
   Future openDialog(BuildContext context) => showDialog(
         context: context,
-        builder: (context) =>StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-    return  Center(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)),
-              backgroundColor: Colors.white,
-              content: Column(
-                children: [
-                  Center(
-                    child: Text(
+        builder: (context) => StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+          return Center(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.3,
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: AlertDialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                backgroundColor: Colors.white,
+                content: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
                       "இப்போது வெளியேற வேண்டுமா?",
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -281,25 +282,15 @@ class _SubjectPageState extends State<SubjectPage> {
                           fontWeight: FontWeight.bold,
                           color: kPrimaryRedColor),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: Text("வெளியேற, இங்கே கிளிக் செய்யவும்.",
+                    Text("வெளியேற, இங்கே கிளிக் செய்யவும்.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 12,
                           color: Colors.grey,
                         )),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.height * 0.13,
-                      height: MediaQuery.of(context).size.height * 0.05,
+                    SizedBox(
+                      width: 120,
+                      height: 50,
                       child: TextButton(
                         style: ButtonStyle(
                             backgroundColor:
@@ -328,14 +319,12 @@ class _SubjectPageState extends State<SubjectPage> {
                         },
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-    );
-        }
-        ),
+          );
+        }),
       );
 
 //get subjects details from api

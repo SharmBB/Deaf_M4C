@@ -39,6 +39,7 @@ class _Quiz1PageState extends State<QuizType1> {
   late String image;
   late String gradeLevelQuestionID;
 
+  List<int> saveindex = [];
   late int currentIndex = 0;
   int correctAnswerCount = 0;
   List<String> StringQues = [];
@@ -192,14 +193,16 @@ class _Quiz1PageState extends State<QuizType1> {
                         currentIndex != 0
                             ? NextBeforeBtn(
                                 text: 'முந்திய',
-                                function: () async{
+                                function: () async {
                                   currentIndex--;
 
-                                  SharedPreferences preferences = await SharedPreferences.getInstance();
-                                  await preferences.setInt('currentQuestionIndex', currentIndex--);
-                                  currentIndex = (await preferences.getInt('currentQuestionIndex'))!;
+                                  SharedPreferences preferences =
+                                      await SharedPreferences.getInstance();
+                                  await preferences.setInt(
+                                      'currentQuestionIndex', currentIndex--);
+                                  currentIndex = (await preferences
+                                      .getInt('currentQuestionIndex'))!;
                                   print("currentQuestionIndex ${currentIndex}");
-
 
                                   setState(() {
                                     _isLoading = true;
@@ -209,7 +212,7 @@ class _Quiz1PageState extends State<QuizType1> {
                             : SizedBox(),
                         NextBeforeBtn(
                             text: 'அடுத்து',
-                            function: () async{
+                            function: () async {
                               if (questionLength == currentIndex + 1) {
                                 double successPercent =
                                     (correctAnswerCount.toDouble() /
@@ -230,8 +233,7 @@ class _Quiz1PageState extends State<QuizType1> {
                                           totalQuestions: questionLength,
                                           successPercent: successPercent,
                                           level: widget.level,
-                                          subjectId: widget.subjectId
-                                          ),
+                                          subjectId: widget.subjectId),
                                     ),
                                   );
                                 } else {
@@ -248,14 +250,18 @@ class _Quiz1PageState extends State<QuizType1> {
                               } else {
                                 currentIndex++;
 
-                                SharedPreferences preferences = await SharedPreferences.getInstance();
-                                await preferences.setInt('currentQuestionIndex', currentIndex++);
-                                currentIndex = (await preferences.getInt('currentQuestionIndex'))!;
-                                await preferences.setInt('gradeid', widget.gradeid);
+                                SharedPreferences preferences =
+                                    await SharedPreferences.getInstance();
+                                await preferences.setInt(
+                                    'currentQuestionIndex', currentIndex++);
+                                currentIndex = (await preferences
+                                    .getInt('currentQuestionIndex'))!;
+                                await preferences.setInt(
+                                    'gradeid', widget.gradeid);
                                 await preferences.setInt('level', widget.level);
-                                await preferences.setInt('subjectId', widget.subjectId);
+                                await preferences.setInt(
+                                    'subjectId', widget.subjectId);
                                 print("currentQuestionIndex ${currentIndex}");
-
                               }
                               setState(() {
                                 _isLoading = true;
@@ -322,8 +328,14 @@ class _Quiz1PageState extends State<QuizType1> {
 
   void submitAnswer() async {
     if (userSelectedAnswer != null) {
+      print(saveindex);
+      print(currentIndex);
       if (isCorrectAnswer) {
-        correctAnswerCount++;
+        if (saveindex.contains(currentIndex)) {
+        } else {
+          correctAnswerCount++;
+          saveindex.add(currentIndex);
+        }
       }
       setState(() {
         isAnswerCheck = true;
